@@ -1,0 +1,1026 @@
+.company-detail {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  overflow: hidden;
+  color: #1c6177;
+  font-family: ui-sans-serif, sans-serif;
+  padding-top: 70px;
+}
+
+.company-detail-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.company-detail-info-banner {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background-color: #2c3e50;
+  background-image: repeating-linear-gradient(45deg, rgba(44, 62, 80, 1), rgba(44, 62, 80, 1) 130px, rgba(20, 120, 130, 0.9) 230px, rgba(20, 120, 130, 0.9) 360px, rgba(44, 140, 150, 0.6) 460px, rgba(44, 140, 150, 0.6) 590px, rgba(70, 140, 150, 0.4) 690px, rgba(70, 140, 150, 0.4) 720px);
+}
+
+.company-detail-info-banner img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.company-detail-info-content {
+  display: flex;
+  align-items: center;
+  padding: 10px 100px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 2px solid #B7E1E4;
+}
+
+.company-detail-info-logo img {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px solid #1c6177;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.company-detail-info-details {
+  flex-grow: 1;
+}
+
+.company-detail-info-name {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.company-detail-info-meta {
+  display: flex;
+  gap: 30px;
+  margin-top: 38px;
+  font-size: 16px;
+  justify-content: center;
+}
+
+.company-detail-info-size,
+.company-detail-info-followers {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.company-detail-info-follow-button {
+  background-color: #17766e;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.company-detail-info-follow-button:hover {
+  background-color: #4c9390;
+}
+
+.company-detail-info-wrapper {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+  padding-top: 20px;
+  flex-wrap: nowrap;
+}
+
+.company-detail-info-main {
+  flex: 2;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding-bottom: 50px;
+}
+
+.company-detail-info-intro {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.company-detail-info-intro h2 {
+  background: linear-gradient(135deg, #274D60, #B7E1E4);
+  color: #ffffff;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin: 0;
+}
+
+.company-detail-info-intro p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 20px;
+}
+
+.company-detail-info-toggle {
+  display: block;
+  color: #2d8659;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+}
+
+.company-detail-info-toggle:hover {
+  text-decoration: underline;
+}
+
+.company-detail-info-toggle::after {
+  content: ' ▲';
+  font-size: 12px;
+  color: #2d8659;
+}
+
+.company-detail-info-jobs {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  margin-top: 20px;
+}
+
+.company-detail-info-jobs-header {
+  margin: 20px 0;
+  color: #0B6477;
+}
+
+.company-detail-info-job-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.company-detail-info-job-search input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.company-detail-info-job-search button {
+  background-color: #2d8659;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.company-detail-info-job-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.company-detail-info-job-item {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.company-detail-info-job-title {
+  flex: 2;
+  font-weight: bold;
+  color: #2d8659;
+}
+
+.company-detail-info-job-location,
+.company-detail-info-job-salary,
+.company-detail-info-job-days-left {
+  font-size: 12px;
+  color: #777;
+}
+
+.company-detail-info-apply-button {
+  background-color: #2d8659;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.company-detail-info-sidebar {
+  flex: 1;
+}
+
+.company-detail-info-list-left {
+  width: 100%;
+}
+
+.company-detail-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.company-detail-info-board-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.company-detail-info-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.company-detail-info-item:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.company-detail-info-company-logo img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.company-detail-info-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-left: 16px;
+}
+
+.company-detail-info-position-title {
+  font-size: 0.9em;
+  font-weight: 400;
+  color: #333;
+  text-decoration: none;
+}
+
+.company-detail-info-company-name {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.company-detail-info-update {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.company-detail-info-details {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 0.9em;
+  justify-content: space-between;
+}
+
+.company-detail-info-location,
+.company-detail-info-remaining-days {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.company-detail-info-apply-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 100px;
+}
+
+.company-detail-info-salary {
+  font-size: 0.9em;
+  color: #282791;
+}
+
+.company-detail-info-apply-job-button {
+  padding: 8px 16px;
+  background-color: #287fa7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  position: absolute;
+  bottom: 16px;
+}
+
+.company-detail-info-apply-job-button:hover {
+  background-color: #214e88;
+}
+
+.company-detail-info-favorite-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #ff6b6b;
+}
+
+.company-detail-info-sections h2,
+.company-detail-info-sections p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+  margin: 0;
+}
+
+.company-detail-info-sections h2 {
+  font-weight: 400;
+}
+
+.company-detail-info-details span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.company-detail-info-contact {
+  background-color: #ffffff;
+  /* Light green background */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  /* Optional, adjust based on your layout */
+  margin: auto;
+  /* Center the component */
+  border: 1px solid #14919B;
+}
+
+.company-detail-info-contact h3 {
+  color: #0B6477;
+  /* Dark green */
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #14919B;
+  padding-bottom: 20px;
+}
+
+.company-detail-info-contact p {
+  font-size: 0.95rem;
+  margin: 20px 0;
+  font-weight: 400;
+  color: #333;
+}
+
+.company-detail-info-contact a {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 400;
+  margin-top: 8px;
+  text-decoration: none;
+}
+
+.company-detail-info-contact a:hover {
+  text-decoration: none;
+  color: #14919B;
+}
+
+.map-container {
+  margin-top: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.company-detail-info-share {
+  background-color: #ffffff;
+  /* Màu nền nhạt */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  /* Điều chỉnh theo bố cục */
+  margin-top: 30px;
+}
+
+.company-detail-info-share h3 {
+  color: #0B6477;
+  /* Màu xanh đậm */
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #14919B;
+  padding-bottom: 20px;
+}
+
+.company-detail-info-share p {
+  font-size: 0.95rem;
+  margin: 20px 0;
+  font-weight: 400;
+  color: #333;
+}
+
+.share-link {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.share-link input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.95rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.share-link button {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  color: white;
+  border: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.share-link button:hover {
+  background-color: #e5e7eb;
+}
+
+.company-detail-info-social-links {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+.company-detail-info-social-links a {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  background-color: white;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-decoration: none;
+}
+
+.company-detail-info-social-links a.facebook {
+  background-image: url('../assets/facebook.png');
+  /* Đặt đường dẫn đến icon Facebook */
+}
+
+.company-detail-info-social-links a.twitter {
+  background-image: url('../assets/twitter.png');
+  /* Đặt đường dẫn đến icon Twitter */
+}
+
+.company-detail-info-social-links a.linkedin {
+  background-image: url('../assets/linkedin.png');
+  /* Đặt đường dẫn đến icon LinkedIn */
+}
+
+.company-detail-info-social-links a.facebook:hover {
+  color: #1877f2;
+  border-color: #1877f2;
+}
+
+.company-detail-info-social-links a.twitter:hover {
+  color: #1da1f2;
+  border-color: #1da1f2;
+}
+
+.company-detail-info-social-links a.linkedin:hover {
+  color: #0077b5;
+  border-color: #0077b5;
+}
+
+.company-detail-info-update-style {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 100px;
+}
+
+/* Style mặc định cho nút */
+.company-detail-info-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Tạo khoảng cách giữa icon và text */
+  background: transparent;
+  border: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Khi hover vào nút */
+.company-detail-info-tabs:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Nút đang được chọn (active) */
+.company-detail-info-tabs.active {
+  background: #274D60;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* css cho review */
+.company-detail-info-review-container {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.company-detail-info-overall p:first-child {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f97316;
+  /* màu cam cho rating */
+}
+
+.company-detail-info-categories p {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.company-detail-info-categories p::before {
+  content: "⭐ ";
+}
+
+.company-detail-info-employee-reviews h3 {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.company-detail-info-employee-reviews div {
+  padding: 0.5rem 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.company-detail-info-toggle {
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+.company-detail-info-review-split-layout-container {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.company-detail-info-review-split-left {
+  flex: 4;
+  /* 60% nếu cộng lại là 5 (3 + 2) */
+  background-color: white;
+  border-radius: 8px;
+}
+
+.company-detail-info-review-split-right {
+  flex: 1;
+  /* 40% */
+  background-color: white;
+  border-radius: 8px;
+  justify-content: flex-end;
+  /* Căn nội dung về phía bên phải */
+  align-items: center;
+}
+
+/* Responsive: mobile fallback to column */
+@media (max-width: 768px) {
+  .company-detail-info-review-split-layout-container {
+    flex-direction: column;
+  }
+}
+
+.company-detail-info-review-split-container {
+  display: flex;
+  padding-right: 10px;
+}
+
+.company-detail-info-review1-split-left {
+  width: 30%;
+  background-color: white;
+  padding: 1rem 0px 1rem 0px;
+  border-radius: 8px;
+}
+
+.company-detail-info-review1-split-right {
+  width: 70%;
+  background-color: white;
+  padding: 16px 0px 16px 0px;
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .company-detail-info-review-split-container {
+    flex-direction: column;
+  }
+
+  .company-detail-info-review-split-left,
+  .company-detail-info-review-split-right {
+    width: 100%;
+  }
+}
+
+.company-detail-info-review1-split-left-categories {
+  text-align: center;
+  margin-top: 0;
+}
+
+.company-detail-info-review1-split-left-text {
+  font-weight: bold;
+  align-items: center;
+}
+
+.company-detail-info-review1-split-left-rating-score {
+  font-size: 2.5rem;
+  font-weight: bold;
+  align-items: center;
+  color: black;
+  /* Màu cam cho số điểm */
+  margin-bottom: 0.25rem;
+}
+
+/* Star container */
+.company-detail-info-review1-split-left-star-rating {
+  display: inline-block;
+  position: relative;
+  font-size: 1.5rem;
+  /* Kích thước sao */
+  color: #fff4e9;
+  /* Màu sao chưa được tô */
+  line-height: 1;
+  align-items: center;
+  transform: translate(-10px, -5px);
+}
+
+.company-detail-info-review1-split-left-star-rating::before {
+  content: "★★★★★";
+  /* 5 sao nền */
+  letter-spacing: 2px;
+}
+
+.company-detail-info-review1-split-left-star-rating-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #ff9119;
+  /* Màu vàng cho sao đã được đánh giá */
+}
+
+.company-detail-info-review1-split-left-star-rating-filled::before {
+  content: "★★★★★";
+  letter-spacing: 2px;
+}
+
+.company-detail-info-review1-split-right-rating-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 500px;
+}
+
+.company-detail-info-review1-split-right-rating-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.company-detail-info-review1-split-left-lable {
+  padding-left: 2.75rem;
+  font-size: 0.95rem;
+}
+
+.company-detail-info-review1-split-right-score {
+  font-weight: bold;
+  font-size: 1.1rem;
+  width: 35px;
+  text-align: right;
+}
+
+.company-detail-info-review1-split-right-stars {
+  content: "★";
+  color: #ff9119;
+  font-size: 1.2rem;
+}
+
+.company-detail-info-review1-split-right-progress-bar {
+  flex: 1;
+  height: 10px;
+  background-color: #fff4e9;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.company-detail-info-review1-split-right-progress-fill {
+  background-color: #ff9119;
+  /* vàng */
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.company-detail-info-review1-split-right-label {
+  margin-left: 12px;
+  font-size: 0.9rem;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.dashed-line {
+  border-top: 1px dashed black;
+  width: 100%;
+  margin: 20px 0;
+  opacity: 0.5;
+}
+
+.company-detail-info-review-split-dashed-line {
+  border-left: 1px dashed black;
+  width: 100%;
+  margin: 20px 0;
+  opacity: 0.5;
+}
+
+.company-detail-info-review-split-right {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+}
+
+.company-detail-info-review-split-right-background {
+  fill: none;
+  stroke: #ddd;
+  background-color: white;
+}
+
+.company-detail-info-review-split-right-progress {
+  fill: none;
+  stroke: #4caf50;
+  /* Màu sắc của đường tròn (có thể thay đổi tùy theo phần trăm) */
+  transition: stroke-dashoffset 0.35s;
+}
+
+.company-detail-info-review-split-right-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 18px;
+}
+
+.company-detail-info-review-split-right-text p {
+  margin: 0;
+}
+
+.company-detail-info-review-split-right-dashed-line {
+  border-left: 1px dashed black;
+  /* Đổi từ border-top thành border-left */
+  height: 100px;
+  /* Chiều dài của đường kẻ dọc */
+  margin: 20px 0;
+  opacity: 0.5;
+  /* Mờ đi một chút nếu cần */
+  padding: 10px;
+  background-color: white;
+}
+
+.company-detail-info-review-rating-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  flex-wrap: nowrap;
+}
+
+.company-detail-info-review-rating-summary {
+  flex: 0 0 57%; /* chiếm khoảng 58% chiều ngang */
+}
+
+.company-detail-info-review-rating-details {
+  flex: 0 0 40%; /* chiếm khoảng 38% chiều ngang */
+}
+
+.company-detail-info-review-rating-item {
+  padding:4px 0px 4px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #003b5c;
+}
+
+.company-detail-info-review-rating-item span.rating-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-detail-info-review-rating-item span.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #ff9119;
+  min-width: 80px;
+  justify-content: flex-end;
+}
+.rating-stars{
+  color: #ff9119;
+}
+.company-detail-info-review-rating-item.highlight {
+  border-left: 4px solid #f39c12;
+  background-color: #fdf7e3;
+  padding-left: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.company-detail-info-review-rating-details {
+  margin-top: 10px;
+}
+
+.company-detail-info-review-rating-details{
+  margin-bottom: 10px;
+  padding-right: 10px;
+}
+
+.company-detail-info-review-rating-bar {
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background-color: #ff9119;
+  border-radius: 4px;
+}
+
+.company-detail-info-review-rating-toggle {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.company-detail-info-review-rating-toggle button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.company-detail-info-review-comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.company-detail-info-review-comment-container {
+  border-top: 1px dashed #ddd;
+  padding-top: 20px;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.company-detail-info-review-comment-date {
+  color: #999;
+  font-size: 14px;
+}
+
+.company-detail-info-review-comment-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 6px 0;
+}
+
+.company-detail-info-review-comment-rating {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.company-detail-info-review-comment-star {
+  font-size: 28px; /* ← tăng kích thước tại đây */
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-right: 4px;
+}
+
+.company-detail-info-review-comment-score {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.company-detail-info-review-comment-suggestion {
+  color: green;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.company-detail-info-review-comment-subtitle {
+  font-size: 16px;
+  margin: 12px 0 4px;
+  font-weight: bold;
+}
+
+.company-detail-info-review-comment-paragraph {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify; /* Canh đều 2 bên */
+}
+.company-detail-info-review-comment-robot {
+  width: 60px;
+  height: 60px;
+  object-fit: contain; /* hoặc cover nếu bạn muốn nó lấp đầy */
+}
+.company-detail-info-review-comment-star {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-right: 4px;
+}
+
+.company-detail-info-review-comment-star.active {
+  color: #f5b50a; /* màu sao khi được chọn hoặc hover */
+}
+.company-detail-info-review-comment-stars{
+  color: #f5b50a;
+}
+
+.pro-company-badge {
+    background: linear-gradient(to right, #f9c270, #f6e27a);
+    color: #5a2a00;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.company-detail-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

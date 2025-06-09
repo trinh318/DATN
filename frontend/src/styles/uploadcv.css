@@ -1,0 +1,118 @@
+.upload-card {
+    max-width: 100%;
+  }
+  
+  .upload-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .upload-header h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    padding-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .upload-toggle {
+    font-size: 1rem;
+    cursor: pointer;
+    color: #2a5d94;
+    transition: transform 0.3s;
+  }
+  
+  .upload-toggle:hover {
+    transform: rotate(90deg);
+  }
+  
+  .upload-form {
+    margin-top: 20px;
+    text-align: center;
+    border: 2px dashed #007bff;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .upload-form input {
+    display: none; /* Hide the default file input */
+  }
+  
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #efefef;
+    color: #555;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    align-items: center;
+    width: 200px;
+  }
+  
+  .custom-file-upload:hover {
+    background-color: #e7e7e7;
+  }
+  
+  .upload-form p {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .uploaded-files {
+    margin: 0;
+  }
+
+  .upload-plus {
+    color: #555;
+    border-radius: 50%;
+    font-size: 15px;
+    margin-right: 20px;
+  }
+  
+  .uploaded-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .file-icon {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-right: 10px;
+  }
+  
+  .file-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .file-name {
+    font-weight: 600;
+    color: #e74c3c;
+  }
+  
+  .file-date {
+    font-size: 0.9rem;
+    color: #888;
+  }
+  
+  .file-link {
+    color: #007bff;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .file-menu-icon {
+    font-size: 1.2rem;
+    color: #aaa;
+    cursor: pointer;
+  }
+  

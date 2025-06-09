@@ -1,0 +1,136 @@
+.recruiter-profile {
+    display: flex;
+    position: relative;
+    gap: 10px;
+}
+
+.recruiter-icon {
+    cursor: pointer;
+}
+
+.recruiter-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #666;
+}
+
+/* Dropdown menu styling */
+.recruiter-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 350px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 1000;
+}
+
+/* User info styling */
+.recruiter-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.recruiter-info-detail {
+    display: flex;
+    flex-direction: column;
+}
+.recruiter-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.recruiter-email {
+    font-size: 14px;
+    color: #666;
+}
+
+.recruiter-update-button {
+    border: 1px solid #ff5722;
+    color: #ff5722;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Menu items */
+.recruiter-menu-items {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.recruiter-menu-item {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.recruiter-menu-item:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.recruiter-menu-icon {
+    margin-right: 10px;
+    color: #333;
+}
+
+/* Help section styling */
+.recruiter-help {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.recruiter-help-link {
+    font-size: 14px;
+    color: #0073e6;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.recruiter-help-icon {
+    margin-right: 5px;
+}
+
+.recruiter-notification-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.recruiter-notification-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ecf5f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.recruiter-notification-button:hover {
+    background-color: #cceaea;
+}
+
+.recruiter-notification-button svg {
+    color: #0A7075; /* Green color */
+    font-size: 24px;
+}

@@ -1,0 +1,369 @@
+/* jobcard.css */
+
+.job-listing-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.job-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.header-title {
+    color: #005780;
+    font-size: 1.5rem;
+    margin-top: 7px;
+}
+
+.text-muted {
+    font-size: 0.9em;
+    color: gray;
+}
+
+.job-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    white-space: nowrap;
+    flex-wrap: wrap;
+}
+
+/* Thêm container cho phần bên trái */
+.filters-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1; /* Cho phép phần này chiếm không gian còn lại */
+    flex-wrap: wrap;
+}
+
+.filter-dropdown {
+    width: 300px;
+    position: relative;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+}
+
+.filter-dropdown-toggle {
+    width: 100%;
+    background-color: white;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.filter-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+}
+
+.filter-dropdown:hover .filter-dropdown-menu {
+    display: block;
+}
+
+.filter-option {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.filter-option:hover {
+    background-color: #f0f0f0;
+}
+
+.selected {
+    color: #008000; /* Green for the selected option */
+    font-weight: bold;
+}
+
+.dropdown-arrow-2 {
+    padding-right: 10px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+.location-dropdown-2 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.location-icon-2 {
+    margin-right: 5px;
+}
+
+.location-text-2 {
+    margin-right: 5px;
+}
+
+.navigation-component {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin-left: auto; /* Đẩy thành phần này sang phải */
+}
+
+.view-all {
+    color: #333;
+    text-decoration: underline;
+    margin-right: 10px;
+}
+
+.nav-buttons {
+    display: flex;
+}
+
+.nav-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #3d5492;
+    background-color: white;
+    color: #4c8baf;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    outline: none;
+}
+
+.nav-button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.job-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+.job-logo img {
+    max-width: 50px;
+    margin-bottom: 10px;
+}
+
+.job-title {
+    font-size: 1.1em;
+    color: #333;
+    margin: 10px 0;
+}
+
+.job-company {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.job-details {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.job-salary, .job-location {
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.job-container {
+    display: grid;
+    gap: 20px;
+    padding: 5px 0;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.job-item-card {
+    display: flex;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    position: relative;
+    align-items: flex-start;
+    height: 125px; /* Chiều cao cố định cho card */
+    box-sizing: border-box; /* Bao gồm padding và border trong kích thước */
+}
+
+/* Media query cho kích thước màn hình từ 970px đến 1170px */
+@media (min-width: 710px) and (max-width: 1170px) {
+    .job-container {
+        display: grid; /* Đảm bảo container sử dụng grid */
+        grid-template-columns: repeat(2, minmax(300px, 1fr));    
+    }
+
+    .company-logo {
+        max-width: 80px; /* Chiều rộng tối đa khi chỉ còn 1 thẻ 1 hàng */
+    }
+}
+
+/* Media query cho kích thước màn hình nhỏ hơn 970px */
+@media (max-width: 710px) {
+    .job-container {
+        display: grid; /* Đảm bảo container sử dụng grid */
+        grid-template-columns: repeat(1, minmax(300px, 1fr));    
+    }
+
+    .company-logo {
+        max-width: 125px; /* Chiều rộng tối đa khi chỉ còn 1 thẻ 1 hàng */
+    }
+}
+
+/* Media query cho kích thước màn hình lớn hơn 1170px */
+@media (min-width: 1170px) {
+    .job-container {
+        display: grid; /* Đảm bảo container sử dụng grid */
+        grid-template-columns: repeat(3, minmax(300px, 1fr));    
+    }
+
+    .company-logo {
+        max-width: 80px; /* Chiều rộng tối đa khi chỉ còn 1 thẻ 1 hàng */
+    }
+}
+
+.company-logo {
+    flex-shrink: 0;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.company-logo img {
+    width: 100%; /* Logo sẽ chiếm toàn bộ chiều rộng của company-logo */
+    height: auto; /* Để duy trì tỉ lệ khung hình */
+    object-fit: contain;
+}
+
+.job-info-section {
+    display: flex;
+    flex-direction: column;
+    min-width: calc(100% - 155px); /* Căn cứ vào chiều rộng logo + margin */
+    flex-grow: 1; /* Để phần này chiếm toàn bộ không gian còn lại */
+    padding-right: 30px;
+}
+
+.position-title {
+    font-size: 1em;
+    color: #000000;
+    font-weight: bold;
+    white-space: nowrap;          /* Ngăn xuống dòng */
+    overflow: hidden;             /* Ẩn phần dư */
+    text-overflow: ellipsis;      /* Thêm dấu ba chấm */
+    text-decoration: none;
+}
+
+.company-name {
+    font-size: 0.9em;
+    color: #555;
+    margin: 5px 0px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-info {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.salary-info, .location-info {
+    background: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.favorite-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.2em;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.favorite-icon:hover {
+    color: #ff0000;
+}
+
+.pagination-indicator {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.pagination-dot {
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px;
+    border-radius: 50%;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    border: none;
+}
+
+.pagination-dot.active {
+    background-color: #007bff;
+}
+
+.favorite-icon {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.highlighted-badge {
+  display: inline-block;
+  background: linear-gradient(to right, #f96c4b, #fba63c);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+}

@@ -1,0 +1,154 @@
+.banner-body-main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+}
+  
+.banner-body {
+    position: relative; /* Set to relative to contain pseudo-elements */
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #094248, #B7E1E4);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* Hide any overflow from skewed pseudo-elements */
+}
+
+/* First layer */
+.banner-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 150, 136, 0.3); /* Semi-transparent green layer */
+    transform: skewX(-20deg); /* Adjust angle as needed */
+    z-index: 0; /* Set to 0 to keep it behind other elements */
+}
+
+/* Second layer with slight offset */
+.banner-body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(14, 126, 115, 0.2); /* Lighter green layer */
+    transform: skewX(-15deg) translateX(60px); /* Offset to create layered look */
+    z-index: 0;
+}
+
+/* Additional layered background */
+.banner-body .extra-layer-1,
+.banner-body .extra-layer-2,
+.banner-body .extra-layer-3 {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+/* Third layer */
+.banner-body .extra-layer-1 {
+    background: rgba(22, 146, 140, 0.2); /* Light blue */
+    transform: skewX(-20deg) translateX(120px); /* Greater offset for deeper effect */
+}
+
+/* Fourth layer */
+.banner-body .extra-layer-2 {
+    background: rgba(50, 100, 150, 0.15); /* Darker blue */
+    transform: skewX(-20deg) translateX(180px); /* Greater offset for deeper effect */
+}
+
+/* Fifth layer */
+.banner-body .extra-layer-3 {
+    background: rgba(75, 195, 183, 0.262); /* Pinkish layer */
+    transform: skewX(-20deg) translateX(240px); /* Greater offset for deeper effect */
+}
+  
+.banner-container {
+    position: relative; /* Make sure this is above pseudo-elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    width: 90%;
+    margin-bottom: 20px;
+    z-index: 1; /* Higher z-index to appear above pseudo-elements */
+}
+  
+.banner-content {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 1s ease-in-out;
+    animation: kenburns 10s ease-in-out infinite;
+}
+
+.banner-content::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0));
+    z-index: 1;
+}
+
+@keyframes kenburns {
+    0% {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.banner-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s;
+}
+
+.banner-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.banner-btn.left {
+    left: 30px;
+}
+
+.banner-btn.right {
+    right: 30px;
+}

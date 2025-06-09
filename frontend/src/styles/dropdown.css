@@ -1,0 +1,77 @@
+/* Dropdown container */
+.find-jobs-dropdown {
+    position: relative;
+    font-size: 14px;
+}
+
+/* Dropdown toggle button */
+.find-jobs-dropdown-toggle {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-wrap: nowrap;
+}
+
+.find-jobs-dropdown-arrow {
+    margin-left: 8px;
+}
+
+.find-jobs-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+}
+
+.find-jobs-dropdown-menu ul{
+    padding-left: 0px;
+}
+
+.find-jobs-dropdown-search {
+    border-bottom: 1px solid #eee;
+}
+
+.find-jobs-dropdown-search input {
+    width: 100%;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.find-jobs-dropdown-item {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.find-jobs-dropdown-item label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: #333;
+}
+
+.find-jobs-dropdown-item input {
+    margin-right: 8px;
+}
+
+.find-jobs-dropdown-item span {
+    color: #f0643b;
+    margin-left: auto;
+}

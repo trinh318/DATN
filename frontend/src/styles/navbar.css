@@ -1,0 +1,139 @@
+/** {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: ui-sans-serif, system-ui, "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  line-height: inherit;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #5175bc;
+  margin: 0;
+}*/
+
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 0.4rem 2rem;
+  box-shadow: 0 1px 5px rgba(255, 254, 254, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
+}
+
+.logo-title {
+  font-size: 2.0rem;
+  font-weight: bold;
+  color: #147882;
+}
+
+.nav-links {
+  display: flex; 
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #55b7c0;
+}
+
+.sign-in-link {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #333;
+  margin-right: 1rem;
+  transition: color 0.3s;
+}
+
+.sign-in-link:hover {
+  color: #55b7c0;
+}
+
+.sign-up-button {
+  background-color: #147882;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up-button:hover {
+  background-color: #55b7c0;
+}
+
+.flex-navbar {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo, .nav-links, .nav-link, .flex-navbar {
+  display: flex;
+  align-items: center; 
+}
+
+.hamburger {
+  display: none; /* Ẩn hamburger trên màn hình lớn */
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger-center {
+  display: none; /* Ẩn hamburger trên màn hình lớn */
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .nav-links,
+  .flex-navbar {
+    display: none; /* Ẩn nav links và sign-in / sign-up links trên màn hình nhỏ */
+  }
+
+  .hamburger {
+    display: block; /* Hiển thị hamburger trên màn hình nhỏ */
+  }
+}
+
+@media (max-width: 1020px) and (min-width: 768px) {
+  .nav-links {
+    display: none; /* Ẩn nav links và sign-in / sign-up links trên màn hình nhỏ */
+  }
+
+  .hamburger-center {
+    display: block; /* Hiển thị hamburger trên màn hình nhỏ */
+  }
+}

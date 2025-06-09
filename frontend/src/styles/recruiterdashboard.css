@@ -1,0 +1,101 @@
+.recruiter-dashboard-container {
+    display: flex;
+    padding-top: 90px;
+}
+
+.recruiter-dashboard-sidebar {
+    background-color: hsl(0, 0%, 96%);
+    width: 20%;
+    max-width: 20%;
+    transition: width 0.3s;
+}
+
+.recruiter-dashboard-sidebar.collapsed {
+    width: 70px;
+}
+
+.recruiter-dashboard-profile {
+    padding: 20px;
+    text-align: center;
+    width: 80%; 
+}
+
+.recruiter-dashboard-profile-toggle {
+    display: flex;
+    background-color: #b1d4d7;
+}
+
+.recruiter-dashboard-avatar-icon {
+    padding-bottom: 10px;
+    font-size: 60px;
+    color: #333;
+}
+
+.recruiter-dashboard-user-info {
+    margin-top: 10px;
+}
+
+.recruiter-dashboard-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.recruiter-dashboard-role {
+    font-size: 12px;
+    color: #666;
+}
+
+.recruiter-dashboard-toggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    width: 20%;
+    height: 50px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.recruiter-dashboard-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.recruiter-dashboard-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.recruiter-dashboard-menu-item.active {
+    background-color: #e0e0e0;
+}
+
+.recruiter-dashboard-menu-item svg {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.recruiter-dashboard-create-job-alert {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+    background-color: #266694;
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.recruiter-dashboard-create-job-alert svg {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.recruiter-dashboard-content {
+    flex-grow: 1;
+    padding: 0 20px;
+    width: calc(80% - 40px);
+}

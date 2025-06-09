@@ -1,0 +1,23 @@
+Hook là một khái niệm trong React, được giới thiệu từ phiên bản 16.8, giúp bạn sử dụng các tính năng của React như *state* và *lifecycle* trong các thành phần hàm (function component) mà không cần sử dụng thành phần dạng lớp (class component).
+
+### Các loại Hook cơ bản
+
+1. **useState**
+   - Dùng để khai báo *state* trong một thành phần hàm.
+   - Ví dụ: `const [count, setCount] = useState(0);` khai báo biến `count` với giá trị ban đầu là 0 và hàm `setCount` để cập nhật nó.
+
+2. **useEffect**
+   - Dùng để thực thi một số tác vụ phụ thuộc vào thời điểm nào đó trong chu kỳ sống (lifecycle) của thành phần, như lấy dữ liệu, cập nhật DOM, hoặc dọn dẹp tài nguyên.
+   - Ví dụ: `useEffect(() => { /* tác vụ */ }, [deps]);`
+
+3. **Custom Hook (Hook tùy chỉnh)**
+   - Khi có các logic tái sử dụng được trong các thành phần khác nhau, bạn có thể tạo ra các *hook* tùy chỉnh bằng cách kết hợp các hook cơ bản. 
+   - Custom hook chỉ là một hàm bắt đầu bằng từ "use" và có thể trả về dữ liệu hoặc các hàm hỗ trợ cho thành phần.
+   - Ví dụ: `useLeaderboard` ở trên là một hook tùy chỉnh giúp lấy dữ liệu bảng xếp hạng.
+
+### Lợi ích của Hook
+- **Giúp quản lý trạng thái** và các tác vụ phụ trong thành phần hàm dễ dàng hơn.
+- **Tái sử dụng logic** qua nhiều thành phần mà không cần phải dùng lại mã trong từng thành phần.
+- **Loại bỏ nhu cầu sử dụng class component**, giúp mã ngắn gọn, dễ hiểu và dễ bảo trì hơn. 
+
+Nhìn chung, hook là cách giúp React trở nên linh hoạt, hiện đại và giúp tối ưu hóa việc phát triển các thành phần.

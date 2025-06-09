@@ -1,0 +1,81 @@
+/* Định dạng container bao quanh bảng */
+.my-appointment-table-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+}
+
+/* Định dạng bảng */
+.my-appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+/* Định dạng các ô tiêu đề (header) */
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+    font-size: 14px;
+}
+
+/* Định dạng các tiêu đề */
+th {
+    position: relative;
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #333;
+    border-right: 1px solid #ddd;
+}
+
+/* Hiệu ứng khi di chuột qua các hàng */
+.my-appointment-row {
+    height: 60px;
+    transition: background-color 0.2s;
+}
+
+/* Hiển thị khi hover qua tiêu đề */
+th:hover {
+    background-color: #f0f0f0;
+}
+
+/* Áp dụng màu nền xen kẽ cho các hàng lẻ */
+.my-appointment-row:nth-child(odd) {
+    background-color: #ffffff;
+    /* Màu sáng */
+}
+
+/* Áp dụng màu nền xen kẽ cho các hàng chẵn */
+.my-appointment-row:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Màu trắng */
+}
+
+/* Hiệu ứng hover cho tất cả các hàng */
+.my-appointment-row:hover {
+    background-color: #f0f0f0;
+    /* Màu nhấn khi hover */
+}
+
+.my-appointment-row button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.my-appointment-row button:hover {
+    background-color: #0056b3;
+}
+
+.my-appointment-row-calender {
+    display: grid;
+    grid-template-columns: 60% 30%;
+    align-items: center;
+}

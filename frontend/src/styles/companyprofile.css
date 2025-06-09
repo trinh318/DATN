@@ -1,0 +1,708 @@
+.company-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.company-profile-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  max-width: 100%;
+  border: 1px solid #ddd;
+}
+
+/* Phần tiêu đề */
+.company-profile-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  max-width: 100%;
+  border: 1px solid #ddd;
+}
+
+.company-profile-header h2 {
+  color: #146387;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Tabs điều hướng */
+.company-profile-tabs {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.company-profile-tab {
+  font-size: 14px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+.company-profile-tab:hover {
+  color: #0077b6;
+}
+
+.company-profile-tab.active {
+  margin-bottom: -1px;
+  border-bottom: 2px solid #0077b6;
+  color: #0077b6;
+}
+
+.company-profile-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  background-color: #0077b6;
+}
+
+/* Nội dung tab */
+.company-profile-content {
+  background-color: #f9f9f9;
+  margin-top: 0px;
+}
+
+/* Nội dung khi không có dữ liệu */
+.company-profile-empty-state {
+  color: #555;
+}
+
+.company-profile-enable-view {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Danh sách công ty */
+.company-profile-item {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  padding: 15px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.company-profile-info-left {
+  display: flex;
+}
+
+.company-profile-item:hover {
+  transform: translateY(-5px);
+}
+
+.company-profile-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.company-profile-info {
+  gap: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.company-profile-info h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+}
+
+.company-profile-info span {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  color: #666;
+}
+
+.company-profile-unfollow {
+  background-color: #e7503c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.company-profile-unfollow:hover {
+  background-color: #c0392b;
+}
+
+.company-profile-edit-basic-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-profile-edit-col {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.company-profile-edit-row {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.company-profile-edit-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.company-profile-edit-required {
+  color: red;
+}
+
+.company-profile-edit-input,
+.company-profile-edit-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* Container tổng */
+.company-profile-edit-phone-input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* Khung nhập số điện thoại */
+.company-profile-edit-phone-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+/* Selectbox đầu số quốc gia */
+.company-profile-edit-country-select {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.company-profile-edit-country-select img {
+  width: 24px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.company-profile-edit-country-select span {
+  font-size: 14px;
+  color: #333;
+}
+
+.company-profile-edit-country-select .dropdown-arrow {
+  margin-left: 5px;
+  font-size: 10px;
+  color: #888;
+}
+
+/* Input nhập số điện thoại */
+.company-profile-edit-phone-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Dropdown danh sách quốc gia */
+.company-profile-edit-country-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Mục trong dropdown */
+.company-profile-edit-country-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.company-profile-edit-country-item img {
+  width: 24px;
+  height: 16px;
+  margin-right: 10px;
+}
+
+.company-profile-edit-country-item span {
+  font-size: 14px;
+  color: #555;
+}
+
+.company-profile-edit-country-item:hover {
+  background-color: #f9f9f9;
+}
+
+.company-profile-edit-selectbox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+/* Hiển thị ô input */
+.company-profile-edit-select-display {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.company-profile-edit-select-display:hover {
+  border-color: #007bff;
+}
+
+/* Khung menu */
+.company-profile-edit-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  z-index: 1000;
+  max-height: 300px;
+  /* Giới hạn chiều cao */
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Breadcrumbs */
+.company-profile-edit-breadcrumbs {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #f9f9f9;
+}
+
+.company-profile-edit-breadcrumbs button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #007bff;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.company-profile-edit-breadcrumbs span {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Danh sách các mục */
+.company-profile-edit-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.company-profile-edit-option {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  color: #555;
+  transition: background-color 0.2s;
+}
+
+.company-profile-edit-option:hover {
+  background-color: #f0f8ff;
+}
+
+.company-profile-select {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.company-profile-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.company-profile-select option {
+  font-size: 14px;
+  color: #333;
+}
+
+.company-profile-select::-ms-expand {
+  display: none;
+  /* Remove default arrow in IE */
+}
+
+/* Add a dropdown arrow */
+.company-profile-select-container select {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%23777' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background-size: 14px;
+}
+
+.company-profile-des-textarea {
+  width: 100%;
+  height: 100px;
+  /* Adjust height if necessary */
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  /* Allows vertical resizing only */
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.company-profile-des-textarea::placeholder {
+  color: #aaa;
+}
+
+.company-profile-des-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.company-profile-dropzone {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  /* Giới hạn nội dung */
+}
+
+.company-profile-dropzone img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  /* Đảm bảo ảnh nằm gọn trong khung mà không bị cắt */
+  border-radius: 4px;
+}
+
+.company-profile-dropzone.has-image {
+  border: none;
+  background-color: transparent;
+}
+
+.company-profile-instructions {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.company-profile-upload-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.company-profile-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.company-profile-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-profile-image {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.company-profile-image-actions {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: none;
+  gap: 10px;
+}
+
+.company-profile-image-container:hover .company-profile-image-actions {
+  display: flex;
+}
+
+.company-profile-action-button {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.company-profile-action-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.company-profile-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.company-profile-image-container:hover .company-profile-image {
+  transform: scale(1.05);
+  /* Hiệu ứng zoom nhẹ khi rê chuột */
+}
+
+
+.search-profile-advanced-filters {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) 80px;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.asd {
+  background: #FFF;
+  border-radius: 15px;
+  border: 1px solid #2c65a1;
+  font-size: 16px;
+  color: #1e4a7a;
+  cursor: pointer;
+}
+
+/* Nút mở modal */
+.company-profile-unfollow {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.company-profile-unfollow:hover {
+  background-color: #ff4c4c;
+}
+
+/* Modal overlay */
+.invite-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.invite-modal-content {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* Modal content */
+.invite-modal-content {
+  background: white;
+  padding: 30px 50px; /* Tăng padding */
+  border-radius: 10px; /* Tăng độ bo góc */
+  width: 600px; /* Tăng chiều rộng mặc định */
+  max-width: 90%; /* Đảm bảo không quá rộng trên màn hình nhỏ */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Tăng hiệu ứng bóng */
+  animation: slideDown 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .invite-modal-content {
+    width: 800px; /* Rộng hơn trên màn hình lớn */
+  }
+}
+
+
+.invite-modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Form labels */
+.invite-modal-content label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #555;
+  font-weight: bold;
+}
+
+/* Form inputs */
+.invite-modal-content input,
+.invite-modal-content select,
+.invite-modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+/* Buttons */
+.invite-submit-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.invite-submit-button:hover {
+  background-color: #45a049;
+}
+
+.invite-cancel-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.invite-cancel-button:hover {
+  background-color: #e53935;
+}
+/* Style cho trường Lời nhắn với class riêng */
+.message-textarea {
+  width: 100%;  /* Chiếm 100% chiều rộng của phần tử chứa */
+  height: 150px; /* Điều chỉnh chiều cao của textarea */
+  padding: 10px;  /* Khoảng cách giữa nội dung và viền */
+  border: 1px solid #ddd;  /* Đường viền nhẹ */
+  border-radius: 4px;  /* Làm tròn góc */
+  resize: vertical;  /* Cho phép người dùng thay đổi chiều cao nhưng không thay đổi chiều rộng */
+  font-size: 16px;  /* Kích thước chữ */
+  line-height: 1.5;  /* Khoảng cách giữa các dòng văn bản */
+  box-sizing: border-box;  /* Đảm bảo padding được tính vào kích thước tổng thể */
+  transition: border-color 0.3s ease;  /* Hiệu ứng khi hover */
+}
+
+/* Hover để thay đổi màu viền khi người dùng di chuột vào */
+.message-textarea:hover {
+  border-color: #4caf50;  /* Đổi màu viền khi hover */
+}
+
+/* Focus để thay đổi màu viền khi textarea được chọn */
+.message-textarea:focus {
+  border-color: #4caf50;  /* Đổi màu viền khi focus */
+  outline: none;  /* Tắt outline mặc định */
+}
+.ellipsis-cell {
+  max-width: 200px;       /* hoặc tuỳ theo bảng của bạn */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

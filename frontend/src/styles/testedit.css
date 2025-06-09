@@ -1,0 +1,116 @@
+.test-edit-form {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .test-edit-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .test-edit-subtitle {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .test-edit-section {
+    margin-bottom: 15px;
+  }
+  
+  .test-edit-label {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .test-edit-input,
+  .test-edit-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .test-edit-textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .test-edit-question {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .test-edit-option {
+    margin-bottom: 10px;
+  }
+  
+  .test-edit-add-btn,
+  .test-edit-submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .test-edit-add-btn:hover,
+  .test-edit-submit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .test-edit-add-btn {
+    background-color: #2196f3;
+  }
+  
+  .test-edit-add-btn:hover {
+    background-color: #1e88e5;
+  }
+  
+  .test-edit-submit-btn {
+    background-color: #f44336;
+  }
+  
+  .test-edit-submit-btn:hover {
+    background-color: #e53935;
+  }
+  
+  .test-edit-input[type="number"] {
+    width: 100px;
+  }
+  
+  .test-edit-option input {
+    width: calc(100% - 40px);
+  }
+  
+  .test-edit-option button {
+    padding: 10px;
+    background-color: #ff5722;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .test-edit-option button:hover {
+    background-color: #e64a19;
+  }
+  

@@ -1,0 +1,156 @@
+.my-company {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.my-company-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 20px;
+    max-width: 100%;
+    border: 1px solid #ddd;
+}
+
+/* Phần tiêu đề */
+.my-company-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 20px;
+    max-width: 100%;
+    border: 1px solid #ddd;
+}
+
+.my-company-header h2 {
+    color: #146387;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Tabs điều hướng */
+.my-company-tabs {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.my-company-tab {
+    font-size: 14px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: color 0.3s ease;
+}
+
+.my-company-tab:hover {
+    color: #0077b6;
+}
+
+.my-company-tab.active {
+    margin-bottom: -1px;
+    border-bottom: 2px solid #0077b6;
+    color: #0077b6;
+}
+
+.my-company-tab.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 3px;
+    background-color: #0077b6;
+}
+
+/* Nội dung tab */
+.my-company-content {
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+/* Nội dung khi không có dữ liệu */
+.my-company-empty-state {
+    text-align: center;
+    color: #555;
+}
+
+.my-company-enable-view {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Danh sách công ty */
+.my-company-item {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.my-company-info-left {
+    display: flex;
+}
+
+.my-company-item:hover {
+    transform: translateY(-5px);
+}
+
+.my-company-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.my-company-info {
+    gap: 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.my-company-info h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
+}
+
+.my-company-info span {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    color: #666;
+}
+
+.my-company-unfollow {
+    background-color: #e7503c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.my-company-unfollow:hover {
+    background-color: #c0392b;
+}

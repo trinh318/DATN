@@ -1,0 +1,122 @@
+.search-bar-body {
+  margin: 0;
+  padding: 10px 0;
+  box-sizing: border-box;
+  place-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 30px;
+  padding: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  width: 90%;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 30px;
+  flex: 1;
+}
+
+.location-dropdown {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-left: 1px solid #E0E0E0;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  width: 250px;
+}
+
+.search-bar-location-header {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+
+}
+
+.location-icon {
+  margin-right: 5px;
+}
+
+.location-text {
+  margin-right: 5px;
+}
+
+.dropdown-arrow {
+  padding-left: 5px;
+  font-size: 10px;
+  color: #666;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  color: #147882;
+  padding: 10px 20px;
+  border: 2px solid #147882;
+  /* Thay đổi độ dày và màu sắc của viền ở đây */
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.search-icon {
+  margin-right: 5px;
+}
+
+.search-bar-dropdown {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 300px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.search-bar-dropdown-input {
+  width: calc(100% - 20px);
+  margin: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-bar-dropdown-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.search-bar-dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-bar-dropdown-item:hover,
+.search-bar-selected {
+  background-color: #f0f0f0;
+}
+
+.search-bar-no-results {
+  padding: 10px;
+  text-align: center;
+  color: #999;
+}

@@ -1,0 +1,87 @@
+.create-test-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-test-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .create-test-subtitle {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .create-test-section {
+    margin-bottom: 15px;
+  }
+  
+  .create-test-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .create-test-input,
+  .create-test-textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .create-test-textarea {
+    resize: vertical;
+  }
+  
+  .create-test-question {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .create-test-option {
+    margin-top: 5px;
+  }
+  
+  .create-test-add-btn,
+  .create-test-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .create-test-add-btn {
+    background-color: #28a745;
+    margin-bottom: 10px;
+  }
+  
+  .create-test-submit-btn:hover,
+  .create-test-add-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-test-add-btn:hover {
+    background-color: #218838;
+  }
+  

@@ -1,0 +1,352 @@
+.applicants-profile-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  max-width: 60%;
+  width: 100%;
+  /* margin: 16px auto; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.applicants-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.applicants-profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.applicants-profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.applicants-profile-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.applicants-profile-title {
+  color: #666;
+  font-size: 14px;
+}
+
+.applicants-profile-buy-package {
+  font-size: 14px;
+  color: #f26522;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.applicants-profile-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.applicants-profile-footer {
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr) 50px;
+  gap: 20px;
+}
+
+.applicants-profile-view-btn {
+  background-color: #ff5722;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.applicants-profile-invite-btn {
+  background-color: #ffe5e0;
+  color: #f26522;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.applicants-profile-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.applicants-profile-note {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.highlight {
+  color: #f26522;
+  font-weight: bold;
+}
+
+.applicant-detail-info-wrapper {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+  padding-top: 20px;
+  margin-top: 70px;
+}
+
+.applicants-profile-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  max-width: 40%;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.profile-details-container {
+  margin: 40px auto;
+  max-width: 800px;
+  background-color: #fff;
+}
+
+.profile-details-container h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 8px;
+}
+
+.profile-details-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+
+.profile-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.value {
+  color: #333;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .profile-details-table {
+    grid-template-columns: 1fr;
+  }
+}
+
+.applicant-info-card {
+  position: relative;
+  display: flex;
+  border-radius: 12px;
+  max-width: 100%;
+}
+
+
+/*pdf css*/
+.pdf-viewer-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.pdf-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pdf-controls button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #4a4a92;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pdf-controls button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pdf-controls span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a4a92;
+}
+
+.pdf-document {
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-document canvas {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.pdf-viewer-container {
+  position: relative;
+  overflow: hidden;
+  /* Ngăn chặn phần thừa ngoài khung hiển thị */
+  margin-bottom: 20px;
+}
+
+.pdf-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.pdf-document {
+  width: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.generic-file-container {
+  display: none;
+  /* Ẩn phần tử văn bản thừa */
+}
+
+
+
+
+
+
+
+
+.create-appointment-container {
+  max-width: 600px;
+  max-height: 610px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.create-appointment-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.create-appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-appointment-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.create-appointment-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.create-appointment-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+}
+
+.create-appointment-button:hover {
+  background-color: #0056b3;
+}
+
+.create-appointment-button-save {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+  margin: 10px 0 10px;
+}
+
+.create-appointment-button-save:hover {
+  background-color: #0056b3;
+}
+
+.create-appointment-list {
+  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.create-appointment-slot {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.create-appointment-overlay {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Màu nền mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Hiển thị trên tất cả */
+}

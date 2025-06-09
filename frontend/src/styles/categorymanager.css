@@ -1,0 +1,103 @@
+.career-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .career-tag {
+    background-color: #f1f1f1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .career-tag:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    color: #888;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-career-btn {
+    font-size: 20px;
+    background: #5a8cb5;
+    color: white;
+    border: none;
+    padding: 0 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .career-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .career-edit-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .career-edit-input {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .career-edit-form button {
+    padding: 8px 14px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #5a8cb5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .career-edit-form button:hover {
+    background-color: #5a8cb5;
+  }
+  
+  .career-edit-form button:last-child {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .career-edit-form button:last-child:hover {
+    background-color: #999;
+  }
+  .add-category-btn {
+    background-color: #5a8cb5;
+    color: white;
+    padding: 6px 10px; /* Giảm padding */
+    margin-left: auto;
+    border: none;
+    border-radius: 3px; /* Có thể giảm nhẹ bo góc */
+    font-size: 14px; /* Thu nhỏ chữ nếu cần */
+    cursor: pointer;
+  }
+  
+  .add-category-btn:hover {
+    background-color: #3b7cb0;
+  }  
+  
+  

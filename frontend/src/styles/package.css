@@ -1,0 +1,671 @@
+.package-recruiter-container {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    transition: all 0.3s ease;
+}
+
+.package-recruiter-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.package-recruiter-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.package-recruiter-header h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.package-recruiter-header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.package-recruiter-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.package-recruiter-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.package-recruiter-card:hover {
+    transform: translateY(-5px);
+}
+
+.package-recruiter-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.package-recruiter-card-header h2 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.package-recruiter-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.package-recruiter-status-active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.package-recruiter-status-expired {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.package-recruiter-status-pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.package-recruiter-details {
+    margin-bottom: 2rem;
+}
+
+.package-recruiter-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.package-recruiter-detail-row:last-child {
+    border-bottom: none;
+}
+
+.package-recruiter-features {
+    margin: 2rem 0;
+}
+
+.package-recruiter-features h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.package-recruiter-features li {
+    margin: 0.5rem 0;
+    color: #34495e;
+    list-style-type: none;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.package-recruiter-features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
+}
+
+.package-recruiter-stats {
+    margin: 2rem 0;
+}
+
+.package-recruiter-stats h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.package-recruiter-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.package-recruiter-stat-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.package-recruiter-stat-label {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.package-recruiter-stat-value {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.package-recruiter-transaction-history {
+    margin-top: 2rem;
+}
+
+.package-recruiter-transaction-history h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.package-recruiter-transaction-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.package-recruiter-transaction-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.package-recruiter-transaction-status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+}
+
+.package-recruiter-transaction-status.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.package-recruiter-transaction-status.pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.package-recruiter-transaction-status.failed {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.package-recruiter-transaction-date {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.package-recruiter-transaction-info p {
+    margin: 0.5rem 0;
+    color: #34495e;
+}
+
+.package-recruiter-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.package-recruiter-loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: package-recruiter-spin 1s linear infinite;
+}
+
+@keyframes package-recruiter-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.package-recruiter-error {
+    text-align: center;
+    padding: 2rem;
+    color: #e74c3c;
+    background-color: #ffebee;
+    border-radius: 8px;
+    margin: 1rem;
+}
+
+.package-recruiter-no-subscriptions {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+    .package-recruiter-container {
+        padding: 1rem;
+    }
+    
+    .package-recruiter-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .package-recruiter-card {
+        padding: 1.5rem;
+    }
+    
+    .package-recruiter-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Grid layout for multiple packages */
+.pkgGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* Loading state */
+.pkgLoadingState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.pkgSpinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: pkgSpin 1s linear infinite;
+}
+
+@keyframes pkgSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty state */
+.pkgEmptyState {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+}
+
+.pkgEmptyStateIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #bdc3c7;
+}
+
+/* Error state */
+.pkgErrorState {
+    text-align: center;
+    padding: 2rem;
+    color: #e74c3c;
+    background-color: #ffebee;
+    border-radius: 8px;
+    margin: 1rem;
+}
+
+/* Comparison table */
+.pkgComparisonTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+.pkgComparisonTable th,
+.pkgComparisonTable td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.pkgComparisonTable th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.pkgComparisonTable tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Feature highlight */
+.pkgHighlightedFeature {
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.pkgHighlightedFeature::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    color: #f1c40f;
+}
+
+/* Popular badge */
+.pkgPopularBadge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transform: rotate(15deg);
+}
+
+/* Best value badge */
+.pkgBestValueBadge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #27ae60;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transform: rotate(15deg);
+}
+
+/* Package description */
+.pkgDescription {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.package {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.package-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.package-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.package-header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+/* Loading State */
+.package-loading {
+    text-align: center;
+    padding: 3rem;
+}
+
+.package-loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.package-error {
+    text-align: center;
+    padding: 2rem;
+    background-color: #fff3f3;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.package-error button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Empty State */
+.package-empty {
+    text-align: center;
+    padding: 3rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+/* Package Card */
+.package-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.package-card-header-recruiter {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.package-card-header-recruiter h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+/* Status Badges */
+.package-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.package-status-active {
+    background-color: #e3fcef;
+    color: #00875a;
+}
+
+.package-status-expired {
+    background-color: #fff3f3;
+    color: #de350b;
+}
+
+.package-status-pending {
+    background-color: #fff7e6;
+    color: #974f0c;
+}
+
+/* Package Details */
+.package-details {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.package-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    color: #4a5568;
+}
+
+/* Features Section */
+.package-features {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.package-features h3 {
+    margin: 0 0 1rem;
+    color: #2c3e50;
+}
+
+.package-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.package-feature-item {
+    padding: 0.5rem 0;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+}
+
+.package-feature-item::before {
+    content: "✓";
+    color: #00875a;
+    margin-right: 0.5rem;
+}
+
+/* Stats Section */
+.package-stats {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.package-stats h3 {
+    margin: 0 0 1rem;
+    color: #2c3e50;
+}
+
+.package-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.package-stat-item {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.package-stat-label {
+    display: block;
+    color: #718096;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.package-stat-value {
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Transactions Section */
+.package-transactions {
+    padding: 1.5rem;
+}
+
+.package-transactions h3 {
+    margin: 0 0 1rem;
+    color: #2c3e50;
+}
+
+.package-transaction {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.package-transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.package-transaction-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.package-transaction-status-success {
+    background-color: #e3fcef;
+    color: #00875a;
+}
+
+.package-transaction-status-pending {
+    background-color: #fff7e6;
+    color: #974f0c;
+}
+
+.package-transaction-status-failed {
+    background-color: #fff3f3;
+    color: #de350b;
+}
+
+.package-transaction-date {
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+.package-transaction-info {
+    color: #4a5568;
+}
+
+.package-transaction-info p {
+    margin: 0.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .package {
+        padding: 1rem;
+    }
+
+    .package-card-header-recruiter {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .package-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .package-transaction-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+} 

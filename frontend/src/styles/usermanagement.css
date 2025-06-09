@@ -1,0 +1,398 @@
+/* Định dạng container bao quanh bảng */
+.user-management-table-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
+
+/* Định dạng bảng */
+.user-management-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+/* Định dạng các ô tiêu đề (header) */
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Định dạng các tiêu đề */
+th {
+  position: relative;
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Hiệu ứng khi di chuột qua các hàng */
+.user-management-row {
+  height: 60px;
+  transition: background-color 0.2s;
+}
+
+/* Tạo hiệu ứng hover cho hàng */
+.user-management-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Định dạng checkbox chọn tất cả */
+.user-management-select-all {
+  width: 20px;
+  height: 20px;
+}
+
+/* Định dạng checkbox trong các hàng */
+.user-management-row-checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+/* Hiển thị khi hover qua tiêu đề */
+th:hover {
+  background-color: #f0f0f0;
+}
+
+/* Thêm khoảng cách cho các biểu tượng sắp xếp */
+th>span {
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+/* Dropdown menu cho các hành động như Edit/Delete */
+.user-management-dropdown {
+  position: relative;
+}
+
+/* Định dạng chung cho container chứa biểu tượng */
+.user-management-dropdown {
+  display: flex;
+  /* Hiển thị biểu tượng theo hàng ngang */
+  gap: 10px;
+  /* Khoảng cách giữa các biểu tượng */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+}
+
+/* Định dạng chung cho các biểu tượng */
+.user-management-dropdown svg {
+  font-size: 20px;
+  /* Kích thước biểu tượng */
+  color: #555;
+  /* Màu biểu tượng mặc định */
+  transition: color 0.3s, transform 0.3s;
+  /* Hiệu ứng chuyển đổi màu và scale khi hover */
+  cursor: pointer;
+  /* Con trỏ chuột thay đổi thành pointer khi hover */
+}
+
+/* Hiệu ứng khi hover lên biểu tượng */
+.user-management-dropdown svg:hover {
+  transform: scale(1.2);
+  /* Phóng to nhẹ khi hover */
+}
+
+/* Tùy chỉnh riêng cho từng biểu tượng nếu cần */
+.user-management-dropdown svg:nth-child(1) {
+  color: #888;
+  /* Màu xanh lá cho biểu tượng đầu tiên */
+}
+
+.user-management-dropdown svg:nth-child(2) {
+  color: #888;
+  /* Màu vàng cho biểu tượng thứ hai */
+}
+
+.user-management-dropdown svg:nth-child(3) {
+  color: #888;
+  /* Màu đỏ cho biểu tượng thứ ba */
+}
+
+/* Định dạng khi chọn nhiều hàng */
+.selected {
+  background-color: #e0f7fa;
+}
+
+/* Định dạng chung cho biểu tượng sắp xếp */
+.sort-icon {
+  margin-left: 5px;
+  color: #777;
+  font-size: 12px;
+  vertical-align: middle;
+  transition: color 0.2s ease;
+}
+
+/* Hiệu ứng khi hover tiêu đề */
+th:hover .sort-icon {
+  color: #333;
+}
+
+/* Áp dụng màu nền xen kẽ cho các hàng lẻ */
+.user-management-row:nth-child(odd) {
+  background-color: #ffffff;
+  /* Màu sáng */
+}
+
+/* Áp dụng màu nền xen kẽ cho các hàng chẵn */
+.user-management-row:nth-child(even) {
+  background-color: #f9f9f9;
+  /* Màu trắng */
+}
+
+/* Hiệu ứng hover cho tất cả các hàng */
+.user-management-row:hover {
+  background-color: #f0f0f0;
+  /* Màu nhấn khi hover */
+  cursor: pointer;
+  /* Thêm con trỏ khi di chuột qua */
+}
+
+.user-info-edit-radio-group {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 20px;
+}
+
+.user-info-edit-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.user-info-edit-radio-row input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #007bff;
+}
+
+.user-info-edit-radio-row label {
+  cursor: pointer;
+  font-weight: 500;
+}
+.user-management-row-red {
+  color: red; /* Chữ đỏ */
+}
+.user-management-row-orange {
+  color: #FFA500; /* Màu chữ trắng */
+}
+.view-report-job-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.view-report-job-detail-container {
+  position: fixed;
+  margin-top: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 900px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1001;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.view-report-job-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.view-report-job-detail-header  {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.view-report-job-detail-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: red;
+}
+
+.view-report-job-detail-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.company-info, .job-info {
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.company-info , .job-info  {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.company-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.view-report-job-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.view-report-job-detail-table th,
+.view-report-job-detail-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.view-report-job-detail-table th {
+  background: #287ba7;
+  color: white;
+}
+
+.view-report-job-detail-table tr:nth-child(even) {
+  background: #f1f1f1;
+}
+.view-report-job-detail-info {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.view-report-job-detail-info {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border-left: 5px solid #007bff;
+}
+
+.view-report-job-detail-info  {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.view-report-job-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.view-report-job-detail-row p {
+  font-size: 16px;
+  color: #333;
+}
+
+.view-report-job-detail-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-report-job-detail-btn:hover {
+  background: #0056b3;
+}
+
+
+/* Căn chỉnh nút Lưu và Hủy */
+.view-report-job-detail-edit-button-row {
+  display: flex;
+  justify-content: flex-end; /* Căn về bên phải */
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* CSS cho nút Lưu */
+.view-report-job-detail-edit-save-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.view-report-job-detail-edit-save-btn:hover {
+  background-color: #357ABD;
+}
+
+/* CSS cho nút Hủy */
+.view-report-job-detail-edit-cancel-btn {
+  background-color: #d6d6d6;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.view-report-job-detail-edit-cancel-btn:hover {
+  background-color: #bcbcbc;
+}
+.view-report-job-detail-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px; /* Tạo khoảng cách với textarea */
+}
+
+.view-report-job-detail-rejection-reason {
+  margin-top: 5px; /* Khoảng cách với radio button */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.view-report-job-detail-rejection-reason  {
+  font-weight: bold;
+}
+
+.view-report-job-detail-rejection-reason  {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: vertical;
+}

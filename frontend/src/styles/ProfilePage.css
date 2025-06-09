@@ -1,0 +1,442 @@
+/* ProfilePage.css */
+
+/* Tổng quan chung */
+.profile-management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    border-radius: 8px;
+}
+
+.profile-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+}
+
+.profile-management-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-management-change-password-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-management-change-password-btn:hover {
+    background-color: #45a049;
+}
+
+.profile-management-content {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.profile-management-avatar {
+    background-color: white;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    min-width: 100px;
+    padding: 30px 20px 0px 20px;
+    margin-bottom: 10px;
+}
+
+
+
+.profile-management-avatar img {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  
+}
+
+.profile-management-info {
+  flex: 2; /* 2 phần */
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-management-info-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.profile-management-info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-management-label {
+    font-weight: 500;
+    color: #777;
+    font-size: 16px;
+}
+
+.profile-management-span {
+    font-size: 16px;
+    color: #333;
+}
+
+.profile-management-span.empty {
+    color: #888;
+    font-style: italic;
+}
+
+.profile-management-edit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #808080;
+}
+
+/* Modal */
+.profile-management-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-management-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-management-modal-title {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-management-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.profile-management-modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.profile-management-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-management-btn:hover {
+    background-color: #45a049;
+}
+
+/* ProfileManagementPage.css */
+
+/* Tổng quan chung */
+.profile-management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    border-radius: 8px;
+}
+
+.profile-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+}
+
+.profile-management-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-management-change-password-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-management-change-password-btn:hover {
+    background-color: #45a049;
+}
+
+.profile-management-content {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+
+}
+
+.profile-management-info {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.profile-management-info-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.profile-management-info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-management-label {
+    font-weight: 500;
+    color: #777;
+    font-size: 16px;
+}
+
+.profile-management-span {
+    font-size: 16px;
+    color: #333;
+}
+
+.profile-management-span.empty {
+    color: #888;
+    font-style: italic;
+}
+
+.profile-management-edit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #808080;
+}
+
+/* Section Applications */
+.profile-management-applications-section {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.profile-management-applications-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.profile-management-applications-card {
+    background-color: #e0f7fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-management-applications-count {
+    font-size: 24px;
+    font-weight: 600;
+    color: #00796b;
+}
+
+/* Modal Styles */
+.profile-management-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.profile-management-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-management-modal-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.profile-management-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.profile-management-modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.profile-management-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-management-btn:hover {
+    background-color: #45a049;
+}
+.profile-management-edit-icon-user {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #808080;
+}
+
+.profile-management-edit-icon-user:hover {
+    color: #4CAF50; /* Đổi màu khi hover */
+}
+.profile-management-privacy-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+/* Toggle Switch Style */
+.profile-management-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.profile-management-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.profile-management-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 22px;
+}
+
+.profile-management-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.profile-management-checkbox:checked + .profile-management-slider {
+    background-color: #147882;
+}
+
+.profile-management-checkbox:checked + .profile-management-slider:before {
+    transform: translateX(18px);
+}
+
+/* Label text */
+.profile-management-toggle-label {
+    font-size: 16px;
+    color: #333;
+}

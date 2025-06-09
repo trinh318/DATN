@@ -1,0 +1,98 @@
+/* Container */
+.company-detail-review-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .company-detail-review-title {
+    margin-top: 35px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .company-detail-review-description {
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .company-detail-review-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .company-detail-review-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input Fields */
+  .company-detail-review-input,
+  .company-detail-review-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .company-detail-review-textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  /* Stars */
+  .company-detail-review-stars {
+    display: flex;
+    gap: 0.25rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .company-detail-review-star {
+    color: #ccc;
+    transition: color 0.2s ease;
+  }
+  
+  .company-detail-review-star.active,
+  .company-detail-review-star:hover {
+    color: #f59e0b;
+  }
+  
+  /* Radio group */
+  .company-detail-review-radio-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Rating details */
+  .company-detail-review-rating-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Submit Button */
+  .company-detail-review-submit-button {
+    width: 100%;
+    background-color: #e11d48;
+    color: #fff;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .company-detail-review-submit-button:hover {
+    background-color: #be123c;
+  }
+  

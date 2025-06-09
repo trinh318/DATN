@@ -1,0 +1,224 @@
+/* Cấu trúc chung của dashboard */
+.admin-report-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.admin-report-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-report-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Sắp xếp các phần biểu đồ trong dashboard */
+.admin-report-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.admin-report-chart-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-report-chart-card h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Màu sắc cho biểu đồ */
+.admin-report-chart-card .chart {
+  max-width: 100%;
+  height: 250px;
+  margin: 0 auto;
+}
+
+/* Màu sắc cho các biểu đồ */
+.admin-report-pie-chart .chart {
+  max-width: 100%;
+  height: 300px;
+}
+
+/* Cấu trúc bảng hoặc thống kê thông tin */
+.admin-report-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-report-info-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  min-width: 250px;
+}
+
+.admin-report-info-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.admin-report-info-card p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Màu sắc cho thông tin thống kê */
+.admin-report-info-card .info-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #36A2EB;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-report-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-report-info {
+    flex-direction: column;
+  }
+}
+
+.admin-report-filter {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-report-filter label {
+  font-weight: 300;
+}
+
+.admin-report-filter select {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+
+
+
+
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section label {
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.filter-section select,
+.filter-section input {
+  padding: 8px;
+  margin-left: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filter-section select:focus,
+.filter-section input:focus {
+  border-color: #36A2EB;
+  outline: none;
+}
+
+.admin-report-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.summary-card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #36A2EB;
+}
+
+.chart-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 48%;
+}
+
+.chart-container h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.chart-container .chartjs-size-monitor {
+  width: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .filter-section {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .admin-report-summary {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .summary-card {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .chart-container {
+      width: 100%;
+  }
+}

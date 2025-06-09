@@ -1,0 +1,145 @@
+.top-companies {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.company-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin: 10px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    justify-content: center
+}
+
+.company-header-title {
+    color: #0A2657;
+    font-size: 2.5rem;
+    margin: 7px 0;
+}
+
+.top-companies-container {
+    display: flex;
+    flex-wrap: wrap;  /* Cho phép các thẻ xếp xuống dòng */
+    justify-content: space-between;  /* Chia đều không gian giữa các thẻ */
+    margin: 20px 0;  /* Cách trên và dưới */
+}
+
+.top-company-card {
+    width: calc(16.66% - 20px);  /* 6 thẻ trong 1 hàng, trừ khoảng cách */
+    height: 350px;  /* Chiều cao cố định cho card */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Phân bổ không gian giữa các thành phần */
+    padding: 16px;
+    box-sizing: border-box; /* Bao gồm padding và border trong kích thước */
+    margin-bottom: 20px;  /* Khoảng cách dưới giữa các hàng */
+}
+
+/* Media queries để thay đổi số lượng thẻ hiển thị theo kích thước màn hình */
+@media (max-width: 1200px) {
+    .top-company-card {
+        width: calc(20% - 20px); /* 5 thẻ trên một hàng */
+    }
+}
+
+@media (max-width: 992px) {
+    .top-company-card {
+        width: calc(25% - 20px); /* 4 thẻ trên một hàng */
+    }
+}
+
+@media (max-width: 768px) {
+    .top-company-card {
+        width: calc(33.33% - 20px); /* 3 thẻ trên một hàng */
+    }
+}
+
+@media (max-width: 576px) {
+    .top-company-card {
+        width: calc(50% - 20px); /* 2 thẻ trên một hàng */
+    }
+}
+
+.top-company-logo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.top-company-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.top-company-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin: 0; /* Đảm bảo không có margin gây ảnh hưởng */
+}
+
+.top-company-industry {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin: 0; /* Đảm bảo không có margin gây ảnh hưởng */
+}
+
+.top-company-job-count {
+    font-size: 14px;
+    color: #007bff;
+    font-weight: bold;
+    text-align: center;
+    margin: 0; /* Đảm bảo không có margin gây ảnh hưởng */
+}
+
+.top-company-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.top-company-button:hover {
+    background-color: #0056b3;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 16px;
+}
