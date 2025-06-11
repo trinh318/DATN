@@ -62,6 +62,7 @@ router.post('/create', authenticateToken, async (req, res) => {
 router.put('/update-skills', async (req, res) => {
   try {
     const { userId, skills } = req.body;
+    console.log("j")
 
     // Kiểm tra nếu thiếu thông tin
     if (!userId || !skills) {
@@ -80,7 +81,7 @@ router.put('/update-skills', async (req, res) => {
 
     // Lưu thông tin mới
     await profile.save();
-
+    console.log("j")
     res.status(200).json({ message: 'Cập nhật kỹ năng thành công.', profile });
   } catch (error) {
     console.error("Error updating profile:", error);
@@ -510,16 +511,12 @@ router.get('/applications/applied-profiles/:jobId', async (req, res) => {
     }
 
     const applications = await Application.find({ job_id: jobId }).lean();
-    console.log("app", applications.length)
-
     if (!applications.length) {
       return res.status(404).json({ message: 'No applications found for the given jobId.' });
     }
 
     const candidateIds = applications.map((app) => app.candidate_id);
-    console.log("canid", candidateIds.length)
 
-    // Tạo map ứng dụng theo candidate_id
     const applicationMap = {};
     applications.forEach(app => {
       applicationMap[app.candidate_id.toString()] = app;
@@ -529,7 +526,6 @@ router.get('/applications/applied-profiles/:jobId', async (req, res) => {
     if (!profiles.length) {
       return res.status(404).json({ message: 'No profiles found for the applied candidates.' });
     }
-    console.log("pro", profiles.length)
 
     const userIds = profiles.map(p => p.user_id);
     const users = await User.find({ _id: { $in: userIds } }).lean();
@@ -539,17 +535,31 @@ router.get('/applications/applied-profiles/:jobId', async (req, res) => {
       userMap[user._id.toString()] = user;
     });
 
+    // Truy vấn tất cả CVFiles một lần
+    const cvFiles = await CvFile.find({
+      uploadedBy: { $in: candidateIds },
+      is_active: true,
+    }).sort({ createdAt: -1 }).lean(); // Ưu tiên file mới nhất
+
+    const cvMap = {};
+    cvFiles.forEach(file => {
+      if (!cvMap[file.uploadedBy.toString()]) {
+        cvMap[file.uploadedBy.toString()] = file; // mỗi ứng viên 1 CV file
+      }
+    });
+
     const response = await Promise.all(
       profiles.map(async (profile) => {
         const userInfo = userMap[profile.user_id.toString()];
         profile.user_id = userInfo || {};
 
-        const application = applicationMap[profile.user_id._id.toString()] || null;
+        const application = applicationMap[userInfo?._id?.toString()] || null;
+        const cvFile = cvMap[userInfo?._id?.toString()] || null;
 
         const schedules = await InterviewSchedule.find({
           job_id: jobId,
           interviewer_id,
-          candidate_id: profile.user_id._id,
+          candidate_id: userInfo?._id,
           status: { $ne: 'cancle' },
         });
 
@@ -564,6 +574,7 @@ router.get('/applications/applied-profiles/:jobId', async (req, res) => {
           profile,
           interviews: interviewArray,
           application,
+          cvFile, // Thêm ở đây
         };
       })
     );

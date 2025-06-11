@@ -40,7 +40,7 @@ export default function Navbar() {
                     </>
                   ) : (
                     <>
-                      <Link className="nav-link" to="/create-cv-with-ai">Create CV with AI</Link>
+                      <Link className="nav-link" to="/create-cv-with-ai" target="_blank" rel="noopener noreferrer">Create CV with AI</Link>
                       <Link className="nav-link" to="/create-cv-with-ai/my-resume/analyzer">Resume Analyzer</Link>
                       <Jobs className="nav-link">Jobs</Jobs>
                       <Link className="nav-link" to="/companies">Companies</Link>

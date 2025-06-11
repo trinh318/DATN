@@ -206,27 +206,86 @@ router.get('/search-company/search', async (req, res) => {
 // READ ALL - Lấy tất cả các công ty kèm số lượng công việc
 router.get('/get-all-company/count-job', async (req, res) => {
   try {
+    const today = new Date();
+    const limit = 20;       // Số lượng kết quả trả về
+    const topLimit = 100;   // Số lượng top để random
+
     const companies = await Company.aggregate([
+      // Chỉ lấy công ty nổi bật
+      {
+        $match: {
+          highlight: true,
+          highlight_expiration: { $gte: today },
+        },
+      },
+      // Đếm số lượng review để tính rating trung bình
       {
         $lookup: {
-          from: 'jobs', // Tên collection job (theo MongoDB)
-          localField: '_id', // Khóa liên kết từ Company
-          foreignField: 'company_id', // Khóa liên kết từ Job
-          as: 'jobs', // Tên mảng chứa kết quả lookup
+          from: 'reviews',
+          localField: '_id',
+          foreignField: 'company_id',
+          as: 'reviews',
         },
       },
       {
         $addFields: {
-          jobCount: { $size: '$jobs' }, // Thêm trường đếm số lượng công việc
+          avg_rating: {
+            $cond: [
+              { $gt: [{ $size: '$reviews' }, 0] },
+              { $avg: '$reviews.rating' },
+              0,
+            ],
+          },
+        },
+      },
+      // Đếm số lượng theo dõi
+      {
+        $lookup: {
+          from: 'followedcompanies',
+          localField: '_id',
+          foreignField: 'company_id',
+          as: 'followers',
         },
       },
       {
+        $addFields: {
+          follow_count: { $size: '$followers' },
+        },
+      },
+      // Đếm số lượng job
+      {
+        $lookup: {
+          from: 'jobs',
+          localField: '_id',
+          foreignField: 'company_id',
+          as: 'jobs',
+        },
+      },
+      {
+        $addFields: {
+          jobCount: { $size: '$jobs' },
+        },
+      },
+      // Sắp xếp theo tiêu chí chất lượng
+      {
+        $sort: {
+          avg_rating: -1,
+          follow_count: -1,
+          created_at: -1,
+        },
+      },
+      { $limit: topLimit },
+      { $sample: { size: limit } },
+      {
         $project: {
-          jobs: 0, // Loại bỏ trường `jobs` (không cần trả về)
+          reviews: 0,
+          followers: 0,
+          jobs: 0,
         },
       },
     ]);
 
+    console.log(companies)
     res.json(companies);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
@@ -241,6 +300,79 @@ router.get('/companies/id-name', async (req, res) => {
   } catch (error) {
     console.error('Error fetching companies:', error);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+const GetBestCompany = async () => {
+  const today = new Date();
+  const limit = 20;       // Số lượng kết quả random trả về
+  const topLimit = 100;   // Số lượng công ty tốt nhất trước khi random
+
+  const bestCompanies = await Company.aggregate([
+    {
+      $match: {
+        highlight: true,
+        highlight_expiration: { $gte: today }
+      }
+    },
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: '_id',
+        foreignField: 'company_id',
+        as: 'reviews'
+      }
+    },
+    {
+      $addFields: {
+        avg_rating: {
+          $cond: [
+            { $gt: [{ $size: '$reviews' }, 0] },
+            { $avg: '$reviews.rating' },
+            0
+          ]
+        }
+      }
+    },
+    {
+      $lookup: {
+        from: 'followedcompanies',
+        localField: '_id',
+        foreignField: 'company_id',
+        as: 'followers'
+      }
+    },
+    {
+      $addFields: {
+        follow_count: { $size: '$followers' }
+      }
+    },
+    {
+      $sort: {
+        avg_rating: -1,
+        follow_count: -1,
+        created_at: -1
+      }
+    },
+    { $limit: topLimit },
+    { $sample: { size: limit } },
+    {
+      $project: {
+        reviews: 0,
+        followers: 0
+      }
+    }
+  ]);
+
+  return bestCompanies;
+};
+
+router.get('/best', async (req, res) => {
+  try {
+    const companies = await GetBestCompany();
+    res.json(companies);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get best companies' });
   }
 });
 

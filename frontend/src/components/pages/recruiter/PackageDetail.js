@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../../styles/packagedetail.css"; // Nhớ tạo file css này
@@ -14,68 +14,11 @@ import { FaCartArrowDown } from "react-icons/fa6";
 import { FaRedoAlt, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { SiNow } from 'react-icons/si';
 
-const plans = [
-    {
-        title: 'Free',
-        price: '$00.00',
-        per: '/per user',
-        button: 'Download',
-        features: [
-            'Customizable workspace',
-            'Personal Apps Integration',
-            'Multi-account Support',
-        ],
-        updates: 'Lifetime Updates at no cost',
-        color: 'bg-white',
-        buttonStyle: 'bg-blue-600 text-white hover:bg-blue-700',
-        icon: <Download size={16} className="mr-2" />,
-    },
-    {
-        title: 'Standard',
-        originalPrice: '$99.00',
-        discount: '50% off',
-        price: '$49.50',
-        per: '/per user',
-        button: 'Buy Now',
-        features: [
-            'Customizable workspace',
-            'Personal Apps Integration',
-            'Multi-account Support',
-        ],
-        updates: 'Lifetime Updates at $10/year',
-        color: 'bg-blue-900 text-white',
-        discountStyle: 'bg-green-600',
-        buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
-        icon: <Check size={16} className="mr-2" />,
-    },
-    {
-        title: 'Premium',
-        originalPrice: '$399.00',
-        discount: '75% off',
-        price: '$99.99',
-        per: '/per user',
-        button: 'Buy Now',
-        features: [
-            'Customizable workspace',
-            'Personal Apps Integration',
-            'Multi-account Support',
-            'Email Templates',
-            'LinkedIn Lookup',
-        ],
-        updates: 'Lifetime Updates at $20/year',
-        color: 'bg-white',
-        discountStyle: 'bg-yellow-300 text-yellow-900',
-        buttonStyle: 'bg-blue-600 text-white hover:bg-blue-700',
-        icon: <Check size={16} className="mr-2" />,
-        hasUserSelector: true,
-    },
-];
 // Thêm base URL cho API
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 export default function PackageDetail() {
-    const { id: paramId } = useParams();
-    const id = paramId ?? "680c83e98f1b3b023e9a8899";
+    const id = new URLSearchParams(useLocation().search).get("id") ?? "680c83e98f1b3b023e9a8899";
     const navigate = useNavigate();
     const [packageData, setPackageData] = useState(null);
     const [packages, setPackages] = useState([]);

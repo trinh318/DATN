@@ -124,4 +124,31 @@ router.get('/files', async (req, res) => {
   }
 });
 
+const Application = require('../models/Application'); // Thêm nếu chưa import
+
+// Route: Lấy tất cả CV file của ứng viên theo job_id
+router.get('/files/by-job/allfiles/:jobId', async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    // Bước 1: Tìm tất cả đơn ứng tuyển theo jobId
+    const applications = await Application.find({ job_id: jobId }).select('candidate_id');
+
+    if (!applications.length) {
+      return res.status(404).json({ message: 'No applications found for this job' });
+    }
+
+    // Bước 2: Lấy danh sách candidate_id
+    const candidateIds = applications.map(app => app.candidate_id);
+
+    // Bước 3: Tìm tất cả CV file do những ứng viên này upload
+    const files = await CvFile.find({ uploadedBy: { $in: candidateIds }, is_active: true });
+
+    res.status(200).json({ files });
+  } catch (error) {
+    console.error('Error retrieving CV files by job:', error);
+    res.status(500).json({ error: 'Failed to retrieve CV files', details: error.message });
+  }
+});
+
 module.exports = router;

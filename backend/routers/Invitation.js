@@ -9,11 +9,10 @@ const Notification = require('../models/Notification');
 const checkFeatureAccess = require('../middleware/checkFeatureAccess');
 const authenticateToken = require('../middleware/authenticateToken');
 
-router.post("/", authenticateToken ,checkFeatureAccess('invite_candidates') , async (req, res) => {
-    const { jobId, recruiterId, candidateId, message } = req.body;
+router.post("/", authenticateToken, checkFeatureAccess('invite_candidates'), async (req, res) => {
+    const { jobId, recruiterId, candidateId, message, isTest } = req.body;
 
     try {
-        // Kiểm tra sự tồn tại của công việc, nhà tuyển dụng và ứng viên
         const job = await Job.findById(jobId);
         const recruiter = await User.findById(recruiterId);
         const candidate = await User.findById(candidateId);
@@ -22,31 +21,31 @@ router.post("/", authenticateToken ,checkFeatureAccess('invite_candidates') , as
             return res.status(404).json({ message: "Job, Recruiter, or Candidate not found" });
         }
 
-        // Kiểm tra nếu ứng viên đã được mời ứng tuyển cho công việc này chưa
         const existingInvitation = await Invitation.findOne({
             jobId,
             recruiterId,
             candidateId,
-            status: "pending", // Kiểm tra trạng thái pending để biết ứng viên chưa chấp nhận lời mời
+            status: "pending",
         });
 
         if (existingInvitation) {
             return res.status(400).json({ message: "Ứng viên đã được mời ứng tuyển công việc này và đang chờ xử lý." });
         }
 
-        // Tạo thư mời mới cho ứng viên vào công việc mới
         const newInvitation = new Invitation({
             jobId,
             recruiterId,
             candidateId,
             message,
-            status: "pending", // Trạng thái thư mời ban đầu là pending
+            isTest: !!isTest, // đảm bảo kiểu Boolean
+            status: "pending",
         });
-        const notificationMessage = `Bạn nhận được lời mời vào công việc "${job.title}".`;
+
         const notification = new Notification({
-            user_id: candidateId, // ID của nhà tuyển dụng
-            message: notificationMessage,
+            user_id: candidateId,
+            message: `Bạn nhận được lời mời vào công việc "${job.title}".`,
         });
+
         await notification.save();
         await newInvitation.save();
         res.status(201).json({ message: "Gửi lời mời thành công" });
@@ -55,8 +54,6 @@ router.post("/", authenticateToken ,checkFeatureAccess('invite_candidates') , as
         res.status(500).json({ message: "Server error", error: error.message });
     }
 });
-
-
 
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
@@ -118,6 +115,7 @@ router.get('/invitations-by-candidate/:candidateId', async (req, res) => {
                 invitationId: invitation._id,
                 message: invitation.message,
                 status: invitation.status,
+                isTest: invitation.isTest,
                 job: invitation.jobId, // Thông tin công việc
                 recruiter: invitation.recruiterId, // Thông tin nhà tuyển dụng
                 company: invitation.jobId.companyId, // Thông tin công ty đầy đủ
@@ -128,7 +126,39 @@ router.get('/invitations-by-candidate/:candidateId', async (req, res) => {
         res.status(500).json({ message: 'Lỗi hệ thống', error: error.message });
     }
 });
+router.post('/accept/acp-invited/:invitationId', async (req, res) => {
+    const { invitationId } = req.params;
 
+    try {
+        // Tìm lời mời
+        const invitation = await Invitation.findById(invitationId).populate('jobId');
+
+        if (!invitation) { 
+            return res.status(404).json({ message: 'Lời mời không tồn tại.' });
+        }
+
+        if (invitation.status !== 'pending') {
+            return res.status(400).json({ message: 'Lời mời đã được xử lý.' });
+        }
+
+        invitation.status = 'accepted';
+        await invitation.save();
+        // Tạo thông báo cho nhà tuyển dụng
+        const notificationMessage = `Có một ứng viên chấp nhận lời mời vào công việc "${invitation.jobId.title}".`;
+        const notification = new Notification({
+            user_id: invitation.recruiterId, // ID của nhà tuyển dụng
+            message: notificationMessage,
+        });
+        await notification.save();
+
+        res.status(200).json({
+            message: 'Lời mời đã được chấp nhận, ứng tuyển thành công, và thông báo đã được gửi.',
+        });
+    } catch (error) {
+        console.error('Error accepting invitation:', error.message);
+        res.status(500).json({ message: 'Lỗi hệ thống.', error: error.message });
+    }
+});
 router.post('/accept/:invitationId', async (req, res) => {
     const { invitationId } = req.params;
 
@@ -136,7 +166,7 @@ router.post('/accept/:invitationId', async (req, res) => {
         // Tìm lời mời
         const invitation = await Invitation.findById(invitationId).populate('jobId');
 
-        if (!invitation) {
+        if (!invitation) { 
             return res.status(404).json({ message: 'Lời mời không tồn tại.' });
         }
 
@@ -147,7 +177,7 @@ router.post('/accept/:invitationId', async (req, res) => {
         const newApplication = await Application.create({
             job_id: invitation.jobId,
             candidate_id: invitation.candidateId,
-            status: '',
+            status: 'under_review',
         });
         await newApplication.save();
         // Cập nhật trạng thái lời mời

@@ -50,12 +50,12 @@ const statusOptions = [
     { value: "Đã phỏng vấn", label: "Đã phỏng vấn", icon: <CheckCircle className="w-4 h-4 text-green-600" /> }
 ];
 
-const Application = ({ jobId }) => {  // Destructure jobId từ props 
+const Application = ({ results, jobId }) => {  // Destructure jobId từ props 
     const [appliedProfiles, setAppliedProfile] = useState([]);
     const [job, setJob] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const interviewer_id = getId(); 
+    const interviewer_id = getId();
 
     const fetchJobData = async () => {
         console.log('jobId is valid:', jobId)
@@ -432,7 +432,6 @@ const Application = ({ jobId }) => {  // Destructure jobId từ props
     );
 
     if (loading || error || !(appliedProfiles.length > 0)) {
-        console.log("...", loading, error, !(appliedProfiles.length > 0))
         return renderEmptyApplicantsUI();
     }
 
@@ -483,10 +482,11 @@ const Application = ({ jobId }) => {  // Destructure jobId từ props
 
             {/* Table */}
             <div className="overflow-auto relative">
-                <table className="w-[1000px]">
+                <table className="w-[1200px]">
                     <thead className="bg-gray-50 sticky top-0" style={{ zIndex: 2 }}>
                         <tr>
                             <th className="sticky top-0 left-0 px-2 py-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ zIndex: 2 }}>Applicants</th>
+                            <th className="px-2 py-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: "200px" }}>Score CV</th>
                             <th className="px-2 py-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Interview Time</th>
                             <th className="px-2 py-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                             <th className="px-2 py-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -498,109 +498,95 @@ const Application = ({ jobId }) => {  // Destructure jobId từ props
                         {currentProfiles.map((follower_profile, index) => {
                             const { profile, interviews = [], availableTimes = [] } = follower_profile;
                             const interviewList = interviews.length > 0 ? interviews : [{ isPlaceholder: true }];
+
+                            const matchedResult = results.find(r => r._id === follower_profile?.cvFile?._id);
+                            const score = matchedResult ? `${matchedResult.score.toFixed(2)}%` : '';
+
                             return interviewList.map((interview, i) => (
                                 <tr key={`${profile?._id}-${i}`} className="hover:bg-gray-50">
                                     {i === 0 && (
-                                        <td rowSpan={interviewList.length} style={{ width: '35%', zIndex: 2 }} className="sticky left-0 bg-white">
-                                            <div className="w-full rounded-xl">
-                                                <div
-                                                    className="w-full flex flex-col sm:flex-row gap-4 p-2 bg-white rounded-xl shadow-sm hover:shadow-md transition duration-300 border border-gray-100"
-                                                >
-                                                    {/* Avatar + Actions */}
-                                                    <div className='flex flex-col items-center justify-center gap-3'>
-                                                        <div className="flex-shrink-0 w-16 h-16 relative mx-auto sm:mx-0">
-                                                            <img
-                                                                src={profile?.user_id?.avatar || 'user.png'}
-                                                                alt="avatar"
-                                                                className="w-full h-full rounded-full object-cover border-2 border-blue-200 shadow-sm"
-                                                            />
-                                                            <span className="absolute bottom-0 right-0 block w-4 h-4 bg-green-400 border-2 border-white rounded-full"></span>
+                                        <>
+                                            {/* Profile Cell (rowSpan) */}
+                                            <td rowSpan={interviewList.length} className="sticky left-0 bg-white" style={{ width: '35%', zIndex: 2 }}>
+                                                <div className="w-full rounded-xl">
+                                                    <div className="w-full flex flex-col sm:flex-row gap-4 p-2 bg-white rounded-xl shadow-sm hover:shadow-md transition duration-300 border border-gray-100">
+                                                        {/* Avatar + Actions */}
+                                                        <div className='flex flex-col items-center justify-center gap-3'>
+                                                            <div className="flex-shrink-0 w-16 h-16 relative mx-auto sm:mx-0">
+                                                                <img
+                                                                    src={profile?.user_id?.avatar || 'user.png'}
+                                                                    alt="avatar"
+                                                                    className="w-full h-full rounded-full object-cover border-2 border-blue-200 shadow-sm"
+                                                                />
+                                                                <span className="absolute bottom-0 right-0 block w-4 h-4 bg-green-400 border-2 border-white rounded-full"></span>
+                                                            </div>
+                                                            <div className='flex flex-row gap-5'>
+                                                                <Link
+                                                                    to={`/applicants/applicant-profile${follower_profile?.application?.status === "rejected" ? "/viewed" : ""}/${profile?._id}?jobId=${jobId}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="bg-white border border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 px-2 py-1 rounded-full text-sm flex items-center gap-1 shadow-sm"
+                                                                >
+                                                                    <MdViewTimeline className="w-3 h-3" />
+                                                                    View
+                                                                </Link>
+                                                            </div>
                                                         </div>
-                                                        {follower_profile?.application?.status === "rejected" ? (
-                                                            <div className='flex flex-row gap-5'>
-                                                                <Link
-                                                                    to={`/applicants/applicant-profile/viewed/${profile?._id}?jobId=${jobId}`}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="bg-white border border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 px-2 py-1 rounded-full text-sm flex items-center gap-1 shadow-sm"
-                                                                >
-                                                                    <MdViewTimeline className="w-3 h-3" />
-                                                                    View
-                                                                </Link>
-                                                            </div>
-                                                        ) : (
-                                                            <div className='flex flex-row gap-5'>
-                                                                <Link
-                                                                    to={`/applicants/applicant-profile/${profile?._id}?jobId=${jobId}`}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="bg-white border border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 px-2 py-1 rounded-full text-sm flex items-center gap-1 shadow-sm"
-                                                                >
-                                                                    <MdViewTimeline className="w-3 h-3" />
-                                                                    View
-                                                                </Link>
-                                                            </div>
-                                                        )}
-                                                    </div>
 
-                                                    {/* Info */}
-                                                    <div className="flex flex-col justify-between flex-1 gap-2">
-                                                        {follower_profile?.application?.status === "rejected" ? (
+                                                        {/* Info */}
+                                                        <div className="flex flex-col justify-between flex-1 gap-2">
                                                             <div className="space-y-1">
-                                                                <Link to={`/applicants/applicant-profile/viewed/${profile?._id}?jobId=${jobId}`} target="_blank" rel="noopener noreferrer">
+                                                                <Link to={`/applicants/applicant-profile${follower_profile?.application?.status === "rejected" ? "/viewed" : ""}/${profile?._id}?jobId=${jobId}`} target="_blank" rel="noopener noreferrer">
                                                                     <h4 className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition">
                                                                         {`${profile?.first_name} ${profile?.last_name}`}
                                                                     </h4>
                                                                 </Link>
                                                             </div>
-                                                        ) : (
-                                                            <div className="space-y-1">
-                                                                <Link to={`/applicants/applicant-profile/${profile?._id}?jobId=${jobId}`} target="_blank" rel="noopener noreferrer">
-                                                                    <h4 className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition">
-                                                                        {`${profile?.first_name} ${profile?.last_name}`}
-                                                                    </h4>
-                                                                </Link>
+                                                            <div className="flex flex-col gap-2 text-xs text-gray-600">
+                                                                <p className="flex items-center gap-2 truncate whitespace-nowrap">
+                                                                    <BadgeInfo className="w-3 h-3 text-gray-400" />
+                                                                    {`${profile?.job_title} - ${profile?.job_level}` || ''}
+                                                                </p>
+                                                                <p className="flex items-center gap-2 truncate whitespace-nowrap">
+                                                                    <Building2 className="w-3 h-3 text-indigo-500" />
+                                                                    {`${profile?.current_industry} - ${profile?.current_field}` || ''}
+                                                                </p>
+                                                                <p className="flex items-center gap-2 truncate whitespace-nowrap">
+                                                                    <Mail className="w-3 h-3 text-blue-500" />
+                                                                    {profile?.email}
+                                                                </p>
+                                                                <p className="flex items-center gap-2 truncate whitespace-nowrap">
+                                                                    <Phone className="w-3 h-3 text-green-500" />
+                                                                    {profile?.phone || 'Chưa cập nhật'}
+                                                                </p>
                                                             </div>
-                                                        )}
-
-                                                        <div className="flex flex-col gap-2 text-xs text-gray-600">
-                                                            <p className="flex items-center gap-2 truncate whitespace-nowrap">
-                                                                <BadgeInfo className="w-3 h-3 text-gray-400" />
-                                                                {`${profile?.job_title} - ${profile?.job_level}` || ''}
-                                                            </p>
-                                                            <p className="flex items-center gap-2 truncate whitespace-nowrap">
-                                                                <Building2 className="w-3 h-3 text-indigo-500" />
-                                                                {`${profile?.current_industry} - ${profile?.current_field}` || ''}
-                                                            </p>
-                                                            <p className="flex items-center gap-2 truncate whitespace-nowrap">
-                                                                <Mail className="w-3 h-3 text-blue-500" />
-                                                                {profile?.email}
-                                                            </p>
-                                                            <p className="flex items-center gap-2 truncate whitespace-nowrap">
-                                                                <Phone className="w-3 h-3 text-green-500" />
-                                                                {profile?.phone || 'Chưa cập nhật'}
-                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+
+                                            {/* Score Cell (only once) */}
+                                            <td rowSpan={interviewList.length} className="px-2 py-4 text-center text-sm text-gray-800" style={{ width: "200px" }}>
+                                                {score}
+                                            </td>
+                                        </>
                                     )}
 
-                                    {/* Lịch hẹn hoặc placeholder */}
+                                    {/* Interview content */}
                                     {interview?.isPlaceholder ? (
                                         <>
-                                            <td className="px-2 py-4 text-[13px] text-gray-600" style={{ width: '20%' }}>
+                                            {/* Available times or schedule buttons */}
+                                            <td className="px-2 py-4 text-[13px] text-center text-gray-600" style={{ width: '20%' }}>
                                                 {follower_profile?.application?.status === "rejected" ? null : (
                                                     Array.isArray(availableTimes) && availableTimes.length > 0 ? (
                                                         availableTimes.map((time, idx) => (
-                                                            <div key={idx} className="my-appointment-row-calender" style={{ gridTemplateColumns: '100%' }}>
+                                                            <div key={idx} className="text-center" style={{ gridTemplateColumns: '100%' }}>
                                                                 {new Date(time.time).toLocaleString()}
                                                             </div>
                                                         ))
                                                     ) : (
                                                         <div className="w-full flex flex-col gap-2 items-center justify-center">
-                                                            <button onClick={() => handleOpenForm(follower_profile.profile?.user_id?._id, follower_profile.profile)} className="inline-flex justify-center items-center gap-1 border border-indigo-600 hover:border-indigo-700 text-indigo-600 px-4 py-2 rounded-full text-xs font-semibold">
+                                                            <button onClick={() => handleOpenForm(follower_profile.profile?.user_id?._id, profile)} className="inline-flex justify-center items-center gap-1 border border-indigo-600 hover:border-indigo-700 text-indigo-600 px-4 py-2 rounded-full text-xs font-semibold">
                                                                 <FaPlus className="w-3 h-3" /> SCHEDULE
                                                             </button>
                                                             <button onClick={() => handleRejected(follower_profile.profile?.user_id?._id)} className="inline-flex justify-center items-center gap-1 border border-red-600 hover:border-red-700 text-red-600 px-4 py-2 rounded-full text-xs font-semibold">
@@ -664,16 +650,17 @@ const Application = ({ jobId }) => {  // Destructure jobId từ props
                                             <td className="px-2 py-4 text-[13px] text-gray-600" style={{ width: '10%' }}>
                                                 {interview.note || ""}
                                             </td>
-
                                         </>
                                     )}
+
+                                    {/* Action column (rowSpan) */}
                                     {i === 0 && follower_profile.application?.status !== "rejected" && (
                                         <td rowSpan={interviewList.length} className="px-2 py-4 text-[13px] text-gray-600">
                                             <div className='w-full h-full flex flex-col justify-center items-center gap-2'>
                                                 <button
                                                     title="Thêm lịch phỏng vấn"
                                                     className="text-slate-700 w-5 h-5"
-                                                    onClick={() => handleOpenForm(follower_profile.profile?.user_id?._id, follower_profile.profile)}
+                                                    onClick={() => handleOpenForm(follower_profile.profile?.user_id?._id, profile)}
                                                 >
                                                     <CalendarPlus className='w-5 h-5' />
                                                 </button>
@@ -691,6 +678,7 @@ const Application = ({ jobId }) => {  // Destructure jobId từ props
                             ));
                         })}
                     </tbody>
+
                 </table>
             </div>
 

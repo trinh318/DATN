@@ -4,39 +4,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 export default function BestCompany() {
-    const companies = [
-        { logo: 'path/to/logo1.png', name: 'VAS', industry: 'Giáo dục', jobCount: 5 },
-        { logo: 'path/to/logo2.png', name: 'WA PROJECTS LIMITED', industry: 'Xây dựng', jobCount: 3 },
-        { logo: 'path/to/logo3.png', name: 'MONDELEZ KINH ĐÔ', industry: 'Thực phẩm & Đồ uống', jobCount: 8 },
-        { logo: 'path/to/logo4.png', name: 'MUFG BANK', industry: 'Ngân hàng', jobCount: 2 },
-        { logo: 'path/to/logo5.png', name: 'FOXCONN INDUSTRIAL', industry: 'Sản xuất', jobCount: 6 },
-        { logo: 'path/to/logo6.png', name: 'UOB VIETNAM', industry: 'Ngân hàng', jobCount: 4 },
-        { logo: 'path/to/logo7.png', name: 'VNG', industry: 'Công nghệ', jobCount: 10 },
-        { logo: 'path/to/logo8.png', name: 'TH TRUE MILK', industry: 'Thực phẩm', jobCount: 7 },
-        { logo: 'path/to/logo9.png', name: 'FPT SOFTWARE', industry: 'Công nghệ thông tin', jobCount: 15 },
-        { logo: 'path/to/logo10.png', name: 'GREEK TRADING', industry: 'Thương mại', jobCount: 9 },
-        { logo: 'path/to/logo11.png', name: 'BAC A BANK', industry: 'Ngân hàng', jobCount: 3 },
-        { logo: 'path/to/logo12.png', name: 'BITEXCO', industry: 'Đầu tư', jobCount: 12 },
-        { logo: 'path/to/logo13.png', name: 'Hòa Phát', industry: 'Sản xuất', jobCount: 8 },
-        { logo: 'path/to/logo14.png', name: 'REX HOTEL', industry: 'Khách sạn', jobCount: 4 },
-        { logo: 'path/to/logo15.png', name: 'UNILEVER', industry: 'Tiêu dùng', jobCount: 5 },
-        { logo: 'path/to/logo16.png', name: 'VINAMILK', industry: 'Thực phẩm', jobCount: 10 },
-        { logo: 'path/to/logo17.png', name: 'BIDV', industry: 'Ngân hàng', jobCount: 2 },
-        { logo: 'path/to/logo18.png', name: 'Viettel', industry: 'Viễn thông', jobCount: 14 },
-        { logo: 'path/to/logo19.png', name: 'Masan Group', industry: 'Thực phẩm', jobCount: 7 },
-        { logo: 'path/to/logo20.png', name: 'Lotte Mart', industry: 'Bán lẻ', jobCount: 6 },
-        { logo: 'path/to/logo21.png', name: 'Samsung', industry: 'Công nghệ', jobCount: 20 },
-        { logo: 'path/to/logo22.png', name: 'Nokia', industry: 'Viễn thông', jobCount: 11 },
-        { logo: 'path/to/logo23.png', name: 'Philips', industry: 'Đồ điện tử', jobCount: 3 },
-        { logo: 'path/to/logo24.png', name: 'Nestlé', industry: 'Thực phẩm', jobCount: 8 },
-        { logo: 'path/to/logo25.png', name: 'Coca-Cola', industry: 'Thực phẩm', jobCount: 10 },
-        { logo: 'path/to/logo26.png', name: 'PepsiCo', industry: 'Thực phẩm', jobCount: 9 },
-        { logo: 'path/to/logo27.png', name: 'Accenture', industry: 'Tư vấn', jobCount: 12 },
-        { logo: 'path/to/logo28.png', name: 'DHL', industry: 'Vận chuyển', jobCount: 4 },
-        { logo: 'path/to/logo29.png', name: 'FedEx', industry: 'Vận chuyển', jobCount: 5 },
-        { logo: 'path/to/logo30.png', name: 'IBM', industry: 'Công nghệ', jobCount: 7 },
-    ];
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [error, setError] = useState(null);  // State cho thông báo lỗi
@@ -45,14 +12,13 @@ export default function BestCompany() {
     const [allCompanies, setAllCompanies] = useState([]); // Danh sách công ty gốc
     const currentItems = allCompanies.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(companies.length / itemsPerPage);
-
     useEffect(() => {
         // Lấy tất cả các công ty
         const fetchAllCompanies = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/companies/get-all-company/count-job');
                 setAllCompanies(response.data);
+                console.log(response.data);
             } catch (error) {
                 console.error('Error fetching all companies:', error);
                 setError('Không thể tải danh sách công ty.');
@@ -60,6 +26,8 @@ export default function BestCompany() {
         };
         fetchAllCompanies();
     }, []);
+
+    const totalPages = Math.ceil(allCompanies.length / itemsPerPage);
 
     const handleResize = () => {
         const width = window.innerWidth;
@@ -77,42 +45,96 @@ export default function BestCompany() {
     }, []);
 
     return (
-        <div className='top-companies'>
-            <header className="company-list-header">
-                <h1 className="company-header-title">Công ty hàng đầu</h1>
-            </header>
-            <div className="top-companies-container">
-                {currentItems.map((company, index) => (
-                    <div key={index} className="top-company-card">
-                        <div className="top-company-logo">
-                            <img src={company.logo} alt={`${company.name} logo`} className="top-company-image" />
+        <>
+            <div className="w-[90%] mx-auto py-5">
+                <header className="flex justify-center items-center text-center my-2 border-t border-b border-gray-300">
+                    <h1 className="text-[#0A2657] text-4xl my-2">Công ty hàng đầu</h1>
+                </header>
+
+                <div className="flex flex-wrap justify-between my-5">
+                    {currentItems.map((company, index) => (
+                        <div
+                            key={index}
+                            className="w-[calc(16.66%-20px)] h-[350px] bg-white rounded-lg shadow-md flex flex-col justify-between p-4 box-border mb-5
+        max-[1200px]:w-[calc(20%-20px)]
+        max-[992px]:w-[calc(25%-20px)]
+        max-[768px]:w-[calc(33.33%-20px)]
+        max-[576px]:w-[calc(50%-20px)]"
+                        >
+                            <div className="w-full aspect-square flex justify-center items-center mb-2">
+                                <img
+                                    src={company.logo}
+                                    alt={`${company.name} logo`}
+                                    className="max-w-full max-h-full"
+                                />
+                            </div>
+
+                            <Link to={`/companies/companydetail/${company._id}`}>
+                                <p className="text-center text-base font-bold text-gray-800 m-0">
+                                    {company.company_name}
+                                </p>
+                            </Link>
+                            <p className="text-center text-sm text-gray-600 m-0">{company.industry}</p>
+                            <p className="text-center text-sm text-blue-600 font-bold m-0">
+                                {company.jobCount} công việc
+                            </p>
+
+                            <Link
+                                to={`/companies/companydetail/${company._id}`}
+                                className="bg-blue-500 text-white text-center rounded px-4 py-2 hover:bg-blue-700 mt-2"
+                            >
+                                Xem thêm
+                            </Link>
                         </div>
-                        <Link to={`/companies/companydetail/${company._id}`}>
-                            <p className="top-company-title">{company.company_name}</p>
-                        </Link>
-                        <p className="top-company-industry">{company.industry}</p>
-                        <p className="top-company-job-count">{company.jobCount} công việc</p>
-                        <Link to={`/companies/companydetail/${company._id}`} className="top-company-button">
-                            Xem thêm
-                        </Link>
-                    </div>
-                ))}
+                    ))}
+                </div>
+
+                <div className="flex justify-center items-center mt-8 space-x-4">
+                    <button
+                        onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+                        disabled={currentPage === 1}
+                        className={`flex items-center px-4 py-2 rounded-lg border transition-all duration-200 
+      ${currentPage === 1
+                                ? "bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300"
+                                : "bg-white hover:bg-blue-100 text-blue-600 border-blue-500"}`}
+                    >
+                        <svg
+                            className="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Trước
+                    </button>
+
+                    <span className="text-lg font-medium text-gray-700">
+                        Trang <span className="text-blue-600">{currentPage}</span> / {totalPages}
+                    </span>
+
+                    <button
+                        onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                        disabled={currentPage === totalPages}
+                        className={`flex items-center px-4 py-2 rounded-lg border transition-all duration-200 
+                                ${currentPage === totalPages
+                                ? "bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300"
+                                : "bg-white hover:bg-blue-100 text-blue-600 border-blue-500"}`}
+                    >
+                        Sau
+                        <svg
+                            className="w-4 h-4 ml-2"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div className="pagination">
-                <button
-                    onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
-                    disabled={currentPage === 1}
-                >
-                    Trước
-                </button>
-                <span>Trang {currentPage} / {totalPages}</span>
-                <button
-                    onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
-                    disabled={currentPage === totalPages}
-                >
-                    Sau
-                </button>
-            </div>
-        </div>
+        </>
     );
 }

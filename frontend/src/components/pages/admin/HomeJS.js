@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { FaFileAlt, FaBriefcase, FaBell, FaCog, FaChartLine, FaBuilding } from 'react-icons/fa';
+import { FaFileAlt, FaBriefcase, FaBell, FaCog, FaUsers, FaPlus, FaBook, FaChartLine } from 'react-icons/fa';
 import axios from 'axios';
 import { getId } from '@/libs/isAuth';
 import { useLocation, Link } from 'react-router-dom';
-import JobNotificationManager from '@/components/UI/JobNotificationManager';
-import Profile from './Profile';
-import MyCompany from './MyCompany';
-import MyJob from './MyJob';
-import ProfilePage from './ProfilePage';
-import MyAppointment from './MyAppointment';
+import Header from '@/components/UI/Header';
+import Report from './Report';
+import { FaAdversal } from 'react-icons/fa6';
+import UserManagement from './UserManagement';
+import ContentModerationList from './ContentModerationList';
+import CategoryManager from './CategoryManager';
+import PackageManager from './PackageManager';
 
-export default function ApplicantDashboard() {
+export default function HomeJS() {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -53,33 +54,32 @@ export default function ApplicantDashboard() {
 
     const renderContent = () => {
         switch (activeMenu) {
-            case 'profile': return <Profile />;
-            case 'companies': return <MyCompany />;
-            case 'jobs': return <MyJob />;
-            case 'alerts': return <JobNotificationManager />;
-            case 'appointment': return <MyAppointment />;
-            case 'settings': return <ProfilePage />;
-            default: return <Profile />;
+            case 'user-manager': return <UserManagement />;
+            case 'content_loderation_list': return <ContentModerationList />;
+            case 'category_manager': return <CategoryManager />;
+            case 'package_manager': return <PackageManager />;
+            case 'report': return <Report />;
+            default: return <Report />;
         }
     };
 
     const menuItems = [
-        { key: 'profile', label: 'My Profile', icon: <FaFileAlt /> },
-        { key: 'companies', label: 'My Companies', icon: <FaBuilding /> },
-        { key: 'jobs', label: 'My Jobs', icon: <FaBriefcase /> },
-        { key: 'alerts', label: 'Notifications', icon: <FaBell /> },
-        { key: 'appointment', label: 'Appointment Schedule', icon: <FaChartLine /> },
-        { key: 'settings', label: 'Account Settings', icon: <FaCog /> },
+        { key: 'user-manager', label: 'User Management', icon: <FaUsers /> },
+        { key: 'content_loderation_list', label: 'Content Moderation', icon: <FaFileAlt /> },
+        { key: 'category_manager', label: 'Career Categories', icon: <FaBriefcase /> },
+        { key: 'package_manager', label: 'Subscription Plans', icon: <FaAdversal /> },
+        { key: 'report', label: 'Overview', icon: <FaChartLine /> },
     ];
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const menu = params.get('menu') || 'profile';
+        const menu = params.get('menu') || 'company_profile';
         setActiveMenu(menu);
     }, [location.search]);
 
     return (
         <div>
+            <Header />
             <div className="flex h-[calc(100vh-60px)] font-sans">
                 {/* Sidebar */}
                 <div className="bg-gray-50 h-full">

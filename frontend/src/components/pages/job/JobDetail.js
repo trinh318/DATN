@@ -335,7 +335,7 @@ function JobDetail() {
                     {job && (
                         <>
                             <div className='flex flex-col w-full sm:w-[65%] gap-6'>
-                                <div className="rounded-2xl px-8 py-4 bg-white shadow-md mx-auto">
+                                <div className="rounded-2xl px-8 py-4 bg-white shadow-md">
                                     <div className="flex justify-between items-start py-2">
                                         <div className="flex items-start gap-4">
                                             <div>
@@ -504,7 +504,7 @@ function JobDetail() {
                                                         <div>
                                                             <Link
                                                                 to={`/jobs/jobdetail/${job?._id}`}
-                                                                className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                             >
                                                                 {job.title}
                                                             </Link>
@@ -531,12 +531,12 @@ function JobDetail() {
                                                     </div>
 
                                                     <div className="flex flex-col justify-between items-end gap-2">
-                                                        <button
-                                                            onClick={() => openApplyForm(job)}
-                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-700"
+                                                        <Link
+                                                            to={`/jobs/jobdetail/${job._id}`}
+                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-700"
                                                         >
                                                             Ứng tuyển
-                                                        </button>
+                                                        </Link>
                                                         <button onClick={() => toggleFavorite(job.title)}>
                                                             {favorites.includes(job.title) ? (
                                                                 <Heart className="w-5 h-5 text-red-500 fill-red-500" />
@@ -678,7 +678,7 @@ function JobDetail() {
                                                         <div>
                                                             <Link
                                                                 to={`/jobs/jobdetail/${job?._id}`}
-                                                                className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                             >
                                                                 {job.title}
                                                             </Link>
@@ -705,12 +705,12 @@ function JobDetail() {
                                                     </div>
 
                                                     <div className="flex flex-col justify-between items-end gap-2">
-                                                        <button
-                                                            onClick={() => openApplyForm(job)}
-                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-700"
+                                                        <Link
+                                                            to={`/jobs/jobdetail/${job._id}`}
+                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-700"
                                                         >
                                                             Ứng tuyển
-                                                        </button>
+                                                        </Link>
                                                         <button onClick={() => toggleFavorite(job.title)}>
                                                             {favorites.includes(job.title) ? (
                                                                 <Heart className="w-5 h-5 text-red-500 fill-red-500" />

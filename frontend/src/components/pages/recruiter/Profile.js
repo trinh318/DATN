@@ -4,7 +4,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { useLocation, useParams } from "react-router-dom";
 import axios from 'axios';
 import { getId } from '@/libs/isAuth';
-import { BriefcaseBusiness, Briefcase, BadgePercent, Wallet, Calendar, Share2, Heart } from 'lucide-react';
+import { BriefcaseBusiness, Briefcase, BadgePercent, Wallet, Calendar, Share2, Heart, AlertTriangle, CheckCircle, CircleSlash } from 'lucide-react';
 import { MailPlus, MessageSquare, XCircle, Send } from 'lucide-react'
 import { GiCheckMark } from "react-icons/gi";
 import { Building2, CalendarDays } from "lucide-react";
@@ -28,6 +28,7 @@ const Profile = () => {
     const [applicantUserId, setApplicantUserId] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [selectedJob, setSelectedJob] = useState("");
+    const [testOption, setTestOption] = useState('require');
     const [message, setMessage] = useState("");
     const [query, setQuery] = useState('');
     const source = queryParams.get('source');
@@ -155,6 +156,7 @@ const Profile = () => {
                 recruiterId: recruiterUserId,
                 candidateId: applicantUserId,
                 message,
+                isTest: testOption === 'require',
             },
                 {
                     headers: {
@@ -429,7 +431,7 @@ const Profile = () => {
                         {/* Tiêu đề với icon */}
                         <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <MailPlus className="w-6 h-6 text-blue-600" />
-                            Thêm Thư Mời Ứng Tuyển
+                            Gửi Lời Mời Ứng Tuyển
                         </h2>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -467,14 +469,48 @@ const Profile = () => {
                                                             </div>
                                                         )}
                                                     </Combobox.Option>
-                                                ))} 
+                                                ))}
                                             </Combobox.Options>
                                         )}
                                     </div>
                                 </Combobox>
                             </div>
 
-                            {/* Lời nhắn có icon */}
+                            {/* Nếu công việc có bài test */}
+                            {selectedJob?.test && (
+                                <div className="p-4 border border-yellow-400 bg-yellow-50 rounded-xl text-sm space-y-2">
+                                    <div className="font-medium text-yellow-800 flex items-center gap-2">
+                                        <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5" />
+                                        <span>Công việc này có bài test cần thực hiện!</span>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <label className="flex items-center gap-2">
+                                            <input
+                                                type="radio"
+                                                name="testOption"
+                                                value="require"
+                                                checked={testOption === 'require'}
+                                                onChange={() => setTestOption('require')}
+                                                className="accent-blue-600"
+                                            />
+                                            Cho ứng viên thực hiện test
+                                        </label>
+                                        <label className="flex items-center gap-2">
+                                            <input
+                                                type="radio"
+                                                name="testOption"
+                                                value="skip"
+                                                checked={testOption === 'skip'}
+                                                onChange={() => setTestOption('skip')}
+                                                className="accent-blue-600"
+                                            />
+                                            Bỏ qua test
+                                        </label>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Lời nhắn */}
                             <div>
                                 <label className="text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
                                     <MessageSquare className="w-4 h-4 text-blue-600" />
@@ -488,7 +524,7 @@ const Profile = () => {
                                 />
                             </div>
 
-                            {/* Nút hành động với icon & đổi màu */}
+                            {/* Nút hành động */}
                             <div className="flex justify-end gap-2">
                                 <button
                                     type="button"
@@ -496,6 +532,7 @@ const Profile = () => {
                                         setShowModal(false);
                                         setSelectedJob(null);
                                         setMessage('');
+                                        setTestOption('require'); // reset test option
                                     }}
                                     className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-xl text-sm flex items-center gap-1"
                                 >
@@ -511,6 +548,7 @@ const Profile = () => {
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             )}

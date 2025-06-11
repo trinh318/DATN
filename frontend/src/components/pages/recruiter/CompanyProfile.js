@@ -676,7 +676,7 @@ const CompanyProfile = () => {
                                     {/* Info */}
                                     <div className="flex flex-col justify-between flex-1 gap-3">
                                         <div className="space-y-1">
-                                            <Link to={`/applicants/applicant-profile/viewed/${follower_profile._id}`}>
+                                            <Link to={`/applicants/applicant-profile/viewed/${follower_profile._id}`} target="_blank" rel="noopener noreferrer">
                                                 <h4 className="text-base font-semibold text-gray-800 hover:text-blue-600 transition">
                                                     {`${follower_profile.first_name} ${follower_profile.last_name}`}
                                                 </h4>
@@ -706,7 +706,7 @@ const CompanyProfile = () => {
 
                                         {/* Nút hủy theo dõi */}
                                         <div className='flex flex-row gap-5'>
-                                            <Link to={`/applicants/applicant-profile/viewed/${follower_profile._id}`} className="bg-white border border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 px-4 py-1 rounded-full text-sm flex items-center gap-2 shadow-sm">
+                                            <Link to={`/applicants/applicant-profile/viewed/${follower_profile._id}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-red-500 text-red-500 hover:border-red-700 hover:text-red-700 px-4 py-1 rounded-full text-sm flex items-center gap-2 shadow-sm">
                                                 <Eye className="w-4 h-4" />
                                                 Xem hồ sơ
                                             </Link>

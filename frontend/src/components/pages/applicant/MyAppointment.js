@@ -94,7 +94,7 @@ const MyAppointment = () => {
                                     <tr>
                                         <th className="sticky top-0 left-0 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Job</th>
                                         <th className="sticky top-0 left-0 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                                        <th className="sticky top-0 left-0 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+{/**                                        <th className="sticky top-0 left-0 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th> */}
                                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">location</th>
                                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -122,7 +122,7 @@ const MyAppointment = () => {
                                                                         <div className="text-sm text-gray-500">{appointment.companyIndustry || ""}</div>
                                                                     </div>
                                                                 </td>
-                                                                <td rowSpan={timeList.length} className="px-6 py-4 whitespace-nowrap text-center">
+                                                                {/**<td rowSpan={timeList.length} className="px-6 py-4 whitespace-nowrap text-center">
                                                                     <div className="flex space-x-2">
                                                                         <button className="text-blue-600 hover:text-blue-800">
                                                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@ const MyAppointment = () => {
                                                                             </svg>
                                                                         </button>
                                                                     </div>
-                                                                </td>
+                                                                </td> */}
                                                             </>
                                                         )}
                                                         <td className="px-6 py-4 whitespace-nowrap text-center">

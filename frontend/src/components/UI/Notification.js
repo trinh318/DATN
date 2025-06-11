@@ -63,7 +63,7 @@ export default function Notification() {
                 className="w-[50px] h-[50px] rounded-full bg-[#ecf5f3] flex items-center justify-center border-none cursor-pointer transition-colors duration-300"
                 onClick={toggleDropdown}
             >
-                <FontAwesomeIcon icon={faBell} />
+                <FontAwesomeIcon icon={faBell} className="text-[#0A7075] text-xl"/> 
                 {notifications.some((n) => !n.read_status) && (
                     <span className="absolute top-[-4px] right-[-4px] w-2 h-2 bg-red-600 rounded-full" />
                 )}

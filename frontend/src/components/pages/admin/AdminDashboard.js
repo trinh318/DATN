@@ -1,80 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faUserCircle,
-    faTachometerAlt,
-    faFileAlt,
-    faBuilding,
-    faBriefcase,
-    faBell,
-    faCog,
-    faPlus,
-    faUser,
-    faFolder,
-    faFontAwesome
-
-} from '@fortawesome/free-solid-svg-icons';
-import { FaBuilding, FaEye, FaUsers, FaTimes } from 'react-icons/fa';
-import '../../../styles/recruiterdashboard.css';
+import React, { useEffect, useState } from 'react';
+import { FaFileAlt, FaBriefcase, FaBell, FaCog, FaUsers, FaPlus, FaBook, FaChartLine } from 'react-icons/fa';
 import axios from 'axios';
-import { getId } from '../../../libs/isAuth';
-import UserManagement from './UserManagement';
+import { getId } from '@/libs/isAuth';
+import { useLocation, Link } from 'react-router-dom';
+import Header from '@/components/UI/Header';
 import Report from './Report';
+import { FaAdversal } from 'react-icons/fa6';
+import UserManagement from './UserManagement';
 import ContentModerationList from './ContentModerationList';
 import CategoryManager from './CategoryManager';
 import PackageManager from './PackageManager';
 
-const AdminDashboard = () => {
-    const [user, setUser] = useState(null); // Lưu trữ dữ liệu người dùng
-    const [profile, setProfile] = useState(null); // Lưu trữ dữ liệu người dùng
-    const [error, setError] = useState(null); // Lưu trữ lỗi (nếu có)
+export default function AdminDashboard() {
+    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeMenu, setActiveMenu] = useState('dashboard'); // Trạng thái theo dõi menu đang chọn
-
-    const toggleSidebar = () => {
-        setIsCollapsed(!isCollapsed);
-    };
-
+    const [error, setError] = useState(null);
+    const location = useLocation();
+    const [activeMenu, setActiveMenu] = useState('company_profile');
     const userId = getId();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const token = localStorage.getItem('token'); // Lấy token từ localStorage
-
-                // Kiểm tra nếu không có token
+                const token = localStorage.getItem('token');
                 if (!token) {
                     setError('Token is missing, please login again.');
                     setLoading(false);
                     return;
                 }
 
-                const responseUser = await axios.get('http://localhost:5000/api/users/me', {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Gửi token trong header
-                    },
-                });
+                const [userRes, profileRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/users/me', {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
+                    axios.get(`http://localhost:5000/api/profiles/${userId}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
+                ]);
 
-                const responseProfile = await axios.get(`http://localhost:5000/api/profiles/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Gửi token trong header
-                    },
-                });
-
-                setUser(responseUser.data); // Lưu dữ liệu người dùng
-
-                // Kiểm tra nếu profile không tồn tại
-                if (responseProfile.data.profile === null) {
-                    setProfile({ first_name: 'Chưa cập nhật', last_name: '' });
-                } else {
-                    setProfile(responseProfile.data);
-                }
-
-                setLoading(false);
+                setUser(userRes.data);
+                setProfile(profileRes.data || { first_name: 'Chưa cập nhật', last_name: '' });
+                console.log(profileRes.data);
             } catch (err) {
-                console.error('Error fetching user data:', err);
                 setError('Failed to fetch user data.');
+            } finally {
                 setLoading(false);
             }
         };
@@ -84,89 +54,121 @@ const AdminDashboard = () => {
 
     const renderContent = () => {
         switch (activeMenu) {
-            case 'company_profile':
-                return <UserManagement />
-            case 'content_loderation_list':
-                return <ContentModerationList />
-            case 'category_manager':
-                return <CategoryManager />
-            case 'package_manager':
-                return <PackageManager />
-
-            default:
-                return <Report />;
+            case 'user-manager': return <UserManagement />;
+            case 'content_loderation_list': return <ContentModerationList />;
+            case 'category_manager': return <CategoryManager />;
+            case 'package_manager': return <PackageManager />;
+            case 'report': return <Report />;
+            default: return <Report />;
         }
     };
 
+    const menuItems = [
+        { key: 'report', label: 'Overview', icon: <FaChartLine /> },
+        { key: 'user-manager', label: 'User Management', icon: <FaUsers /> },
+        { key: 'content_loderation_list', label: 'Content Moderation', icon: <FaFileAlt /> },
+        { key: 'category_manager', label: 'Career Categories', icon: <FaBriefcase /> },
+        { key: 'package_manager', label: 'Subscription Plans', icon: <FaAdversal /> },
+    ];
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const menu = params.get('menu') || 'report';
+        setActiveMenu(menu);
+    }, [location.search]);
+
     return (
-        <div className="recruiter-dashboard-container">
-            <aside className={`recruiter-dashboard-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
-                <div className='recruiter-dashboard-profile-toggle'>
-                    {!isCollapsed && (
-                        <div className="recruiter-dashboard-profile">
-                            <div className="recruiter-dashboard-user-info">
-                                <img src={user?.avatar} className="recruiter-dashboard-avatar-icon" />
-                                <h3 className="recruiter-dashboard-name">{profile?.first_name} {profile?.last_name}</h3>
-                                <p className="recruiter-dashboard-role">{user?.email}</p>
+        <div>
+            <div className="flex h-[calc(100vh-60px)] font-sans">
+                {/* Sidebar */}
+                <div className="bg-gray-50 h-full">
+                    <aside className="bg-[#213A57] text-white w-60 flex flex-col h-full items-stretch">
+                        <div className="h-44 w-full top-0">
+                            <div className="text-center p-4 pb-2 w-full">
+                                <img src={user?.avatar || "user.png"} alt="avatar" className="w-[100px] h-[100px] mx-auto rounded-full object-cover" />
+                                <h3 className="font-bold text-sm mt-2">{profile?.first_name} {profile?.last_name}</h3>
+                                <p className="text-xs text-gray-300">{user?.email}</p>
                             </div>
                         </div>
-                    )}
-                    <button
-                        className="recruiter-dashboard-toggle"
-                        onClick={toggleSidebar}
-                        style={{ width: isCollapsed ? '100%' : '20%' }}
-                    >
-                        {isCollapsed ? '>' : '<'}
-                    </button>
+                        <div className=" pb-8 pl-5 overflow-y-scroll scrollbar-hide">
+                            <nav className="flex flex-col">
+                                {menuItems.map((item, index) => {
+                                    const activeIndex = menuItems.findIndex(m => m.key === activeMenu);
+                                    const isActive = item.key === activeMenu;
+                                    const isTop = index === activeIndex + 1;
+                                    const isBottom = index === activeIndex - 1;
+
+                                    return (
+                                        <MenuItems
+                                            key={item.key}
+                                            icon={item.icon}
+                                            label={item.label}
+                                            active={isActive}
+                                            roundedTop={isTop}
+                                            roundedBottom={isBottom}
+                                            to={`?menu=${item.key}`}
+                                            onClick={() => setActiveMenu(item.key)}
+                                        />
+                                    );
+                                })}
+                            </nav>
+                        </div>
+                    </aside> 
                 </div>
-                <nav className="recruiter-dashboard-menu">
-                    <a
-                        href="#"
-                        className={`recruiter-dashboard-menu-item ${activeMenu === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('dashboard')}
-                    >
-                        <FontAwesomeIcon icon={faTachometerAlt} />
-                        {!isCollapsed && <span>Tổng Quan</span>}
-                    </a>
-                    <a
-                        href="#"
-                        className={`recruiter-dashboard-menu-item ${activeMenu === 'company_profile' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('company_profile')}
-                    >
-                        <FontAwesomeIcon icon={faUser} />
-                        {!isCollapsed && <span>Quản lý người dùng</span>}
-                    </a>
-                    <a
-                        href="#"
-                        className={`recruiter-dashboard-menu-item ${activeMenu === 'content_loderation_list' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('content_loderation_list')}
-                    >
-                        <FontAwesomeIcon icon={faFileAlt} />
-                        {!isCollapsed && <span>Kiểm duyệt nội dung</span>}
-                    </a>
-                    <a
-                        href="#"
-                        className={`recruiter-dashboard-menu-item ${activeMenu === 'category_manager' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('category_manager')}
-                    >
-                        <FontAwesomeIcon icon={faFolder} />
-                        {!isCollapsed && <span>Danh mục nghề nghiệp</span>}
-                    </a>
-                    <a
-                        href="#"
-                        className={`recruiter-dashboard-menu-item ${activeMenu === 'package_manager' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('package_manager')}
-                    >
-                        <FontAwesomeIcon icon={faFontAwesome} />
-                        {!isCollapsed && <span>Gói đăng ký</span>}
-                    </a>
-                </nav>
-            </aside>
-            <main className="recruiter-dashboard-content">
-                {renderContent()} {/* Hiển thị nội dung dựa trên menu */}
-            </main>
+
+                {/* Main Content */}
+                <main className="flex-1 bg-[#213A57] p-0 h-full w-full overflow-hidden">
+                    <div className="pl-7 pr-5 pt-5 pb-5 bg-gray-50 h-full w-full rounded-tl-[28px] rounded-bl-[28px] overflow-y-auto">
+                        {loading ? <p>Loading...</p> : error ? <p>{error}</p> : renderContent()}
+
+                    </div>
+                </main>
+            </div>
         </div>
     );
-};
+}
 
-export default AdminDashboard;
+function MenuItems({ icon, label, active = false, roundedTop = false, roundedBottom = false, to, onClick }) {
+    return (
+        <div className="relative w-full group">
+            <div className="absolute inset-0 z-30 pointer-events-none"></div>
+            {/* Góc trên bên phải */}
+            {roundedTop && (
+                <>
+                    <div className="absolute top-0 right-0 w-6 h-6 bg-gray-50 z-10 pointer-events-none"></div>
+                    <div className={`
+                        absolute top-0 right-0 w-6 h-6 rounded-tr-full z-20 
+                        ${active ? 'bg-[#213A57]' : 'bg-[#213A57] group-hover:bg-[#14919B]'}
+                    `}></div>
+                </>
+            )}
+
+            {/* Góc dưới bên phải */}
+            {roundedBottom && (
+                <>
+                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-gray-50 z-10 pointer-events-none"></div>
+                    <div className={`
+                        absolute bottom-0 right-0 w-6 h-6 rounded-br-full z-20 
+                        ${active ? 'bg-[#213A57]' : 'bg-[#213A57] group-hover:bg-[#14919B]'}
+                    `}></div>
+                </>
+            )}
+
+            {/* Nav item chính */}
+            <Link
+                to={to}
+                onClick={onClick}
+                className={`
+                    relative flex items-center gap-3 h-14 pl-5 pr-2 py-2 w-full
+                    ${active ? 'bg-gray-50 text-[#213A57] font-semibold z-40' : 'bg-[#213A57] text-gray-300 group-hover:bg-[#14919B]'}
+                    rounded-l-full cursor-pointer
+                `}
+            >
+                <div className={`text-lg w-6 text-center ${active ? 'text-[#213A57]' : ''}`}>
+                    {icon}
+                </div>
+                <span className="whitespace-nowrap">{label}</span>
+            </Link>
+        </div>
+    );
+}

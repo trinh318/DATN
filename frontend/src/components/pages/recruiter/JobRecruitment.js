@@ -8,6 +8,7 @@ import '../../../styles/jobrecruiment.css';
 import { getId } from '../../../libs/isAuth';
 import { Textarea } from '@/components/control/ui/textarea';
 import axios from 'axios';
+import * as pdfjsLib from "pdfjs-dist";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -49,8 +50,11 @@ import Application from './Applicant';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/control/ui/button';
 import { Combobox } from '@headlessui/react';
+import { toast } from "sonner";
+import { LoaderCircle } from 'lucide-react'
 
 const token = localStorage.getItem('token');
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@5.3.31/build/pdf.worker.min.mjs';
 
 const sortOptions = [
     {
@@ -163,29 +167,27 @@ const JobRecruitment = () => {
         }
     }, [idnd]);
 
-    useEffect(() => {
-        const fetchAllJobs = async () => {
-            try {
-                setLoadingJobs(true);
-                console.log("company id: ", companyId);
-                const responseAllJob = await axios.get(`http://localhost:5000/api/jobs/recruiter/jobs-by-company/${companyId}`);
-                setAllJobData(responseAllJob.data); // Dữ liệu đã có trường applicationCount
-                console.log("cac cong viec la", allJobData);
-            } catch (error) {
-                console.error('Error fetching jobs:', error);
-                setErrorJobs('Lỗi khi tải danh sách công việc.');
-            } finally {
-                setLoadingJobs(false); // Dừng trạng thái loading
-            }
-        };
-
-        if (companyId) {
-            fetchAllJobs();
-            console.log("jobs", allJobData);
-        } else {
-            console.log('Company id is not valid:', companyId); // Khi companyId không hợp lệ
+    const fetchAllJobs = async () => {
+        try {
+            setLoadingJobs(true);
+            const responseAllJob = await axios.get(`http://localhost:5000/api/jobs/recruiter/jobs-by-company/${companyId}`);
+            setAllJobData(responseAllJob.data);
+            console.log("Danh sách công việc:", responseAllJob.data);
+        } catch (error) {
+            console.error('Error fetching jobs:', error);
+            setErrorJobs('Lỗi khi tải danh sách công việc.');
+        } finally {
+            setLoadingJobs(false);
         }
-    }, [companyId]);
+    };
+
+    useEffect(() => {
+    if (companyId) {
+        fetchAllJobs();
+    } else {
+        console.log('Company id is not valid:', companyId);
+    }
+}, [companyId]);
 
     // Chuyển đổi tab
     const [activeTab, setActiveTab] = useState('listJobs');
@@ -362,6 +364,7 @@ const JobRecruitment = () => {
             setSelectedField(null);
             setSelectedCareers([]);
             setIsAddJobOpen(false);
+            fetchAllJobs();
         } catch (error) {
             console.error('Lỗi khi cập nhật công việc:', error);
             alert('Có lỗi xảy ra khi cập nhật công việc. Vui lòng thử lại!');
@@ -447,6 +450,7 @@ const JobRecruitment = () => {
             setSelectedField(null);
             setSelectedCareers([]);
             setIsAddJobOpen(false);
+            fetchAllJobs();
         } catch (error) {
             console.error('Lỗi khi tạo công việc:', error);
             alert(error.response?.data?.message || 'Có lỗi xảy ra khi đăng công việc. Vui lòng thử lại!');
@@ -962,6 +966,129 @@ const JobRecruitment = () => {
         if (currentTestPage < totalTestPages) setCurrentTestPage((prev) => prev + 1);
     };
 
+    const [batchMatchResults, setBatchMatchResults] = useState([]);
+    const [loadingBatch, setLoadingBatch] = useState(null);
+    const [allCVFiles, setALLCVFiles] = useState([]);
+
+    const handleGetCvFilesByJobId = async () => {
+        if (!selectedJobId) {
+            alert("Thiếu jobId");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/cvfile/files/by-job/allfiles/${selectedJobId}`);
+            const data = await res.json();
+
+            if (res.ok) {
+                console.log("Danh sách CV:", data);
+                setALLCVFiles(data);
+            } else {
+                alert("Lỗi: " + (data.message || "Không thể lấy danh sách CV"));
+            }
+        } catch (err) {
+            console.error("Lỗi khi lấy CV:", err);
+            alert("Lỗi khi kết nối server.");
+        }
+    };
+
+    useEffect(() => {
+        if (selectedJobId) {
+            handleGetCvFilesByJobId();
+        }
+    }, [selectedJobId]);
+
+    useEffect(() => {
+        console.log("setALLCVFileqs", allCVFiles);
+    }, [allCVFiles]);
+
+
+    // Hàm đọc text từ URL file PDF
+    const extractTextFromPDFUrl = async (pdfUrl) => {
+        const response = await fetch(pdfUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const typedArray = new Uint8Array(arrayBuffer);
+        const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+        let text = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            const pageText = content.items.map((item) => item.str).join(" ");
+            text += pageText + "\n";
+        }
+
+        return text;
+    };
+
+    const buildJobInformation = (job) => {
+        if (!job) return "";
+
+        return `
+                Tiêu đề: ${job.title || ""}
+                Mô tả công việc: ${job.description || ""}
+                Yêu cầu công việc: ${job.requirements || ""}
+                Kỹ năng: ${(job.skills || []).join(", ")}
+                Bằng cấp: ${(job.qualifications || []).join(", ")}
+                Quyền lợi: ${(job.benefits || []).join(", ")}
+                Địa điểm: ${job.location || ""}
+                Lĩnh vực: ${job.field || ""}
+                Ngành nghề: ${(job.careers || []).join(", ")}
+                Ghi chú: ${job.note || ""}
+                `.trim();
+    };
+
+    const matchMultipleCVsWithJD = async () => {
+        if (!selectedJob || allCVFiles.length === 0) return [];
+
+        const jobInfo = buildJobInformation(selectedJob);
+
+        console.log("jobInfo", jobInfo)
+        const resumeTexts = await Promise.all(
+            allCVFiles.files.map(async (file) => {
+                const text = await extractTextFromPDFUrl(file.fileName);
+                return {
+                    _id: file._id,
+                    originalName: file.originalName,
+                    content: text,
+                };
+            })
+        );
+
+        console.log("resume", resumeTexts)
+        try {
+            const response = await axios.post("http://localhost:5001/api/match-resumes", {
+                job_description: jobInfo,
+                cvs: resumeTexts, // mỗi CV có: _id, originalName, content
+            });
+
+            return response.data.results; // [{ _id, score, recommendation }]
+        } catch (err) {
+            console.error("Error matching multiple CVs:", err);
+            return [];
+        }
+    };
+
+    const handleBatchResumeMatch = async () => {
+        if (!selectedJob) {
+            toast.warning("Vui lòng chọn một công việc trước!");
+            return;
+        }
+
+        setLoadingBatch(true);
+
+        const results = await matchMultipleCVsWithJD();
+
+        if (!results || results.length === 0) {
+            toast.info("Không tìm thấy kết quả phù hợp nào.");
+            setLoadingBatch(false);
+            return;
+        }
+
+        setBatchMatchResults(results);
+        setLoadingBatch(false);
+    };
+
     return (
         <div className="flex flex-col gap-5 w-full">
             <div className='flex gap-5 pb-3'>
@@ -1433,6 +1560,9 @@ const JobRecruitment = () => {
                                             ))}
                                         </DropdownMenuContent>
                                     </DropdownMenu>
+                                    <Button className="bg-blue-600 hover:bg-blue-900 text-white py-5 rounded-full mt-3" disabled={loadingBatch} onClick={handleBatchResumeMatch}>
+                                        {loadingBatch ? <LoaderCircle className='animate-spin' /> : 'Score CV by AI'}
+                                    </Button>
                                 </div>
                                 <div className="w-full bg-white rounded-2xl p-3 flex flex-col gap-4">
                                     {selectedJob ? (
@@ -1509,7 +1639,7 @@ const JobRecruitment = () => {
                                 </div>
                             </div>
                             <div className="w-full sm:w-[70%] max-w-[70%]">
-                                <Application jobId={selectedJobId} />
+                                <Application results={batchMatchResults} jobId={selectedJobId} />
                             </div>
                         </div>
                     )}
@@ -1981,7 +2111,7 @@ const JobRecruitment = () => {
 
                                         <button
                                             type="button"
-                                            className="flex items-center gap-1 text-sm text-blue-600 hover:underline mt-2"
+                                            className="flex items-center gap-1 text-sm text-blue-600 hover:no-underline mt-2"
                                             onClick={() =>
                                                 setNewQuestion((prev) => ({
                                                     ...prev,

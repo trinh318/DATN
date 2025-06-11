@@ -5,6 +5,7 @@ import { getId } from '../../../libs/isAuth';
 import '../../../styles/applyjob.css'
 import { Button, Card, CardContent, Typography, List, ListItemButton, LinearProgress } from '@mui/material';
 import { useLocation, Link } from "react-router-dom";
+import { FaMars, FaVenus, FaGenderless } from 'react-icons/fa';
 
 const countryList = [
     { name: "Việt Nam", flag: "🇻🇳" },
@@ -244,6 +245,16 @@ const ApplyJob = ({ job, onClose }) => {
         setCurrentMonth(newMonth);
     };
 
+    const handleMonthChange = (month) => {
+        const newMonth = new Date(currentMonth.getFullYear(), month, 1);
+        setCurrentMonth(newMonth);
+    };
+
+    const handleYearChange = (year) => {
+        const newYear = new Date(year, currentMonth.getMonth(), 1);
+        setCurrentMonth(newYear);
+    };
+
     // Xử lý khi chọn ngày
     const handleDateSelect = (date) => {
         const formattedDate = date.toISOString().split("T")[0]; // Định dạng YYYY-MM-DD
@@ -255,9 +266,9 @@ const ApplyJob = ({ job, onClose }) => {
 
     // Danh sách các lựa chọn giới tính
     const genderOptions = [
-        { label: "Nam", value: "male", icon: "👨" },
-        { label: "Nữ", value: "female", icon: "👩" },
-        { label: "Khác", value: "other", icon: "🌈" },
+        { value: 'male', label: 'Nam', icon: <FaMars /> },
+        { value: 'female', label: 'Nữ', icon: <FaVenus /> },
+        { value: 'other', label: 'Khác', icon: <FaGenderless /> },
     ];
 
     // Xử lý khi chọn giới tính
@@ -546,11 +557,7 @@ const ApplyJob = ({ job, onClose }) => {
     const toggleMenu2 = () => {
         setIsMenuOpen2(!isMenuOpen2);
     };
-    const startTest = (testDetails) => {
-        setSampleQuestions(testDetails.questions); // Gắn danh sách câu hỏi
-        setQnIndex(0); // Bắt đầu từ câu hỏi đầu tiên
-        setIsTest(true); // Hiển thị giao diện bài kiểm tra
-    };
+
     const fetchTestDetails = async (testId) => {
         try {
             const response = await axios.get(`http://localhost:5000/api/tests/edit/${testId}`);
@@ -575,8 +582,6 @@ const ApplyJob = ({ job, onClose }) => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`, // Gửi token xác thực
                 },
             });
-
-
 
             if (response.data.success) {
                 console.log('Profile saved successfully!');
@@ -673,147 +678,32 @@ const ApplyJob = ({ job, onClose }) => {
         setIsNotify(false);  // Đóng form
     };
 
-    /////////////////form test
-    const [qnIndex, setQnIndex] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(testDetails?.duration * 60); // Thời gian còn lại tính bằng giây
-    const [isTestOver, setIsTestOver] = useState(false);
-    const [isTestStarted, setIsTestStarted] = useState(false);
-    const [startTime, setStartTime] = useState(null);
     const handleStartTest = () => {
-        setStartTime(new Date());
-        setIsNotify(false);  // Đóng form
-        setSampleQuestions(testDetails.questions); // Gán danh sách câu hỏi từ bài kiểm tra
-        setQnIndex(0); // Bắt đầu từ câu hỏi đầu tiên
-        setIsTest(true);
-        setIsTestStarted(true);
-        setIsTestOver(false);
-        console.log({ isTest, isNotify });
-        console.log(" thoi gian", testDetails?.duration)
-    }
+        setIsNotify(false); // Ẩn notify
+        onClose(); // Gọi closeApplyForm để đóng ApplyJob
 
-    useEffect(() => {
-        // Nếu bài kiểm tra chưa bắt đầu hoặc thời gian còn lại <= 0, không làm gì cả
-        if (!isTestStarted || timeLeft <= 0) return;
-
-        // Khởi tạo interval để đếm ngược mỗi giây
-        const timer = setInterval(() => {
-            setTimeLeft(prevTime => {
-                if (prevTime <= 1) {
-                    clearInterval(timer); // Dừng bộ đếm khi hết thời gian
-                    setIsTestOver(true); // Đánh dấu bài kiểm tra đã kết thúc
-                    return 0;
-                }
-                return prevTime - 1;
-            });
-        }, 1000); // Cập nhật mỗi giây
-
-        // Dọn dẹp khi component unmount hoặc khi bài kiểm tra kết thúc
-        return () => clearInterval(timer);
-    }, [isTestStarted, timeLeft]); // Chạy lại khi test bắt đầu hoặc timeLeft thay đổi
-
-    // Chuyển đổi thời gian còn lại sang phút và giây
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    /*const sampleQuestions = [
-        {
-            qnInWords: "What is the capital of France?",
-            options: ["Paris", "Berlin", "Rome", "Madrid"],
-        },
-        {
-            qnInWords: "Which is the largest planet in the solar system?",
-            options: ["Earth", "Jupiter", "Mars", "Saturn"],
-        },
-        {
-            qnInWords: "What is the chemical symbol for water?",
-            options: ["H2O", "O2", "NaCl", "CO2"],
-        },
-        {
-            qnInWords: "Who wrote 'To Kill a Mockingbird'?",
-            options: ["Harper Lee", "J.K. Rowling", "Mark Twain", "Ernest Hemingway"],
-        },
-        {
-            qnInWords: "What is the square root of 64?",
-            options: ["6", "7", "8", "9"],
-        },
-   // ];*/
-
-    const handleNextQuestion = () => {
-        if (qnIndex < sampleQuestions.length - 1) {
-            setQnIndex(qnIndex + 1); // Chuyển sang câu hỏi tiếp theo
-        } else {
-            alert('Bạn đã hoàn thành bài kiểm tra!');
-            setIsTest(false); // Kết thúc bài kiểm tra
-
-        }
+        // Mở tab mới với URL test
+        const url = `/applicants/apply-job/doing-test?testId=${testDetails.test_id}&jobId=${job._id}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
-
-    const [answers, setAnswers] = useState([]);  // Mảng lưu câu trả lời
-    const [finalScore, setFinalScore] = useState(0); // State lưu điểm số cuối cùng
-    const handleOptionSelect = (selectedAnswer) => {
-        setAnswers(prevAnswers => {
-            const updatedAnswers = [...prevAnswers];
-            updatedAnswers[qnIndex] = selectedAnswer;  // Lưu giá trị đáp án thay vì chỉ số
-            return updatedAnswers;
-        });
-
-        // In ra câu trả lời được chọn trong console
-        console.log(`Selected Answer for Question ${qnIndex + 1}: ${selectedAnswer}`);
-    };
-
-    const calculateScore = () => {
-        let score = 0;
-
-        // Loop through each question and compare the selected answer with the correct answer
-        answers.forEach((selectedAnswer, index) => {
-            const question = sampleQuestions[index];  // Get the question object
-            if (question.correct_answer === selectedAnswer) {
-                score += question.points;  // Add points if the answer is correct
-            }
-        });
-
-        return score;
-    };
-    const [score, setScore] = useState(0);
-    const [totalScore, setTotalScore] = useState(0);
-    const handleFinishTest = async () => {
-        const userId = getId();
-        const finalScore = calculateScore();
-        const questionScores = testDetails.questions.map(question => question.points);  // mảng chứa điểm của từng câu hỏi
-        const totalScores = questionScores.reduce((total, score) => total + score, 0);  // Tính tổng điểm từ mảng questionScores
-        setTotalScore(totalScores);
-
-
-        try {
-            const response = await axios.post('http://localhost:5000/api/testattempt', {
-                test_id: testDetails.test_id,
-                user_id: userId,
-                answers: answers,
-                score: finalScore,  // Assuming you have a function to calculate the score
-                start_time: startTime,
-                end_time: new Date(),
-            });
-            console.log('Test Attempt saved:', response.data);
-            setIsTest(false);
-            setScore(finalScore);
-            setTestCompleted(true);
-        } catch (error) {
-            console.error('Error saving test attempt:', error);
-        }
-    };
-    const handleCancel = () => {
-
-        setTestCompleted(false);
-    };
-    ///////end form test
 
     return (
-        <div className="user-info-edit-overlay">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             {status?.applied ? (
-                <form className="user-info-edit-form" style={{ "max-width": "500px" }}>
-                    <div className="user-info-edit-header-form">
-                        <div className="user-info-edit-header">
-                            <h2>Bạn đã ứng tuyển công việc này.</h2>
-                            <button className="user-info-edit-close-btn" onClick={() => { handleCloseBasicInfoEdit(); onClose(); }}>
+                <form className="w-full max-w-[500px] bg-white p-4 rounded shadow">
+                    <div className="mb-4">
+                        <div className="flex items-start justify-between">
+                            <h2 className="text-lg font-semibold text-gray-800">
+                                Bạn đã ứng tuyển công việc này.
+                            </h2>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    handleCloseBasicInfoEdit();
+                                    onClose();
+                                }}
+                                className="text-gray-500 hover:text-red-600 text-2xl leading-none"
+                            >
                                 &times;
                             </button>
                         </div>
@@ -822,231 +712,266 @@ const ApplyJob = ({ job, onClose }) => {
 
             ) : (
                 <>
-                    <div className="user-info-edit-container">
+                    <div class="bg-white rounded-lg w-[780px] max-w-[780px] min-w-[400px] shadow-md flex flex-col h-[80%] overflow-hidden">
                         {/* Header */}
-                        <div className="user-info-edit-header-form">
-                            <div className="user-info-edit-header">
-                                <h2>Thông Tin Cơ Bản</h2>
-                                <button className="user-info-edit-close-btn" onClick={() => { handleCloseBasicInfoEdit(); onClose(); }}>
+                        <div className="sticky top-0 z-20 bg-white px-5 pt-5 border-b border-gray-300">
+                            <div className="flex justify-between items-center mb-5">
+                                <h2 className="text-xl font-semibold text-gray-800">Kiểm tra lại thông tin cá nhân</h2>
+                                <button
+                                    className="text-2xl text-gray-600 hover:text-black cursor-pointer"
+                                    onClick={() => { handleCloseBasicInfoEdit(); onClose(); }}>
                                     &times;
                                 </button>
                             </div>
                         </div>
 
                         {/* Nội dung Form */}
-                        <form className="user-info-edit-form">
+                        <form className="flex-1 overflow-y-auto p-5 border-b border-gray-200 mb-5 space-y-4">
                             {profile && (
-                                <div className='user-info-edit-basic-info'>
-                                    <div className="user-info-avatar"> {<img src={user?.avatar} alt="Avatar" />}</div>
-                                    <div className='user-info-edit-right'>
+                                <div className='flex'>
+                                    <div className="w-[150px] h-[150px] rounded-full border-2 bg-gray-200 flex justify-center items-center cursor-pointer overflow-hidden transition-colors border-dashed border-gray-300 duration-300 hover:border-blue-500 active:border-blue-700"> {<img src={user?.avatar} className="object-cover" alt="Avatar" />}</div>
+                                    <div className='flex-1 ml-8 flex flex-col gap-6'>
                                         <UploadCV />
-                                        <div className="user-info-edit-row" style={{ margin: "16px 0px 16px;" }} >
-                                            <div className="user-info-edit-col">
-                                                <div className="user-info-edit-row">
-                                                    <label htmlFor="lastName" className="user-info-edit-label">
-                                                        Họ <span className="user-info-edit-required">*</span>
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="lastName"
-                                                        name="first_name"
-                                                        className="user-info-edit-input"
-                                                        placeholder="Nhập họ"
-                                                        value={profile.first_name}
-                                                        onChange={handleInputChange}
-                                                    />
-                                                </div>
-                                                <div className="user-info-edit-row">
-                                                    <label htmlFor="firstName" className="user-info-edit-label">
-                                                        Tên <span className="user-info-edit-required">*</span>
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="firstName"
-                                                        name="last_name"
-                                                        className="user-info-edit-input"
-                                                        placeholder="Nhập tên"
-                                                        value={profile.last_name}
-                                                        onChange={handleInputChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="user-info-edit-col">
-                                            <div className="gender-select-container">
-                                                <label htmlFor="gender" className="user-info-edit-label">
-                                                    Giới tính <span className="user-info-edit-required">*</span>
-                                                </label>
-                                                <div className="gender-options">
-                                                    {genderOptions.map((option) => (
-                                                        <div
-                                                            key={option.value}
-                                                            className={`gender-option  ${profile.gender === option.value ? "selected" : ""}
-                                            }`}
-                                                            onClick={() => handleGenderSelect(option.value)}
-                                                        >
-                                                            <div>
-                                                                <span className="gender-icon">{option.icon}</span>
-                                                                <span className="gender-label">{option.label}</span>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            <div className="user-info-edit-row">
-                                                <label htmlFor="email" className="user-info-edit-label">
-                                                    Email <span className="user-info-edit-required">*</span>
-                                                </label>
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    className="user-info-edit-input"
-                                                    placeholder="Nhập email"
-                                                    value={profile.email}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="user-info-edit-col">
-                                            <div className="phone-input-container">
-                                                <label htmlFor="phone" className="user-info-edit-label">
-                                                    Điện thoại <span className="user-info-edit-required">*</span>
-                                                </label>
-                                                {/* Ô nhập điện thoại */}
-                                                <div className="phone-input">
-                                                    {/* Selectbox đầu số quốc gia */}
-                                                    <div
-                                                        className="country-select"
-                                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                                    >
-                                                        <img src={selectedCountry.flag} alt={selectedCountry.name} />
-                                                        <span>{selectedCountry.code}</span>
-                                                        <span className="dropdown-arrow">&#9662;</span>
-                                                    </div>
-
-                                                    {/* Input số điện thoại */}
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Nhập số điện thoại"
-                                                        value={profile.phone}
-                                                        id="phone"
-                                                        name="phone"
-                                                        onChange={handleInputChange}
-                                                    />
-                                                </div>
-
-                                                {/* Dropdown danh sách quốc gia */}
-                                                {isDropdownOpen && (
-                                                    <ul className="country-dropdown">
-                                                        {countryData.map((country) => (
-                                                            <li
-                                                                key={country.code}
-                                                                onClick={() => handleCountrySelect(country)}
-                                                                className="country-item"
-                                                            >
-                                                                <img src={country.flag} alt={country.name} />
-                                                                <span>{country.name}</span>
-                                                                <span>{country.code}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                            <div className="nationality-select-container">
-                                                <label htmlFor="nationality" className="user-info-edit-label">
-                                                    Quốc tịch <span className="user-info-edit-required">*</span>
-                                                </label>
-                                                {/* Ô hiển thị quốc tịch */}
-                                                <div className="nationality-select-input" onClick={() => setDropdownVisible(!dropdownVisible)}>
-                                                    {selectedCountry ? (
-                                                        <div className="selected-country">
-                                                            <span className="country-name">
-                                                                {selectedCountry.countryName === profile.nationality ? selectedCountry.countryName : profile.nationality}
-                                                            </span> {/* Hiển thị tên quốc gia */}
-                                                        </div>
-                                                    ) : (
-                                                        "Chọn quốc tịch" // Nếu chưa chọn quốc gia, hiển thị text mặc định
-                                                    )}
-                                                </div>
-
-                                                {/* Dropdown quốc tịch */}
-                                                {dropdownVisible && (
-                                                    <div className="nationality-dropdown">
-                                                        {/* Thanh tìm kiếm */}
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Tìm quốc gia..."
-                                                            className="search-nationality-input"
-                                                            value={searchTerm}
-                                                            onChange={(e) => setSearchTerm(e.target.value)}
-                                                        />
-
-                                                        {/* Danh sách quốc gia */}
-                                                        <div className="country-list">
-                                                            {filteredCountries.map((country) => (
-                                                                <div
-                                                                    key={country.countryCode} // Mã quốc gia hoặc mã của quốc gia
-                                                                    className="country-item"
-                                                                    onClick={() => handleCountrySelect(country)} // Gọi hàm khi chọn quốc gia
-                                                                >
-                                                                    <span className="country-flag">{country.flag}</span>
-                                                                    <span className="country-name">{country.countryName}</span>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             )}
-                            <div className="user-info-edit-col-bigger">
-                                <div className="date-picker-container">
-                                    <label htmlFor="email" className="user-info-edit-label">
-                                        Ngày sinh <span className="user-info-edit-required">*</span>
+                            <div className="grid grid-cols-2 gap-5" >
+                                <div className="flex flex-col">
+                                    <label htmlFor="lastName" className="font-bold mb-2">
+                                        Họ <span className="user-info-edit-required">*</span>
                                     </label>
-                                    {/* Ô nhập ngày sinh */}
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="first_name"
+                                        placeholder="Nhập họ"
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                        value={profile.first_name}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="firstName" className="font-bold mb-2">
+                                        Tên <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        name="last_name"
+                                        placeholder="Nhập tên"
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                        value={profile.last_name}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-5">
+                                <div className="flex flex-col">
+                                    <label className="font-bold mb-2">
+                                        Giới tính <span className="text-red-500">*</span>
+                                    </label>
+                                    <div className="flex gap-3">
+                                        {genderOptions.map((option) => (
+                                            <div
+                                                key={option.value}
+                                                onClick={() => handleGenderSelect(option.value)}
+                                                className={`flex flex-row items-center flex-1 p-2 rounded border ${profile.gender === option.value
+                                                    ? 'border-blue-500 bg-blue-100 text-blue-600'
+                                                    : 'border-gray-300 bg-gray-100'
+                                                    } cursor-pointer hover:border-blue-400 transition`}
+                                            >
+                                                <span className="text-sm">{option.icon}</span>
+                                                <span className="text-sm">{option.label}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="email" className="font-bold mb-2">
+                                        Email <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Nhập email"
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                        value={profile.email}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="user-info-edit-col">
+                                <div className="phone-input-container">
+                                    <label htmlFor="phone" className="user-info-edit-label">
+                                        Điện thoại <span className="user-info-edit-required">*</span>
+                                    </label>
+                                    {/* Ô nhập điện thoại */}
+                                    <div className="phone-input">
+                                        {/* Selectbox đầu số quốc gia */}
+                                        <div
+                                            className="country-select"
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                        >
+                                            <img src={selectedCountry.flag} alt={selectedCountry.name} />
+                                            <span>{selectedCountry.code}</span>
+                                            <span className="dropdown-arrow">&#9662;</span>
+                                        </div>
+
+                                        {/* Input số điện thoại */}
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập số điện thoại"
+                                            value={profile.phone}
+                                            id="phone"
+                                            name="phone"
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+
+                                    {/* Dropdown danh sách quốc gia */}
+                                    {isDropdownOpen && (
+                                        <ul className="country-dropdown">
+                                            {countryData.map((country) => (
+                                                <li
+                                                    key={country.code}
+                                                    onClick={() => handleCountrySelect(country)}
+                                                    className="country-item"
+                                                >
+                                                    <img src={country.flag} alt={country.name} />
+                                                    <span>{country.name}</span>
+                                                    <span>{country.code}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                                <div className="nationality-select-container">
+                                    <label htmlFor="nationality" className="user-info-edit-label">
+                                        Quốc tịch <span className="user-info-edit-required">*</span>
+                                    </label>
+                                    {/* Ô hiển thị quốc tịch */}
+                                    <div className="nationality-select-input" onClick={() => setDropdownVisible(!dropdownVisible)}>
+                                        {selectedCountry ? (
+                                            <div className="selected-country">
+                                                <span className="country-name">
+                                                    {selectedCountry.countryName === profile.nationality ? selectedCountry.countryName : profile.nationality}
+                                                </span> {/* Hiển thị tên quốc gia */}
+                                            </div>
+                                        ) : (
+                                            "Chọn quốc tịch" // Nếu chưa chọn quốc gia, hiển thị text mặc định
+                                        )}
+                                    </div>
+
+                                    {/* Dropdown quốc tịch */}
+                                    {dropdownVisible && (
+                                        <div className="nationality-dropdown">
+                                            {/* Thanh tìm kiếm */}
+                                            <input
+                                                type="text"
+                                                placeholder="Tìm quốc gia..."
+                                                className="search-nationality-input"
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                            />
+
+                                            {/* Danh sách quốc gia */}
+                                            <div className="country-list">
+                                                {filteredCountries.map((country) => (
+                                                    <div
+                                                        key={country.countryCode} // Mã quốc gia hoặc mã của quốc gia
+                                                        className="country-item"
+                                                        onClick={() => handleCountrySelect(country)} // Gọi hàm khi chọn quốc gia
+                                                    >
+                                                        <span className="country-flag">{country.flag}</span>
+                                                        <span className="country-name">{country.countryName}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-5 mb-6">
+                                {/* Date Picker */}
+                                <div className="flex flex-col relative">
+                                    <label htmlFor="date_of_birth" className="font-bold mb-2">
+                                        Ngày sinh <span className="text-red-500">*</span>
+                                    </label>
                                     <div
-                                        className="date-picker-input"
+                                        className="border border-gray-300 rounded-md px-4 py-2 bg-white text-sm cursor-pointer hover:border-blue-500"
                                         name="date_of_birth"
                                         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                                     >
-                                        {selectedDate || (profile.date_of_birth && !isNaN(new Date(profile.date_of_birth).getTime()))
+                                        {selectedDate ||
+                                            (profile.date_of_birth && !isNaN(new Date(profile.date_of_birth).getTime()))
                                             ? new Date(profile.date_of_birth).toLocaleDateString()
                                             : "Chọn ngày sinh"}
                                     </div>
 
-                                    {/* Lịch chọn ngày */}
                                     {isCalendarOpen && (
-                                        <div className="calendar-dropdown">
-                                            {/* Header lịch */}
-                                            <div className="calendar-header">
-                                                <button onClick={() => changeMonth(-1)}>&lt;</button>
-                                                <span>
-                                                    {currentMonth.toLocaleString("default", {
-                                                        month: "long",
-                                                        year: "numeric"
-                                                    })}
+                                        <div className="absolute z-50 top-full left-0 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-2 p-3">
+                                            {/* Calendar Header */}
+                                            <div className="flex justify-between items-center mb-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => changeMonth(-1)}
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                >
+                                                    &lt;
+                                                </button>
+
+                                                <span className="flex gap-2">
+                                                    {/* Month Select */}
+                                                    <select
+                                                        value={currentMonth.getMonth()}
+                                                        onChange={(e) => handleMonthChange(Number(e.target.value))}
+                                                        className="border border-gray-300 rounded px-2 py-1 text-sm"
+                                                    >
+                                                        {Array.from({ length: 12 }).map((_, index) => (
+                                                            <option key={index} value={index}>
+                                                                {new Date(0, index).toLocaleString("default", { month: "long" })}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    {/* Year Select */}
+                                                    <select
+                                                        value={currentMonth.getFullYear()}
+                                                        onChange={(e) => handleYearChange(Number(e.target.value))}
+                                                        className="border border-gray-300 rounded px-2 py-1 text-sm"
+                                                    >
+                                                        {Array.from({ length: 1001 }).map((_, index) => {
+                                                            const year = currentMonth.getFullYear() - 500 + index;
+                                                            return (
+                                                                <option key={year} value={year}>
+                                                                    {year}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
                                                 </span>
-                                                <button onClick={() => changeMonth(1)}>&gt;</button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => changeMonth(1)}
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                >
+                                                    &gt;
+                                                </button>
                                             </div>
 
-                                            {/* Danh sách ngày */}
-                                            <div className="calendar-grid">
+                                            {/* Calendar Days */}
+                                            <div className="grid grid-cols-7 text-center text-sm font-medium text-gray-600 mb-1">
                                                 {["CN", "T2", "T3", "T4", "T5", "T6", "T7"].map((day) => (
-                                                    <div key={day} className="calendar-day-name">
-                                                        {day}
-                                                    </div>
+                                                    <div key={day}>{day}</div>
                                                 ))}
-                                                {getDaysInMonth(
-                                                    currentMonth.getMonth(),
-                                                    currentMonth.getFullYear()
-                                                ).map((date) => (
+                                            </div>
+                                            <div className="grid grid-cols-7 gap-1 text-center text-sm">
+                                                {getDaysInMonth(currentMonth.getMonth(), currentMonth.getFullYear()).map((date) => (
                                                     <div
                                                         key={date}
-                                                        className="calendar-day"
+                                                        className="w-9 h-9 flex items-center justify-center cursor-pointer rounded hover:bg-blue-500 hover:text-white transition"
                                                         onClick={() => handleDateSelect(date)}
                                                     >
                                                         {date.getDate()}
@@ -1056,112 +981,135 @@ const ApplyJob = ({ job, onClose }) => {
                                         </div>
                                     )}
                                 </div>
-                                <div className="user-info-edit-selectbox">
-                                    <label htmlFor="address-selected" className="user-info-edit-label">
-                                        Địa chỉ <span className="user-info-edit-required">*</span>
+
+                                {/* Address Select */}
+                                <div className="flex flex-col relative">
+                                    <label htmlFor="specific_address" className="font-bold mb-2">
+                                        Địa chỉ <span className="text-red-500">*</span>
                                     </label>
-                                    <div className="user-info-edit-select-display" onClick={toggleMenu1}>
+                                    <div
+                                        id="specific_address"
+                                        name="specific_address"
+                                        onClick={toggleMenu1}
+                                        className="border border-gray-300 rounded-md px-4 py-2 text-sm bg-white cursor-pointer hover:border-blue-500"
+                                    >
                                         {profile.location || "Chọn địa điểm"}
                                     </div>
+
                                     {isMenuOpen1 && (
-                                        <div className="user-info-edit-menu">
-                                            <div className="user-info-edit-breadcrumbs">
+                                        <div className="absolute z-50 top-full left-0 w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+                                            <div className="flex items-center gap-2 px-4 py-2 border-b bg-gray-100 text-sm font-medium">
                                                 {breadcrumbs1.length > 0 && (
-                                                    <button onClick={handleBack1}>&lt;</button>
+                                                    <button
+                                                        className="text-blue-500 hover:text-blue-700"
+                                                        onClick={handleBack1}
+                                                    >
+                                                        &lt;
+                                                    </button>
                                                 )}
-                                                <span>{breadcrumbs1.join(", ") || "Chọn địa điểm"}</span>
+                                                <span className="truncate">
+                                                    {breadcrumbs1.join(", ") || "Chọn địa điểm"}
+                                                </span>
                                             </div>
-                                            <ul className="user-info-edit-options">
+                                            <ul className="max-h-60 overflow-y-auto text-sm">
                                                 {Array.isArray(currentLevel1) && currentLevel1.length > 0 ? (
                                                     currentLevel1.map((item) => (
                                                         <li
                                                             key={item.geonameId}
                                                             onClick={() => handleSelect1(item.geonameId)}
-                                                            className="user-info-edit-option"
+                                                            className="px-4 py-2 cursor-pointer hover:bg-blue-50 border-b last:border-none"
                                                         >
                                                             {item.name || item.countryName}
                                                         </li>
                                                     ))
                                                 ) : (
-                                                    <li className="user-info-edit-option">No locations available</li>
+                                                    <li className="px-4 py-2 text-gray-500">No locations available</li>
                                                 )}
                                             </ul>
-
                                         </div>
                                     )}
                                 </div>
                             </div>
-                            <div className="user-info-edit-row">
-                                <label htmlFor="address" className="user-info-edit-label">
-                                    Địa chỉ cụ thể <span className="user-info-edit-required">*</span>
+
+                            <div className="flex flex-col mb-4">
+                                <label htmlFor="specific_address" className="font-bold mb-2">
+                                    Địa chỉ cụ thể <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     id="specific_address"
                                     name="specific_address"
-                                    className="user-info-edit-input"
-                                    placeholder="Nhập chức danh"
+                                    className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Nhập địa chỉ cụ thể"
                                     value={profile.specific_address}
                                     onChange={handleInputChange}
                                 />
                             </div>
-                            <div className="user-info-edit-row">
-                                <label htmlFor="title" className="user-info-edit-label">
-                                    Chức danh <span className="user-info-edit-required">*</span>
+                            <div className="flex flex-col mb-4">
+                                <label htmlFor="job_title" className="font-bold mb-2">
+                                    Chức danh <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     id="job_title"
                                     name="job_title"
-                                    className="user-info-edit-input"
                                     placeholder="Nhập chức danh"
                                     value={profile.job_title}
                                     onChange={handleInputChange}
+                                    className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 />
                             </div>
 
-                            <div className="user-info-edit-row">
-                                <label htmlFor="level" className="user-info-edit-label">
-                                    Cấp bậc hiện tại <span className="user-info-edit-required">*</span>
+                            <div className="flex flex-col mb-4">
+                                <label htmlFor="level" className="font-bold mb-2">
+                                    Cấp bậc hiện tại <span className="text-red-500">*</span>
                                 </label>
-                                <select id="level"
+                                <select
+                                    id="level"
                                     name="job_level"
                                     value={profile.job_level || ''}
                                     onChange={handleInputChange}
-                                    className="user-info-edit-select">
-                                    <option value="">Chọn cấp bậc</option>
+                                    className="border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                >
+                                    <option>Chọn cấp bậc</option>
                                     <option value="Trưởng phòng">Trưởng phòng</option>
                                     <option value="Nhân viên">Nhân viên</option>
                                     <option value="Thực tập sinh">Thực tập sinh</option>
                                 </select>
                             </div>
 
-                            <div className="user-info-edit-col">
-                                <div className="user-info-edit-row">
-                                    <label htmlFor="industry" className="user-info-edit-label">
-                                        Ngành nghề hiện tại <span className="user-info-edit-required">*</span>
+                            {/* Ngành nghề & Lĩnh vực */}
+                            <div className="grid grid-cols-2 gap-5 mb-6">
+                                <div className="flex flex-col">
+                                    <label htmlFor="industry" className="font-bold mb-2">
+                                        Ngành nghề hiện tại <span className="text-red-500">*</span>
                                     </label>
-                                    <select select id="industry"
+                                    <select
+                                        id="industry"
                                         name="current_industry"
                                         value={profile.current_industry || ''}
                                         onChange={handleInputChange}
-                                        className="user-info-edit-select">
-                                        <option value="">Chọn ngành nghề</option>
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    >
+                                        <option>Chọn ngành nghề</option>
                                         <option value="IT">IT</option>
                                         <option value="Marketing">Marketing</option>
                                         <option value="Giáo dục">Giáo dục</option>
                                     </select>
                                 </div>
-                                <div className="user-info-edit-row">
-                                    <label htmlFor="field" className="user-info-edit-label">
-                                        Lĩnh vực hiện tại <span className="user-info-edit-required">*</span>
+
+                                <div className="flex flex-col">
+                                    <label htmlFor="field" className="font-bold mb-2">
+                                        Lĩnh vực hiện tại <span className="text-red-500">*</span>
                                     </label>
-                                    <select select id="field"
-                                        value={profile.current_field || ''}
+                                    <select
+                                        id="field"
                                         name="current_field"
+                                        value={profile.current_field || ''}
                                         onChange={handleInputChange}
-                                        className="user-info-edit-select">
-                                        <option value="">Chọn lĩnh vực công ty</option>
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    >
+                                        <option>Chọn lĩnh vực công ty</option>
                                         <option value="Công nghệ">Công nghệ</option>
                                         <option value="Giáo dục">Giáo dục</option>
                                         <option value="Kinh doanh">Kinh doanh</option>
@@ -1169,71 +1117,79 @@ const ApplyJob = ({ job, onClose }) => {
                                 </div>
                             </div>
 
-                            <div className="user-info-edit-col">
-                                <div className="user-info-edit-row">
-                                    <label htmlFor="experience" className="user-info-edit-label">
-                                        Số Năm Kinh Nghiệm <span className="user-info-edit-required">*</span>
+                            {/* Kinh nghiệm & Lương hiện tại */}
+                            <div className="grid grid-cols-2 gap-5 mb-6">
+                                <div className="flex flex-col mb-4">
+                                    <label htmlFor="experience" className="font-bold mb-2">
+                                        Số Năm Kinh Nghiệm <span className="text-red-500">*</span>
                                     </label>
-                                    <div className="user-info-edit-input-group">
+                                    <div className="flex items-center border border-gray-300 rounded px-3 py-2">
                                         <input
-                                            ttype="number"
+                                            type="number"
                                             id="experience"
                                             name="years_of_experience"
-                                            className="user-info-edit-inputt"
                                             placeholder="Nhập số năm kinh nghiệm"
                                             value={profile.years_of_experience}
                                             onChange={handleInputChange}
+                                            className="flex-1 outline-none text-sm"
                                         />
-                                        <span className="user-info-edit-unit">Năm</span>
+                                        <span className="text-sm text-gray-600 ml-2 whitespace-nowrap">Năm</span>
                                     </div>
                                 </div>
 
-                                <div className="user-info-edit-row">
-                                    <label htmlFor="salary" className="user-info-edit-label">
+                                <div className="flex flex-col mb-4">
+                                    <label htmlFor="current_salary" className="font-bold mb-2">
                                         Mức lương hiện tại
                                     </label>
-                                    <div className="user-info-edit-input-group">
+                                    <div className="flex items-center border border-gray-300 rounded px-3 py-2">
                                         <input
                                             type="text"
                                             id="current_salary"
                                             name="current_salary"
-                                            className="user-info-edit-inputt"
-                                            placeholder=""
                                             value={profile.current_salary}
                                             onChange={handleInputChange}
+                                            className="flex-1 outline-none text-sm"
+                                            placeholder=""
                                         />
-                                        <span className="user-info-edit-unit">USD/tháng</span>
+                                        <span className="text-sm text-gray-600 ml-2 whitespace-nowrap">USD/tháng</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="user-info-edit-col">
-                                <div className="user-info-edit-selectbox">
-                                    <label htmlFor="workaddress" className="user-info-edit-label">
+                            {/* Nơi làm việc mong muốn & Lương mong muốn */}
+                            <div className="grid grid-cols-2 gap-5">
+                                <div className="flex flex-col relative">
+                                    <label htmlFor="desired_work_location" className="font-bold mb-2">
                                         Nơi làm việc mong muốn
                                     </label>
                                     <div
-                                        className="user-info-edit-select-display"
                                         id="desired_work_location"
                                         name="desired_work_location"
                                         onClick={toggleMenu2}
+                                        className="border border-gray-300 rounded px-3 py-2 text-sm bg-white cursor-pointer hover:border-blue-500"
                                     >
                                         {profile.desired_work_location || "Chọn địa điểm"}
                                     </div>
+
                                     {isMenuOpen2 && (
-                                        <div className="user-info-edit-menu">
-                                            <div className="user-info-edit-breadcrumbs">
+                                        <div className="absolute z-50 top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg">
+                                            <div className="flex items-center gap-2 px-4 py-2 border-b bg-gray-100 text-sm font-medium">
                                                 {breadcrumbs2.length > 0 && (
-                                                    <button onClick={handleBack2}>&lt;</button>
+                                                    <button
+                                                        className="text-blue-500 hover:text-blue-700"
+                                                        onClick={handleBack2}
+                                                    >
+                                                        &lt;
+                                                    </button>
                                                 )}
                                                 <span>{breadcrumbs2.join(", ") || "Chọn địa điểm"}</span>
                                             </div>
-                                            <ul className="user-info-edit-options">
+                                            <ul className="max-h-60 overflow-y-auto text-sm">
                                                 {currentLevel2.map((item) => (
                                                     <li
                                                         key={item.geonameId}
                                                         onClick={() => handleSelect2(item.geonameId)}
-                                                        className="user-info-edit-option"
+                                                        className="px-4 py-2 cursor-pointer hover:bg-blue-50 border-b last:border-none"
                                                     >
                                                         {item.name || item.countryName}
                                                     </li>
@@ -1243,21 +1199,21 @@ const ApplyJob = ({ job, onClose }) => {
                                     )}
                                 </div>
 
-                                <div className="user-info-edit-row">
-                                    <label htmlFor="salary-expect" className="user-info-edit-label">
+                                <div className="flex flex-col mb-4">
+                                    <label htmlFor="desired_salary" className="font-bold mb-2">
                                         Mức lương mong muốn
                                     </label>
-                                    <div className="user-info-edit-input-group">
+                                    <div className="flex items-center border border-gray-300 rounded px-3 py-2">
                                         <input
                                             type="text"
                                             id="desired_salary"
                                             name="desired_salary"
-                                            className="user-info-edit-inputt"
-                                            placeholder=""
                                             value={profile.desired_salary}
                                             onChange={handleInputChange}
+                                            className="flex-1 outline-none text-sm"
+                                            placeholder=""
                                         />
-                                        <span className="user-info-edit-unit">USD/tháng</span>
+                                        <span className="text-sm text-gray-600 ml-2 whitespace-nowrap">USD/tháng</span>
                                     </div>
                                 </div>
                             </div>
@@ -1265,143 +1221,46 @@ const ApplyJob = ({ job, onClose }) => {
                         </form>
 
                         {/* Footer (Save/Cancel) */}
-                        <div className="user-info-edit-button-row">
-                            <button onClick={() => { handleSave(); handleCloseBasicInfoEdit(); }} className="user-info-edit-save-btn" type="submit">
-                                Lưu
+                        <div className="flex justify-end px-5 pb-5">
+                            <button onClick={() => { handleSave(); handleCloseBasicInfoEdit(); }} className="bg-[#5a8cb5] text-white px-5 py-2 rounded mr-2 hover:bg-blue-700 transition" type="submit">
+                                Ứng tuyển
                             </button>
-                            <button className="user-info-edit-cancel-btn" type="button" onClick={() => { handleCloseBasicInfoEdit(); onClose(); }}>
+                            <button className="bg-gray-300 text-black px-5 py-2 rounded w-[100px] hover:bg-gray-400 transition" type="button" onClick={() => { handleCloseBasicInfoEdit(); onClose(); }}>
                                 Hủy
                             </button>
                         </div>
 
-                        {/* Form chỉnh sửa kỹ năng *********************************************/}
                         {isNotify && (
-                            <>
-                                <div className="notify-overlay">
-                                    <div className="notify-container">
-
-                                        {/* Nội dung Form */}
-                                        <form className="notify-form">
-                                            <label className="notify-label">
-                                                Công việc này yêu cầu làm bài test trước khi ứng tuyển
-                                            </label>
-                                            <div className="notify-col-add">
-                                                <button className="notify-save-btn" type="button" onClick={handleCloseNotify}>
-                                                    Hủy
-                                                </button>
-                                                {!isTestStarted && (
-                                                    <Link to={`/applicants/apply-job/doing-test?testId=${testDetails.test_id}&jobId=${job._id}`} className="notify-save-btn" type="button">                                                        Bắt đầu ngay
-                                                    </Link>
-                                                )}
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-
-                            </>
-                        )}
-                        {isTest && (
-                            <div className="notify-overlay">
-                                <div className="do-test-form-container">
-                                    <Card className="do-test-form-card">
-                                        <div className="do-test-form-header">
-                                            <Typography variant="h5">
-                                                Question {qnIndex + 1} of {sampleQuestions.length}
-                                            </Typography>
-                                            <LinearProgress
-                                                variant="determinate"
-                                                value={(qnIndex + 1) * 100 / sampleQuestions.length}
-                                                className="do-test-form-progress"
-                                            />
+                            <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+                                <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                                    <form>
+                                        <label className="block text-gray-800 text-base font-medium mb-4">
+                                            Công việc này yêu cầu làm bài test trước khi ứng tuyển
+                                        </label>
+                                        <div className="flex justify-end gap-4">
+                                            <button
+                                                type="button"
+                                                onClick={handleCloseNotify}
+                                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
+                                            >
+                                                Hủy
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={handleStartTest}
+                                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                                            >
+                                                Bắt đầu ngay
+                                            </button>
                                         </div>
-                                        <CardContent>
-                                            <Typography variant="h6" className="do-test-form-question">
-                                                {sampleQuestions[qnIndex]?.question || "Question not found"}
-                                            </Typography>
-                                            <List>
-                                                {sampleQuestions[qnIndex]?.options.map((option, idx) => (
-                                                    <ListItemButton
-                                                        key={idx}
-                                                        className="do-test-form-option"
-                                                        onClick={() => handleOptionSelect(option)} // Hàm xử lý chọn đáp án
-                                                    >
-                                                        <b>{String.fromCharCode(65 + idx)}. </b>
-                                                        {option}
-                                                    </ListItemButton>
-                                                ))}
-                                            </List>
-                                        </CardContent>
-                                        <div className="do-test-form-footer">
-                                            {qnIndex === sampleQuestions.length - 1 ? (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={handleFinishTest}
-                                                    className="do-test-form-finish-btn"
-                                                >
-                                                    Finish
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={handleNextQuestion}
-                                                    disabled={qnIndex === sampleQuestions.length - 1}
-                                                    className="do-test-form-next-btn"
-                                                >
-                                                    Next
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </Card>
-                                </div>
-                            </div>
-                        )}
-                        {testCompleted && (
-                            <div className="notify-overlay">
-                                <div className="do-test-form-container">
-                                    <Card className="do-test-form-card">
-                                        <div className="do-test-form-header">
-                                            <Typography variant="h5">
-                                                Bài test hoàn thành
-                                            </Typography>
-                                        </div>
-                                        <CardContent>
-                                            <Typography variant="h6" className="do-test-form-question">
-                                                Số điểm của bạn: {score} / {totalScore}
-                                            </Typography>
-                                            <Typography variant="body1" className="do-test-form-description">
-                                                {score >= totalScore / 2 ? "Chúc mừng bạn đã vượt qua bài test!" : "Rất tiếc bạn chưa vượt qua bài test!"}
-                                            </Typography>
-                                        </CardContent>
-                                        <div className="do-test-form-footer">
-                                            {score >= totalScore / 2 ? (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={handleApply}
-                                                    className="do-test-form-finish-btn"
-                                                >
-                                                    Apply
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={handleCancel}
-                                                    className="do-test-form-retake-btn"
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </Card>
+                                    </form>
                                 </div>
                             </div>
                         )}
                     </div>
                 </>
             )}
-
-        </div>
-
+        </div >
     )
 }
 export default ApplyJob;

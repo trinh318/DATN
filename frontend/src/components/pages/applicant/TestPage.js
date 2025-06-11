@@ -179,7 +179,7 @@ console.log("id:", jobId, testId);
     const handleCancel = () => {
        // setTestCompleted(false);
        console.log("jobid", jobId);
-        navigate(`/jobs/jobdetail/${jobId}`);
+        navigate("/");
     };
 
     const handleApply = async () => {
@@ -206,7 +206,7 @@ console.log("id:", jobId, testId);
 
             if (response.status === 201) {
                 alert('Đã nộp đơn ứng tuyển thành công!');
-                navigate(`/jobs/jobdetail/${jobId}`);
+                navigate("/");
             } else if (response.status === 401) {
                 alert('Bạn cần đăng nhập để ứng tuyển');
             }

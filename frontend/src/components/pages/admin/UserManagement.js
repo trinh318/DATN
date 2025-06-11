@@ -647,9 +647,6 @@ const UserManagement = () => {
 
     return (
         <div className='company-profile'>
-            <div className="company-profile-header">
-                <h2>Công việc đang tuyển dụng</h2>
-            </div>
             <div className="company-profile-container">
                 {/* Thanh điều hướng tab */}
                 <div className="company-profile-tabs">
@@ -1080,10 +1077,10 @@ const UserManagement = () => {
                                 </form>
                                 {/* Footer (Save/Cancel) */}
                                 <div className="user-info-edit-button-row">
-                                    <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn" type="submit">
+                                    <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit">
                                         Lưu
                                     </button>
-                                    <button className="user-info-edit-cancel-btn" type="button" onClick={handleCloseAccountEdit}>
+                                    <button className="user-info-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseAccountEdit}>
                                         Hủy
                                     </button>
                                 </div>
@@ -1434,10 +1431,10 @@ const UserManagement = () => {
                                 </form>
                                 {/* Footer (Save/Cancel) */}
                                 <div className="user-info-edit-button-row">
-                                    <button onClick={() => handleSaveProfile(selectedAccount._id)} className="user-info-edit-save-btn" type="submit">
+                                    <button onClick={() => handleSaveProfile(selectedAccount._id)} className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit">
                                         Lưu
                                     </button>
-                                    <button className="user-info-edit-cancel-btn" type="button" onClick={handleCloseProfileEdit}>
+                                    <button className="user-info-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseProfileEdit}>
                                         Hủy
                                     </button>
                                 </div>

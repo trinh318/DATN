@@ -120,7 +120,7 @@ const Package = () => {
                     >
                         Hãy đăng ký gói dịch vụ để bắt đầu tuyển dụng
                     </span>
-                    <Link to={`/package/${null}`} className="hover:text-blue-600">Đăng ký gói dịch vụ</Link>
+                    <Link to={"/package"} className="hover:text-blue-600">Đăng ký gói dịch vụ</Link>
                 </div>
             </>
         );
@@ -177,7 +177,7 @@ const Package = () => {
                                 {getStatusText(subscription.status)}
                             </span>
                             <button
-                                onClick={() => navigation(`/package/${subscription?.package?._id}`)}
+                                onClick={() => navigation(`/package?id=${subscription?.package?._id}`)}
                                 className="flex items-center justify-center py-1 px-3 text-sm font-bold text-white bg-blue-900 rounded-full hover:bg-blue-700"
                             >
                                 <FaEdit />

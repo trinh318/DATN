@@ -76,7 +76,7 @@ function Layout() {
         <Route exact path="/create-cv-with-ai/my-resume/analyzer" element={<ResumeAnalyzer />} />
         <Route exact path="/home" element={<HomeJS />} />
         <Route exact path="/write-review" element={<ReviewComponent />} />
-        <Route exact path="/package/:id" element={<PackageDetail />} />
+        <Route exact path="/package" element={<PackageDetail />} />
         <Route exact path="/applicants/apply-job/doing-test" element={<TestPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}

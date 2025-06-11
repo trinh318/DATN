@@ -5,6 +5,7 @@ const invitationSchema = new mongoose.Schema({
     jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job', required: true },
     recruiterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     candidateId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    isTest: { type: Boolean, default: false },
     message: { type: String, required: true },
     status: { 
         type: String, 

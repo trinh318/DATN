@@ -19,7 +19,7 @@ import {
 } from "@/components/control/ui/dropdown-menu";
 import { MoreVertical, Trash2, PencilLine, Eye, Plus } from "lucide-react";
 import { MapPin, HeartOff } from 'lucide-react';
-import { BadgePercent, Wallet, Calendar, Share2, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import {
     ArrowDownNarrowWide,
     ArrowUpNarrowWide
@@ -53,23 +53,6 @@ import {
 
 const MyJob = () => {
     const [favoriteJobs, setFavoriteJobs] = useState([]); // Danh sách công việc yêu thích
-    const [jobToApply, setJobToApply] = useState(null); // Công việc được chọn để ứng tuyển
-
-    const handleFavoriteToggle = (jobTitle) => {
-        setFavoriteJobs((prevFavorites) =>
-            prevFavorites.includes(jobTitle)
-                ? prevFavorites.filter((title) => title !== jobTitle)
-                : [...prevFavorites, jobTitle]
-        );
-    };
-
-    const openApplyForm = (job) => {
-        setJobToApply(job); // Gán công việc được chọn
-    };
-
-    const closeApplyForm = () => {
-        setJobToApply(null); // Đóng form ứng tuyển
-    };
 
     //phân trang 
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
@@ -224,62 +207,72 @@ const MyJob = () => {
     const userId = getId(); // Hàm lấy ID người dùng từ đâu đó
     const fetchInvitations = async (userId) => {
         try {
+            setLoading(true);
             const response = await axios.get(`http://localhost:5000/api/invitation/invitations-by-candidate/${userId}`);
-            if (response.data.invitations) {
+
+            if (response.data.invitations && response.data.invitations.length > 0) {
                 setJobInvitationsData(response.data.invitations);
-                console.log("Thông tin việc làm: ", response.data.invitations);
             } else {
                 console.log("Không có thư mời nào được trả về");
+                setJobInvitationsData([]); // <- QUAN TRỌNG: reset về mảng rỗng
             }
         } catch (error) {
             console.error("Lỗi khi tải thư mời:", error);
+            setJobInvitationsData([]); // fallback nếu lỗi
+        } finally {
+            setLoading(false);
         }
     };
+
     useEffect(() => {
         if (userId) {
-            console.log("thu moi", userId)
-            setLoading(true);
-            // Gọi API để lấy thư mời của ứng viên
-            axios.get(`http://localhost:5000/api/invitation/invitations-by-candidate/${userId}`)
-                .then(response => {
-                    if (response.data.invitations) {
-                        setJobInvitationsData(response.data.invitations); // Lưu dữ liệu thư mời vào state
-                        console.log("thong tin viec ", response.data.invitations);
-                    } else {
-                        console.log("Không có thư mời nào được trả về");
-                    }
-                })
-                .catch(error => {
-                    console.error("Lỗi khi tải thư mời:", error);
-                })
-                .finally(() => {
-                    setLoading(false); // Đảm bảo loading tắt sau khi dữ liệu được tải
-                });
+            fetchInvitations(userId);
         }
     }, [userId]);
 
-    const handleAccept = (invitationId) => {
-        setLoading(true); // Bắt đầu quá trình tải
+    const handleAccept = async (invitationId) => {
+        setLoading(true);
 
         if (!invitationId) {
             console.error('Invitation ID is undefined!');
-            setLoading(false); // Tắt loading ngay nếu không có invitationId
+            setLoading(false);
             return;
         }
 
-        axios.post(`http://localhost:5000/api/invitation/accept/${invitationId}`)
-            .then(response => {
-                console.log(response.data.message);
-                alert('Bạn đã chấp nhận lời mời và đang chờ nhà tuyển dụng xác nhận lịch phỏng vấn!');
-            })
-            .catch(error => {
-                console.error('Lỗi khi chấp nhận lời mời:', error.response?.data?.message || error.message);
-                alert('Đã xảy ra lỗi khi chấp nhận lời mời. Vui lòng thử lại!');
-            })
-            .finally(() => {
-                fetchInvitations(userId); // Đảm bảo loading tắt sau khi dữ liệu được tải
-            });
+        try {
+            const response = await axios.post(`http://localhost:5000/api/invitation/accept/${invitationId}`);
+            console.log(response.data.message);
+            alert('Bạn đã chấp nhận lời mời và đang chờ nhà tuyển dụng xác nhận lịch phỏng vấn!');
+        } catch (error) {
+            console.error('Lỗi khi chấp nhận lời mời:', error.response?.data?.message || error.message);
+            alert('Đã xảy ra lỗi khi chấp nhận lời mời. Vui lòng thử lại!');
+        } finally {
+            await fetchInvitations(userId); // Đợi fetch xong
+            setLoading(false);              // Rồi mới tắt loading
+        }
     };
+
+    const handleOnlyAccept = async (invitationId) => {
+        setLoading(true);
+
+        if (!invitationId) {
+            console.error('Invitation ID is undefined!');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:5000/api/invitation/accept/acp-invited/${invitationId}`);
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Lỗi khi chấp nhận lời mời:', error.response?.data?.message || error.message);
+            alert('Đã xảy ra lỗi khi chấp nhận lời mời. Vui lòng thử lại!');
+        } finally {
+            await fetchInvitations(userId);
+            setLoading(false);
+        }
+    };
+
 
     const handleReject = (invitationId) => {
         setLoading(true);
@@ -303,18 +296,31 @@ const MyJob = () => {
             });
     };
 
-    const formatUpdateTime = (updateTime) => {
-        if (!updateTime) return 'không rõ';
-        const now = new Date();
-        const updatedDate = new Date(updateTime);
-        const diffTime = now - updatedDate;
-        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-        const diffDays = Math.floor(diffHours / 24);
-        return diffDays > 0
-            ? `${diffDays} ngày`
-            : diffHours > 0
-                ? `${diffHours} giờ`
-                : '0 giây';
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [selectedInvitation, setSelectedInvitation] = useState(null);
+
+    const handleAcceptClick = (invitation) => {
+        console.log(invitation)
+        setSelectedInvitation(invitation);
+        setShowConfirmModal(true);
+    };
+
+    const handleConfirmAccept = async () => {
+        if (!selectedInvitation) return;
+
+        if (selectedInvitation.isTest) {
+            const testId = selectedInvitation.job.test;
+            const jobId = selectedInvitation.job._id;
+            handleOnlyAccept(selectedInvitation.invitationId)
+            const url = `/applicants/apply-job/doing-test?testId=${testId}&jobId=${jobId}`;
+            window.open(url, '_blank'); // mở tab mới
+        } else {
+            handleAccept(selectedInvitation.invitationId); // gọi hàm xử lý
+        }
+
+        // Đóng modal xác nhận
+        setShowConfirmModal(false);
+        setSelectedInvitation(null);
     };
 
     return (
@@ -409,7 +415,7 @@ const MyJob = () => {
                                                         <div>
                                                             <Link
                                                                 to={`/jobs/jobdetail/${job.job_id?._id}`}
-                                                                className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                             >
                                                                 {job.job_id?.title}
                                                             </Link>
@@ -532,7 +538,7 @@ const MyJob = () => {
                                                         <div>
                                                             <Link
                                                                 to={`/jobs/jobdetail/${job.job_id?._id}`}
-                                                                className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                             >
                                                                 {job.job_id?.title}
                                                             </Link>
@@ -554,12 +560,12 @@ const MyJob = () => {
                                                     </div>
 
                                                     <div className="flex flex-col justify-between items-end gap-2 -ml-4">
-                                                        <button
-                                                            onClick={() => openApplyForm(job.job_id)}
-                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-700"
+                                                        <Link
+                                                            to={`/jobs/jobdetail/${job.job_id?._id}`}
+                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-700"
                                                         >
                                                             Apply
-                                                        </button>
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             ))
@@ -654,7 +660,7 @@ const MyJob = () => {
                                                         <div>
                                                             <Link
                                                                 to={`/jobs/jobdetail/${job.job_id?._id}`}
-                                                                className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                             >
                                                                 {job.job_id?.title}
                                                             </Link>
@@ -676,12 +682,12 @@ const MyJob = () => {
                                                     </div>
 
                                                     <div className="flex flex-col justify-between items-end gap-2 -ml-4">
-                                                        <button
-                                                            onClick={() => openApplyForm(job.job_id)}
-                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-700"
+                                                        <Link
+                                                            to={`/jobs/jobdetail/${job.job_id?._id}`}
+                                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-700"
                                                         >
                                                             Apply
-                                                        </button>
+                                                        </Link>
                                                         <button onClick={() => toggleFavorite(job.job_id?.title)}>
                                                             {favorites.includes(job.job_id?.title) ? (
                                                                 <Heart className="w-5 h-5 text-red-500 fill-red-500" />
@@ -781,7 +787,7 @@ const MyJob = () => {
                                                             <div>
                                                                 <Link
                                                                     to={`/jobs/jobdetail/${job.job?._id}`}
-                                                                    className="text-lg font-semibold text-blue-600 hover:underline"
+                                                                    className="text-lg font-semibold text-blue-600 hover:no-underline"
                                                                 >
                                                                     {job.job?.title}
                                                                 </Link>
@@ -819,7 +825,7 @@ const MyJob = () => {
                                                     </div>
                                                     <div className="flex gap-4">
                                                         <button
-                                                            onClick={() => handleAccept(job.invitationId)}
+                                                            onClick={() => handleAcceptClick(job)}
                                                             className="flex items-center gap-2 px-4 py-1 bg-blue-500 text-sm text-white rounded-full hover:bg-blue-600 transition"
                                                         >
                                                             <FaTimes /> Chấp nhận
@@ -885,9 +891,32 @@ const MyJob = () => {
                     </div>
                 )}
             </div>
-            {jobToApply && (
-                <ApplyJob job={jobToApply} onClose={closeApplyForm} />
+            {showConfirmModal && selectedInvitation && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                    <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">
+                            {selectedInvitation.isTest
+                                ? "Công việc này yêu cầu bạn phải vượt qua một bài test trước khi ứng tuyển."
+                                : "Bạn có chắc chắn muốn ứng tuyển công việc này không?"}
+                        </h3>
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowConfirmModal(false)}
+                                className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded"
+                            >
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleConfirmAccept}
+                                className="px-4 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded"
+                            >
+                                Đồng ý
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
+
         </>
     );
 };

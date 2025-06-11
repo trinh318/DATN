@@ -9,25 +9,6 @@ import { FaBuilding, FaEye, FaUsers, FaTimes } from 'react-icons/fa';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
-
-const reviews = [
-    {
-        date: "April 2025",
-        title: "Good for new employee",
-        rating: 3,
-        recommend: true,
-        liked: "Fully covered insurance, appropriate benefits, and a stable job. The OT pay is really hard to submit, have to check multiple times before approved.",
-        improvement: "Need to improve benefits for long-term employee, improve overtime policy",
-    },
-    {
-        date: "September 2023",
-        title: "Đồng nghiệp hòa đồng, thân thiện, giúp đỡ nhau",
-        rating: 4,
-        recommend: true,
-    },
-];
-
-
 export default function CompanyDetail() {
     const [percentage, setPercentage] = useState(0);
     const radius = 50; // Bán kính vòng tròn
@@ -71,7 +52,7 @@ export default function CompanyDetail() {
                     const response = await axios.get(`http://localhost:5000/api/jobs/jobs-by-company/${companyId}`);
 
                     setAllJobDataUnAuth(response.data);
-                    console.log("thong tin cua job cong ty la",response.data )
+                    console.log("thong tin cua job cong ty la", response.data)
                 } catch (error) {
                     console.error('Error fetching data:', error);
                     setError('Lỗi khi tải dữ liệu.');
@@ -375,24 +356,6 @@ export default function CompanyDetail() {
         return stars;
     };
 
-
-    const reviews = [
-        {
-            date: "Tháng 4 năm 2025",
-            title: "Môi trường làm việc tốt",
-            rating: 5,
-            positive: "Mình mới hoàn thành dự án đầu tiên tại công ty và phải nói là môi trường làm việc khá ổn áp. Được làm với team giỏi, support nhau tốt, không có drama, chỉ có code và giải quyết vấn đề. Quản lý cũng lắng nghe và hỗ trợ khi cần, nên cảm giác khá yên tâm khi làm việc. Không có OT policy, công ty không khuyến khích OT nếu có request rõ ràng thì sẽ được trả theo dự án.",
-            improve: "Mới vào thì được làm dự án ngay, nhưng giờ đang đợi dự án mới, cũng hơi hoang mang vì không biết sẽ chờ bao lâu. Nếu công ty có lộ trình rõ ràng hơn cho anh em dev trong giai đoạn chờ dự án thì sẽ tốt hơn."
-        },
-        {
-            date: "Tháng 3 năm 2025",
-            title: "Đồng nghiệp thân thiện",
-            rating: 4,
-            positive: "Team hỗ trợ nhau tốt, dễ chia sẻ, không áp lực kiểm tra nhiều. Không khí làm việc thoải mái.",
-            improve: "Quy trình onboarding cần rõ ràng hơn, tài liệu hiện tại hơi rối."
-        },
-        // Thêm các đánh giá khác tại đây...
-    ];
     const [rating, setRating] = useState(0);
 
     // Giả định bạn có biến userLoginStatus để kiểm tra login
@@ -465,7 +428,7 @@ export default function CompanyDetail() {
                 for (const key in data.detailsPercentage) {
                     const starPercents = data.detailsPercentage[key];
                     detailsMap[key.replace("_", " ").replace(/\b\w/g, l => l.toUpperCase())] = starPercents.map((percent, index) => ({
-                        star:  index + 1,
+                        star: index + 1,
                         percent: parseFloat(percent),
                     }));
                 }
@@ -483,35 +446,35 @@ export default function CompanyDetail() {
     const [companyInfo, setCompanyInfo] = useState(null);
     const [comments, setComments] = useState([]);
 
-useEffect(() => {
-  const fetchCompanyComments = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/reviewschema/company/${companyId}/comments`
-      );
+    useEffect(() => {
+        const fetchCompanyComments = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:5000/api/reviewschema/company/${companyId}/comments`
+                );
 
-      const commentList = response.data.map((r) => ({
-        title: r.comment, // hoặc bạn có thể để tên khác nếu cần
-        rating: r.rating,
-        date: new Date(r.created_at).toLocaleDateString("vi-VN", {
-          year: "numeric",
-          month: "long"
-        }),
-        positive: r.what_i_love,
-        improve: r.suggestion,
-        recommend: r.recommend,
-      }));
+                const commentList = response.data.map((r) => ({
+                    title: r.comment, // hoặc bạn có thể để tên khác nếu cần
+                    rating: r.rating,
+                    date: new Date(r.created_at).toLocaleDateString("vi-VN", {
+                        year: "numeric",
+                        month: "long"
+                    }),
+                    positive: r.what_i_love,
+                    improve: r.suggestion,
+                    recommend: r.recommend,
+                }));
 
-      setComments(commentList);
-    } catch (err) {
-      console.error("Lỗi khi lấy đánh giá:", err);
-    }
-  };
+                setComments(commentList);
+            } catch (err) {
+                console.error("Lỗi khi lấy đánh giá:", err);
+            }
+        };
 
-  if (companyId) {
-    fetchCompanyComments();
-  }
-}, [companyId]);
+        if (companyId) {
+            fetchCompanyComments();
+        }
+    }, [companyId]);
 
     if (!reviewStats) return <p>Đang tải thống kê đánh giá...</p>;
 
@@ -550,7 +513,7 @@ useEffect(() => {
                         </div>
 
                         <div className="company-detail-info-meta">
-                           
+
                             <span className="company-detail-info-size">
                                 🏢 {company?.quymo} người
                             </span>
@@ -702,7 +665,7 @@ useEffect(() => {
                                                             <span>
                                                                 {item.star}
                                                             </span>
-                                                             <span>{oneStars(item.star)}</span>
+                                                            <span>{oneStars(item.star)}</span>
                                                             <div className="bar-container">
                                                                 <div
                                                                     className="bar-fill"
@@ -766,7 +729,7 @@ useEffect(() => {
                                 </div>
                                 <div className="company-detail-info-review-comment-container">
                                     <div className="company-detail-info-review-comment-list">
-                                    {comments.map((review, index) => (
+                                        {comments.map((review, index) => (
                                             <div key={index} className="company-detail-info-review-comment-container">
                                                 <div className="company-detail-info-review-comment-header">
                                                     <p className="company-detail-info-review-comment-date">{review.date}</p>

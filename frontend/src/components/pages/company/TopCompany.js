@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-import '../../../styles/topcompany.css';
 import axios from 'axios';
 import { getId, isAuth } from '../../../libs/isAuth';
 
@@ -163,110 +162,109 @@ export default function TopCompany() {
     };
 
     return (
-        <div className='unique-company'>
-            <div className='unique-company-search-container'>
-                <h2 className='unique-company-search-title'>
-                    Khám phá 100.000+ công ty nổi bật
-                </h2>
-                <p className='unique-company-search-subtitle'>
-                    Tra cứu thông tin công ty và tìm kiếm nơi làm việc tốt nhất dành cho bạn
-                </p>
-                <div className='unique-company-search-bar'>
-                    <input
-                        type='text'
-                        placeholder='Nhập tên công ty'
-                        className='unique-company-search-input'
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button className='unique-company-search-button' onClick={() => handleSearch(searchTerm)}>
-                        Tìm kiếm
-                    </button>
+        <>
+            <div className="flex flex-col items-center">
+                <div className="w-full px-5 sm:px-10 py-10 text-left shadow-md bg-[repeating-linear-gradient(45deg,_#2c3e50,_#2c3e50_130px,_rgba(20,120,130,0.9)_230px,_rgba(20,120,130,0.9)_360px,_rgba(44,140,150,0.6)_460px,_rgba(44,140,150,0.6)_590px,_rgba(70,140,150,0.4)_690px,_rgba(70,140,150,0.4)_720px)]">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                        Khám phá 100.000+ công ty nổi bật
+                    </h2>
+                    <p className="text-sm text-[#e3e5e7] mb-6">
+                        Tra cứu thông tin công ty và tìm kiếm nơi làm việc tốt nhất dành cho bạn
+                    </p>
+                    <div className="flex items-center gap-2 max-w-3xl">
+                        <input
+                            type="text"
+                            placeholder="Nhập tên công ty"
+                            className="flex-1 border border-gray-300 rounded-full px-4 py-3 text-base outline-none placeholder:text-gray-500"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <button
+                            onClick={() => handleSearch(searchTerm)}
+                            className="bg-[#2f9a9e] hover:bg-[#228b7d] text-white px-6 py-3 rounded-full transition"
+                        >
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+
+                <div className="w-[90%] py-5 bg-white">
+                    <h2 className="text-2xl font-semibold text-gray-800 my-6">
+                        Công ty nổi bật ({allCompanies.length})
+                    </h2>
+
+                    <div className="flex flex-wrap gap-5">
+                        {companies.length > 0 ? (
+                            companies.map((company) => (
+                                <div
+                                    key={company?._id}
+                                    className="w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.33%-13.33px)] bg-white shadow-md flex flex-col justify-between"
+                                >
+                                    <img
+                                        src={company?.banner}
+                                        alt="Company Banner"
+                                        className="w-full h-[150px] object-cover"
+                                    />
+                                    <div className="flex items-center p-3">
+                                        <img
+                                            src={company?.logo}
+                                            alt="Company Logo"
+                                            className="w-[100px] h-[100px] object-contain mr-3"
+                                        />
+                                        <div className="flex-1">
+                                            <Link
+                                                to={`/companies/companydetail/${company._id}`}
+                                                className="text-base font-bold text-gray-900 hover:no-underline"
+                                            >
+                                                {company.company_name}
+                                            </Link>
+                                            <p className="text-sm text-gray-500 mt-1">{company?.industry}</p>
+                                            {isAuth() && (
+                                                <>
+                                                    {company?.isFollowed ? (
+                                                        <button
+                                                            onClick={() => handleUnfollow(company._id)}
+                                                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                                                        >
+                                                            Bỏ theo dõi
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => handleFollow(company._id)}
+                                                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                                                        >
+                                                            + Theo dõi
+                                                        </button>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <Link
+                                        to={`/companies/companydetail/${company._id}`}
+                                        className="text-center mx-3 mb-3 border border-[#ff4500] text-[#ff4500] hover:border-[#ab0303] px-4 py-2 rounded"
+                                    >
+                                        Xem công ty
+                                    </Link>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Không có công ty nào.</p>
+                        )}
+                    </div>
+
+                    {visibleCompanies < allCompanies.length && (
+                        <div className="text-center mt-6">
+                            <button
+                                onClick={handleLoadMore}
+                                className="w-[200px] px-5 py-3 bg-[#5383b6] text-white rounded hover:bg-[#20539b] transition"
+                            >
+                                Xem thêm
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
-            {isAuth() ? (
-                <>
-                    <div className='unique-company-container'>
-                        <h2 className='unique-company-title'>Công ty nổi bật ({allCompanies.length})</h2>
-                        <div className='unique-company-grid'>
-                            {companies.length > 0 ? (
-                                companies.map((company) => (
-                                    <div key={company?._id} className='unique-company-card'>
-                                        <img src={company?.banner} alt='Company Banner' className='unique-company-banner' />
-                                        <div className='unique-company-info'>
-                                            <img src={company?.logo} alt='Company Logo' className='unique-company-logo' />
-                                            <div className='unique-company-details'>
-                                                <Link to={`/companies/companydetail/${company._id}`} className="unique-company-name">
-                                                    <h3 className='unique-company-name'>{company.company_name}</h3>
-                                                </Link>
-                                                <p className='unique-company-followers'>{company?.industry}</p>
-                                                {company?.isFollowed ? (
-                                                    <button onClick={() => handleUnfollow(company._id)} className='unique-company-follow-button'>Bỏ theo dõi</button>
-                                                ) : (
-                                                    <button onClick={() => handleFollow(company._id)} className='unique-company-follow-button'>+ Theo dõi</button>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <Link to={`/companies/companydetail/${company._id}`} className='unique-company-view-button'>
-                                            Xem công ty
-                                        </Link>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>Không có công ty nào.</p>
-                            )}
-                        </div>
-                        {/* Nút Xem thêm */}
-                        {visibleCompanies < allCompanies.length && (
-                            <div className='unique-company-load-more'>
-                                <button onClick={handleLoadMore} className='unique-company-load-more-button'>
-                                    Xem thêm
-                                </button>
-                            </div>
-                        )}
-
-                    </div>
-                </>
-            ) : (
-                <>
-                    <div className='unique-company-container'>
-                        <h2 className='unique-company-title'>Công ty nổi bật ({allCompanies.length})</h2>
-                        <div className='unique-company-grid'>
-                            {companies.length > 0 ? (
-                                companies.map((company) => (
-                                    <div key={company?._id} className='unique-company-card'>
-                                        <img src={company?.banner} alt='Company Banner' className='unique-company-banner' />
-                                        <div className='unique-company-info'>
-                                            <img src={company?.logo} alt='Company Logo' className='unique-company-logo' />
-                                            <div className='unique-company-details'>
-                                                <Link to={`/companies/companydetail/${company._id}`} className="unique-company-name">
-                                                    <h3 className='unique-company-name'>{company.company_name}</h3>
-                                                </Link>
-                                                <p className='unique-company-followers'>{company?.industry}</p>
-                                                <button onClick={() => handleFollow(company._id)} className='unique-company-follow-button'>+ Theo dõi</button>
-                                            </div>
-                                        </div>
-                                        <Link to={`/companies/companydetail/${company._id}`} className='unique-company-view-button'>
-                                            Xem công ty
-                                        </Link>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>Không có công ty nào.</p>
-                            )}
-                        </div>
-                        {/* Nút Xem thêm */}
-                        {visibleCompanies < allCompanies.length && (
-                            <div className='unique-company-load-more'>
-                                <button onClick={handleLoadMore} className='unique-company-load-more-button'>
-                                    Xem thêm
-                                </button>
-                            </div>
-                        )}
-
-                    </div>
-                </>
-            )}
-        </div>
+        </>
     );
 }

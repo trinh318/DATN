@@ -15,6 +15,7 @@ const cron = require('node-cron');
 const { automoderate } = require('../services/Moderation');
 const checkFeatureAccess = require('../middleware/checkFeatureAccess');
 const checkFeatureBySource = require('../middleware/checkFeatureBySource');
+
 // CREATE - Tạo công việc mới
 // Trong API server
 router.post('/', authenticateToken, checkFeatureAccess('post_jobs'), async (req, res) => {
@@ -145,11 +146,136 @@ router.post('/', authenticateToken, checkFeatureAccess('post_jobs'), async (req,
   }
 });
 
+const GetBestJob = async () => {
+  const today = new Date();
+  const limit = 100;
+  const topLimit = 200; // Số lượng job tốt nhất ban đầu trước khi random
+
+  const bestJobs = await Job.aggregate([
+    {
+      $match: {
+        status: 'open',
+        highlighted: true,
+        highlighted_until: { $gte: today },
+        application_deadline: { $gte: today }
+      }
+    },
+    {
+      $lookup: {
+        from: 'savedjobs',
+        localField: '_id',
+        foreignField: 'job_id',
+        as: 'saved_jobs'
+      }
+    },
+    {
+      $addFields: {
+        saved_count: { $size: '$saved_jobs' }
+      }
+    },
+    {
+      $lookup: {
+        from: 'viewedjobs',
+        localField: '_id',
+        foreignField: 'job_id',
+        as: 'viewed_jobs'
+      }
+    },
+    {
+      $addFields: {
+        view_count: { $size: '$viewed_jobs' }
+      }
+    },
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: 'company_id',
+        foreignField: 'company_id',
+        as: 'company_reviews'
+      }
+    },
+    {
+      $addFields: {
+        avg_company_rating: {
+          $cond: [
+            { $gt: [{ $size: '$company_reviews' }, 0] },
+            { $avg: '$company_reviews.rating' },
+            0
+          ]
+        }
+      }
+    },
+    {
+      $match: {
+        avg_company_rating: { $gte: 0 }
+      }
+    },
+    {
+      $lookup: {
+        from: 'companies',
+        localField: 'company_id',
+        foreignField: '_id',
+        as: 'company_info'
+      }
+    },
+    {
+      $unwind: {
+        path: '$company_info',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $lookup: {
+        from: 'moderations',
+        localField: 'moderation',
+        foreignField: '_id',
+        as: 'moderation_info'
+      }
+    },
+    {
+      $unwind: {
+        path: '$moderation_info',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $addFields: {
+        company_id: '$company_info',
+        moderation: { status: '$moderation_info.status' }
+      }
+    },
+    // Sắp xếp theo độ hot
+    {
+      $sort: {
+        saved_count: -1,
+        view_count: -1,
+        avg_company_rating: -1,
+        created_at: -1
+      }
+    },
+    // Lấy top N job tốt nhất
+    { $limit: topLimit },
+    // Random trong số đó
+    { $sample: { size: limit } },
+    // Ẩn các mảng phụ không cần thiết
+    {
+      $project: {
+        saved_jobs: 0,
+        viewed_jobs: 0,
+        company_reviews: 0,
+        company_info: 0,
+        moderation_info: 0
+      }
+    }
+  ]);
+
+  return bestJobs;
+};
 
 // READ - Lấy tất cả công việc
 router.get('/', async (req, res) => {
   try {
-    const { keyword, job_type, location, status } = req.query;
+    const { keyword, job_type, location, status, best } = req.query;
 
     let filter = { status: 'open' };
     if (keyword) filter.title = { $regex: keyword, $options: 'i' };
@@ -157,23 +283,34 @@ router.get('/', async (req, res) => {
     if (location) filter.location = { $regex: location, $options: 'i' };
     if (status) filter.status = status;
 
-    // Tìm kiếm công việc và populate moderation
-    const jobs = await Job.find(filter)
-      .populate('company_id')
-      .populate({
-        path: 'moderation',
-        select: 'status' // Chỉ lấy trạng thái duyệt
-      });
+    let jobs;
+    if (best === 'true') {
+      // Nếu client yêu cầu lấy best jobs
+      jobs = await GetBestJob();
+    } else {
+      // Lấy danh sách job bình thường
+      jobs = await Job.find(filter)
+        .populate('company_id')
+        .populate({
+          path: 'moderation',
+          select: 'status'
+        });
 
-    const filteredJobs = jobs.filter(job =>
-      job.moderation && job.moderation.status !== 'pending' && job.moderation.status !== 'rejected'
-    );
-    res.json(filteredJobs);
+      // Lọc bỏ job chưa được duyệt
+      jobs = jobs.filter(job =>
+        job.moderation &&
+        job.moderation.status !== 'pending' &&
+        job.moderation.status !== 'rejected'
+      );
+
+    }
+
+    res.json(jobs);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Lỗi server', error });
   }
 });
-
 
 router.get('/filter', async (req, res) => {
   try {
@@ -266,7 +403,7 @@ router.get('/recruiter/jobs-by-company/:companyId', async (req, res) => {
     console.log("id company: ", companyId);
 
     // 1. Tìm các job có company_id và status là 'open'
-    const jobs = await Job.find({ 
+    const jobs = await Job.find({
       company_id: companyId,
     });
 
@@ -308,7 +445,7 @@ router.get('/jobs-by-company/:companyId', async (req, res) => {
     console.log("id company: ", companyId);
 
     // 1. Tìm các job có company_id và status là 'open'
-    const jobs = await Job.find({ 
+    const jobs = await Job.find({
       company_id: companyId,
       status: 'open' // chỉ lấy job đang mở
     });
@@ -831,7 +968,7 @@ router.get('/jobs/same-company/:jobId', async (req, res) => {
       company_id: job.company_id,
       _id: { $ne: jobId },
       status: 'open'
-     }).populate('company_id');
+    }).populate('company_id');
 
     // 3. Lọc các job có moderation status là 'approved' hoặc 'reported'
     const filteredJobs = await Promise.all(

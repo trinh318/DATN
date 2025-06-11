@@ -35,7 +35,7 @@ function Header() {
                                 </>
                             ) : (
                                 <>
-                                    <Link to="/create-cv-with-ai" className="text-base text-gray-800 hover:text-[#147882] leading-none">Create CV with AI</Link>
+                                    <Link to="/create-cv-with-ai" className="text-base text-gray-800 hover:text-[#147882] leading-none" target="_blank" rel="noopener noreferrer">Create CV with AI</Link>
                                     <Link to="/create-cv-with-ai/my-resume/analyzer" className="text-base text-gray-800 hover:text-[#147882] leading-none">Resume Analyzer</Link>
                                     <Jobs to="/jobs" className="text-base text-gray-800 hover:text-[#147882]leading-none">Jobs</Jobs>
                                     <Link to="/companies" className="text-base text-gray-800 hover:text-[#147882] leading-none">Companies</Link>

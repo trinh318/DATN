@@ -97,7 +97,7 @@ const CategoryManager = () => {
         name: selectedAccount.name,
         careers: selectedAccount.careers,
         state: state
-      };      
+      };
 
       if (!id) {
         // Tạo mới danh mục
@@ -114,7 +114,7 @@ const CategoryManager = () => {
     } catch (error) {
       console.error("Lỗi khi lưu danh mục:", error);
 
-    // Xử lý lỗi từ backend
+      // Xử lý lỗi từ backend
       if (error.response && error.response.data && error.response.data.message) {
         alert(`Lỗi :  ${error.response.data.message}`);
       } else {
@@ -133,10 +133,6 @@ const CategoryManager = () => {
 
   return (
     <div className='company-profile'>
-      <div className="company-profile-header">
-        <h2>Quản lý danh mục nghề nghiệp</h2>
-
-      </div>
       <div className="company-profile-container">
         <div className="company-profile-tabs">
           <button className="company-profile-tab">
@@ -338,10 +334,10 @@ const CategoryManager = () => {
 
             {/* Footer */}
             <div className="user-info-edit-button-row">
-              <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn" type="submit">
+              <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit">
                 Lưu
               </button>
-              <button className="user-info-edit-cancel-btn" type="button" onClick={handleCloseAccountEdit}>
+              <button className="user-info-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseAccountEdit}>
                 Hủy
               </button>
             </div>

@@ -2,9 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import '../../styles/bestjob.css';
 import axios from 'axios';
 import { getId, isAuth } from '../../libs/isAuth';
+import {
+    CircleDot,
+    CircleSlash,
+    Clock
+} from "lucide-react";
+import { MapPin, HeartOff } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function BestJob() {
     const [jobs, setJobs] = useState([]);
@@ -20,7 +26,7 @@ export default function BestJob() {
         const fetchJobs = async () => {
             if (!isAuth()) {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/jobs');
+                    const response = await axios.get('http://localhost:5000/api/jobs?best=true');
                     setJobs(response.data);
                     setLoading(false);
                     console.log(response.data);
@@ -39,7 +45,7 @@ export default function BestJob() {
                     // Tải đồng thời danh sách công việc đã lưu và tất cả công việc
                     const [savedJobsResponse, allJobsResponse] = await Promise.all([
                         axios.get(`http://localhost:5000/api/savedjobs/mysavedjobs/${userId}`),
-                        axios.get('http://localhost:5000/api/jobs')
+                        axios.get('http://localhost:5000/api/jobs?best=true')
                     ]);
 
                     const savedJobs = savedJobsResponse.data;
@@ -104,7 +110,7 @@ export default function BestJob() {
 
     //phân trang 
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-    const jobsPerPage = 18; // Số lượng job mỗi trang
+    const jobsPerPage = 8; // Số lượng job mỗi trang
 
     // Tính toán các job hiển thị
     const indexOfLastJob = currentPage * jobsPerPage;
@@ -242,99 +248,105 @@ export default function BestJob() {
     };
 
     return (
-        <div className="job-listing-container">
-            <header className="job-list-header">
-                <h1 className="header-title">Việc làm tốt nhất</h1>
-            </header>
+        <>
+            <div className="w-[90%] mx-auto py-5">
+                <header className="flex justify-between items-center mt-2 border-t border-r border-gray-300">
+                    <h1 className="text-[#005780] text-xl mt-2">Việc làm tốt nhất</h1>
+                </header>
 
-            <div className="job-filters">
-                {/**<div className="filters-left">
-                    <div className="filter-dropdown" ref={dropdownRef}>
-                        <button className="filter-dropdown-toggle" onClick={toggleDropdown}>
-                            Lọc theo: <span className="selected-filter">{selectedFilter}</span>
-                            <span className="dropdown-arrow-2">▼</span>
-                        </button>
-                        {isDropdownOpen && (
-                            <div className="filter-dropdown-menu">
-                                {['Địa điểm', 'Mức lương', 'Kinh nghiệm', 'Ngành nghề'].map((filter) => (
-                                    <div
-                                        key={filter}
-                                        className={`filter-option ${selectedFilter === filter ? 'selected' : ''}`}
-                                        onClick={() => selectFilter(filter)}
-                                    >
-                                        {filter}
+                <div className="flex flex-col gap-5 mt-4">
+                    <div className={`grid gap-5 w-full sm:grid-cols-1 md:grid-cols-2`}>
+                        {jobs.length > 0 ? (
+                            currentJobs.map((job, index) => (
+                                <div
+                                    key={index}
+                                    className="flex h-36 gap-4 p-4 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all"
+                                >
+                                    <div className="aspect-square flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                                        <img
+                                            src={job.company_id?.logo || '/default-logo.png'}
+                                            alt="Company Logo"
+                                            className="object-contain w-full h-full"
+                                        />
                                     </div>
-                                ))}
-                            </div>
+
+                                    <div className="flex flex-col justify-between flex-grow min-w-0">
+                                        <div>
+                                            <div className="flex items-center gap-2 max-w-full overflow-hidden">
+                                                {job.highlighted && new Date(job.highlighted_until) >= new Date() && (
+                                                    <span className="inline-block bg-gradient-to-r from-[#f96c4b] to-[#fba63c] text-white text-[12px] font-bold px-2 py-[2px] rounded-full whitespace-nowrap">
+                                                        ✨ NỔI BẬT
+                                                    </span>
+                                                )}
+                                                <Link
+                                                    to={`/jobs/jobdetail/${job._id}`}
+                                                    className="text-lg font-semibold text-blue-600 hover:no-underline truncate block"
+                                                    title={job.title} // Tooltip để hiển thị đầy đủ tiêu đề khi hover
+                                                >
+                                                    {job.title}
+                                                </Link>
+                                            </div>
+                                            <p className="text-sm text-gray-600 mt-1">{job.field} - {job.company_id?.company_name}</p>
+                                            <p className="text-sm text-green-600 mt-1 font-medium">{job.salary}$/tháng</p>
+                                        </div>
+                                        <div className="flex items-center text-sm text-gray-500 mt-2 gap-4">
+                                            <div className="flex items-center gap-1">
+                                                <MapPin className="w-4 h-4" />
+                                                <span>{job.company_id?.location}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-4 h-4 text-yellow-600" />
+                                                <span className="text-yellow-700">
+                                                    Còn {Math.floor((new Date(job.application_deadline) - new Date()) / (1000 * 3600 * 24))} ngày
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col justify-between items-end gap-2 shrink-0">
+                                        <Link
+                                            to={`/jobs/jobdetail/${job._id}`}
+                                            className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-700 hover:no-underline"
+                                        >
+                                            Apply
+                                        </Link>
+                                        <button onClick={() => toggleFavorite(job.title)}>
+                                            {job.saved ? (
+                                                <Heart className="w-5 h-5 text-red-500 fill-red-500" />
+                                            ) : (
+                                                <HeartOff className="w-5 h-5 text-gray-400 hover:text-red-400" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500 italic">Không có công việc liên quan.</p>
                         )}
                     </div>
-                    <div className="location-dropdown-2">
-                        <span className="location-icon-2">📍</span>
-                        <span className="location-text-2">Tất cả tỉnh/thành phố</span>
-                    </div>
-                </div>
-                <div className="navigation-component">
-                    <a href="#view-all" className="view-all">Xem tất cả</a>
-                    <div className="nav-buttons">
-                        <button className="nav-button" onClick={goToPreviousPage} disabled={currentPage === 0}>&#8249;</button>
-                        <button className="nav-button" onClick={goToNextPage} disabled={currentPage === totalPages - 1}>&#8250;</button>
-                    </div>
-                </div> */}
-            </div>
 
-            <div className='job-list'>
-                <div className="job-container">
-                    {jobs.length > 0 ? (
-                        currentJobs.map((job, index) => (
-                            <div key={index} className="job-item-card">
-                                <div className="company-logo">
-                                    <img src={job.company_id ? job.company_id.logo : 'N/A'} alt="Company Logo" />
-                                </div>
-                                <div className="job-info-section">
-                                    <Link to={`/jobs/jobdetail/${job._id}`} className="position-title"  title={job.title} >
-                                        <h2 className="position-title">
-                                            {job.highlighted && new Date(job.highlighted_until) >= new Date() && (
-                                                <span className="highlighted-badge">✨ NỔI BẬT</span>
-                                            )}
-                                            {job.title} 
-                                        </h2>
-                                    </Link>
-                                    <p className="company-name">{job.company_id ? job.company_id.company_name : 'N/A'}</p>
-                                    <div className="job-info">
-                                        <span className="salary-info">{job.salary}</span>
-                                        <span className="location-info">{job.location}</span>
-                                    </div>
-                                </div>
-                                <div className="favorite-icon" onClick={() => toggleFavorite(job._id)}>
-                                    <span>{job.saved ? '❤️' : '🤍'}</span>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Không có công việc nào.</p>
-                    )}
-                </div>
-                {/* Pagination */}
-                <div className="custom-pagination">
-                    <button
-                        className="pagination-button"
-                        onClick={goToPreviousPage}
-                        disabled={currentPage === 1}
-                    >
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                    </button>
-                    <span className="pagination-info">
-                        {currentPage}/{totalPages}
-                    </span>
-                    <button
-                        className="pagination-button"
-                        onClick={goToNextPage}
-                        disabled={currentPage === totalPages}
-                    >
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </button>
+                    {/* Pagination */}
+                    <div className="flex justify-center items-center gap-4 mt-4">
+                        <button
+                            className="w-8 h-8 rounded-full border border-gray-500 bg-white text-blue-700 flex items-center justify-center disabled:opacity-40"
+                            onClick={goToPreviousPage}
+                            disabled={currentPage === 1}
+                        >
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+                        <span className="text-base font-semibold text-gray-800">
+                            {currentPage}/{totalPages}
+                        </span>
+                        <button
+                            className="w-8 h-8 rounded-full border border-gray-500 bg-white text-blue-700 flex items-center justify-center disabled:opacity-40"
+                            onClick={goToNextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

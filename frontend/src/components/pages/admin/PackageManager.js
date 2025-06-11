@@ -448,33 +448,29 @@ const PackageManager = () => {
 
     return (
         <div className="p-6">
-            <div className="company-profile-header mb-4">
-                <h2 className="text-2xl font-bold">Các gói đăng ký</h2>
-            </div>
-
             <div className="company-profile-container">
-                <div className="company-profile-tabs flex gap-4">
+                <div className="company-profile-tabs">
                     <button
-                        className={`company-profile-tab px-4 py-2 rounded ${activeTab === 'profileView' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`company-profile-tab ${activeTab === 'profileView' ? 'text-blue-500' : 'text-gray-800'}`}
                         onClick={() => handleTabClick('profileView')}
                     >
                         <FaEye className="inline mr-2" /> Danh sách gói đăng ký
                     </button>
 
                     <button
-                        className={`company-profile-tab px-4 py-2 rounded ${activeTab === 'followCompany' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`company-profile-tab ${activeTab === 'followCompany' ? 'text-blue-500' : 'text-gray-800'}`}
                         onClick={() => handleTabClick('followCompany')}
                     >
                         <FaUsers className="inline mr-2" /> Thêm gói đăng ký
                     </button>
                     <button
-                        className={`company-profile-tab px-4 py-2 rounded ${activeTab === 'reportPackage' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`company-profile-tab ${activeTab === 'reportPackage' ? 'text-blue-500' : 'text-gray-800'}`}
                         onClick={() => handleTabClick('reportPackage')}
                     >
                         <FaChartBar className="inline mr-2" /> Thống kê
                     </button>
                     <button
-                        className={`company-profile-tab px-4 py-2 rounded ${activeTab === 'purchase' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={`company-profile-tab ${activeTab === 'purchase' ? 'text-blue-500' : 'text-gray-800'}`}
                         onClick={() => handleTabClick('purchase')}
                     >
                         <FaChartBar className="inline mr-2" /> Thông tin khách hàng
@@ -487,7 +483,7 @@ const PackageManager = () => {
                     <div className="my-job-list">
                         <div className="company-profile-content followed-companies">
                             <div className="user-management-table-container">
-                                <table className="user-management-table w-full border mt-6">
+                                <table className="user-management-table w-full border border-gray-300 mt-6">
                                     <thead>
                                         <tr>
                                             <th>Tên gói</th>
@@ -540,7 +536,7 @@ const PackageManager = () => {
             )}
 
             {activeTab === 'followCompany' && (
-                <div className="company-profile-content profile-view">
+                <div className="company-profile-content profile-view bg-white p-6">
                     <div className="company-profile-empty-state">
                         <div className="company-profile-edit-basic-info">
                             <div className="company-profile-edit-row">
@@ -693,17 +689,17 @@ const PackageManager = () => {
 
                         </div>
                     </div>
-                    <button className="user-info-edit-save-btn" type="submit" onClick={(e) => handleSubmitPackage(e)}>
+                    <button className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit" onClick={(e) => handleSubmitPackage(e)}>
                         Lưu
                     </button>
                 </div>
             )}
             {activeTab === 'reportPackage' && (
-                <div className="packagemanager-report-admin-container mt-6">
+                <div className="packagemanager-report-admin-container">
                     <h3 className="packagemanager-report-admin-title text-xl font-bold mb-4">Thống kê gói đăng ký</h3>
 
                     {/* Stats Overview Cards */}
-                    <div className="packagemanager-report-admin-stats-grid grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div className="packagemanager-report-admin-stats-grid grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div className="packagemanager-report-admin-stat-card bg-white p-4 rounded-lg shadow">
                             <h4 className="packagemanager-report-admin-stat-label text-gray-600 text-sm">Tổng số người dùng</h4>
                             <p className="packagemanager-report-admin-stat-value text-2xl font-bold text-blue-600">{totalStats.totalUsers || 0}</p>

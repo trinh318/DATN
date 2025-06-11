@@ -197,8 +197,11 @@ router.post('/recommend-jobs', async (req, res) => {
             companyName: company ? company.company_name : 'Unknown Company',
             companyLogo: company ? company.logo : null,
             jobDescription: job.description,
-            location: job.location,
+            location: job.location, 
+            highlighted: job.highlighted, 
+            highlighted_until: job.highlighted_until, 
             salary: job.salary,
+            field: job.field,
             skills: job.skills,
             application_deadline: job.application_deadline,
             similarity: parseFloat(similarity.toFixed(4))

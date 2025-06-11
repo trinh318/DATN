@@ -38,10 +38,11 @@ import {
 } from "lucide-react";
 import { Button } from '@/components/control/ui/button'
 import { LoaderCircle } from 'lucide-react'
+import { toast } from "sonner";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@5.3.31/build/pdf.worker.min.mjs';
 
-const FindApplicant = () => {
+const FindApplicant = () => { 
     const idnd = getId();
     const [resumeIds, setResumeIds] = useState([]);
     const [allCVFiles, setALLCVFiles] = useState([]);
@@ -233,21 +234,37 @@ const FindApplicant = () => {
 
     const handleBatchResumeMatch = async () => {
         if (!selectedJob) {
-            alert("Vui lòng chọn một công việc trước!");
+            toast.warning("Vui lòng chọn một công việc trước!");
             return;
         }
+
         setLoadingBatch(true);
 
         const results = await matchMultipleCVsWithJD();
 
-        console.log("Batch matching results:", results);
+        if (!results || results.length === 0) {
+            toast.info("Không tìm thấy kết quả phù hợp nào.");
+            setLoadingBatch(false);
+            return;
+        }
+
         setBatchMatchResults(results);
-        setResumeIds(
-            results
-                .filter(res => res.score >= 45)
-                .map(res => res._id)
-        );
-        console.log("resumeId", resumeIds)
+
+        const matchingResumes = results.filter(res => res.score >= 45);
+
+        if (matchingResumes.length === 0) {
+            toast("Không có CV nào phù hợp..");
+            setLoadingBatch(false);
+            setLoading(false);
+            return;
+        }
+
+        setResumeIds(matchingResumes.map(res => res._id));
+
+        console.log("Batch matching results:", results);
+        console.log("Matching resumeIds:", matchingResumes.map(res => res._id));
+
+        setLoadingBatch(false);
     };
 
     const [pagination, setPagination] = useState({
@@ -543,7 +560,7 @@ const FindApplicant = () => {
                                                                             </div>
                                                                             <div className='flex flex-row gap-5'>
                                                                                 <Link
-                                                                                    to={`/applicants/applicant-profile/${profile?._id}?selectedJobId=${selectedJobId}`}
+                                                                                    to={`/applicants/applicant-profile/viewed/${profile?._id}?selectedJobId=${selectedJobId}`}
                                                                                     target="_blank"
                                                                                     rel="noopener noreferrer"
                                                                                     className="bg-white border border-blue-500 text-blue-500 hover:border-blue-700 hover:text-blue-700 px-2 py-1 rounded-full text-sm flex items-center gap-1 shadow-sm"
@@ -557,7 +574,7 @@ const FindApplicant = () => {
                                                                         {/* Info */}
                                                                         <div className="flex flex-col flex-1 gap-2 justify-between">
                                                                             <div className="space-y-1">
-                                                                                <Link to={`/applicants/applicant-profile/${profile?._id}?selectedJobId=${selectedJobId}`} target="_blank" rel="noopener noreferrer">
+                                                                                <Link to={`/applicants/applicant-profile/viewed/${profile?._id}?selectedJobId=${selectedJobId}`} target="_blank" rel="noopener noreferrer">
                                                                                     <h4 className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition">
                                                                                         {`${profile?.first_name} ${profile?.last_name}`}
                                                                                     </h4>
@@ -586,11 +603,11 @@ const FindApplicant = () => {
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                            
-                                                                                <div className="col-span-2 flex flex-row gap-2 text-xs text-gray-600">
-                                                                                    <p className="font-bold text-red-600">{matchResult ? `${matchResult.score.toFixed(2)}%` : 'Không có'}</p>
-                                                                                    - {matchResult ? matchResult.recommendation : 'Không có nhận xét'}
-                                                                                </div>
+
+                                                                            <div className="col-span-2 flex flex-row gap-2 text-xs text-gray-600">
+                                                                                <p className="font-bold text-red-600">{matchResult ? `${matchResult.score.toFixed(2)}%` : 'Không có'}</p>
+                                                                                - {matchResult ? matchResult.recommendation : 'Không có nhận xét'}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

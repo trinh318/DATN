@@ -783,9 +783,6 @@ const ContentModerationList = () => {
     if (error) return <div>{error}</div>;
     return (
         <div className='company-profile'>
-            <div className="company-profile-header">
-                <h2>Kiểm duyệt nội dung</h2>
-            </div>
             <div className="company-profile-container">
                 {/* Thanh điều hướng tab */}
                 <div className="company-profile-tabs">
@@ -1093,13 +1090,11 @@ const ContentModerationList = () => {
                                             <td>{report?.total_reports ?? 0}</td>
                                             <td>
                                                 <div className="user-management-dropdown">
-                                                    <Link >
                                                         <FaFileLines
                                                             title="Xem chi tiết báo cáo"
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => handleOpenReport(report.job_id)}
                                                         />
-                                                    </Link>
                                                     <FaFilePen title="Chỉnh sửa báo cáo" />
                                                     <FaFileCircleXmark title="Xóa báo cáo" />
                                                 </div>
@@ -1353,10 +1348,10 @@ const ContentModerationList = () => {
                                 </form>
                                 {/* Footer (Save/Cancel) */}
                                 <div className="user-info-edit-button-row">
-                                    <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn" type="submit">
+                                    <button onClick={() => handleSave(selectedAccount._id)} className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit">
                                         Lưu
                                     </button>
-                                    <button className="user-info-edit-cancel-btn" type="button" onClick={handleCloseAccountEdit}>
+                                    <button className="user-info-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseAccountEdit}>
                                         Hủy
                                     </button>
                                 </div>
@@ -1653,10 +1648,10 @@ const ContentModerationList = () => {
                                 </form>
                                 {/* Footer (Save/Cancel) */}
                                 <div className="user-info-edit-button-row">
-                                    <button onClick={() => handleSaveReView(selectedReView._id)} className="user-info-edit-save-btn" type="submit">
+                                    <button onClick={() => handleSaveReView(selectedReView._id)} className="user-info-edit-save-btn bg-[#5a8cb5]" type="submit">
                                         Lưu
                                     </button>
-                                    <button className="user-info-edit-cancel-btn" type="button" onClick={handleCloseReView}>
+                                    <button className="user-info-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseReView}>
                                         Hủy
                                     </button>
                                 </div>
@@ -1772,10 +1767,10 @@ const ContentModerationList = () => {
                                 )}
                             </div>
                             <div className="view-report-job-detail-edit-button-row">
-                                <button onClick={() => handleSave(selectedReport.job_id)} className="view-report-job-detail-edit-save-btn" type="submit">
+                                <button onClick={() => handleSave(selectedReport.job_id)} className="view-report-job-detail-edit-save-btn bg-[#5a8cb5]" type="submit">
                                     Lưu
                                 </button>
-                                <button className="view-report-job-detail-edit-cancel-btn" type="button" onClick={handleCloseAccountEdit}>
+                                <button className="view-report-job-detail-edit-cancel-btn bg-gray-100" type="button" onClick={handleCloseAccountEdit}>
                                     Hủy
                                 </button>
                             </div>
